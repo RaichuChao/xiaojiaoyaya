@@ -1,0 +1,1 @@
+{"version":3,"file":"photo.js","sources":["D:/HBuilderX/plugins/uniapp-cli-vite/uniPage:/cGFnZXMvbWluZS9waG90by52dWU"],"sourcesContent":["import MiniProgramPage from 'C:/Users/Administrator/Documents/HBuilderProjects/小脚丫丫/pages/mine/photo.vue'\nwx.createPage(MiniProgramPage)"],"names":[],"mappings":";;;;;;;AACA,GAAG,WAAW,eAAe;"}

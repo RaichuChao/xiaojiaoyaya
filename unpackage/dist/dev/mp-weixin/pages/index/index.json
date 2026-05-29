@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "首页",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "fab": "../../common/fab",
+    "up-swiper": "../../node-modules/uview-plus/components/u-swiper/u-swiper",
+    "up-lazy-load": "../../node-modules/uview-plus/components/u-lazy-load/u-lazy-load"
+  }
+}
