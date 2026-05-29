@@ -215,7 +215,6 @@
 	
 	.item-menu-image {
 		width: 240rpx;
-		
 	}
 </style>
 
