@@ -1,0 +1,123 @@
+{
+"easycom": {
+		"autoscan": true,
+		// 注意一定要放在custom里，否则无效，https://ask.dcloud.net.cn/question/131175
+		"custom": {
+			"^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+	        "^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
+		}
+	},
+	
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+					"navigationStyle":"custom"
+			}
+		},{
+		"path": "pages/mine/index",
+		"style": {
+			"navigationBarTitleText": "我的"
+		   }
+	    },{
+		"path": "pages/mine/photo",
+		"style": {
+			"navigationBarTitleText": ""
+		
+		   }
+	    },{
+		"path": "pages/mine/love",
+		"style": {
+			"navigationBarTitleText": ""
+		
+		   }
+	    },{
+		"path": "pages/reservate/index",
+		"style": {
+			"navigationBarTitleText": "预约"
+		   }
+	    },{
+		"path": "pages/titbits/index",
+		"style": {
+			"navigationBarTitleText": ""
+		   }
+	    },{
+		"path": "pages/titbits/detail",
+		"style": {
+			"navigationBarTitleText": ""
+		   }
+	    },
+	    {
+	    	"path" : "pages/works/index",
+	    	"style" : 
+	    	{
+	    		"navigationBarTitleText" : "作品集"
+	    	}
+	    },{
+		"path": "pages/works/detail",
+		"style": {
+			"navigationBarTitleText": "图册展示"
+			
+		   }
+	    }
+	],
+	"globalStyle": {
+	
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"app-plus": {
+			"background": "#efeff4"
+		}
+	},
+	"tabBar": {
+		"color": "#000000",
+		"selectedColor": "#000000",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"text":"首页",
+			"pagePath":"pages/index/index",
+			"iconPath":"static/tab/home_w.png",
+			"selectedIconPath":"static/tab/home.png"
+			
+		},{
+			"text":"风格样片",
+			"pagePath":"pages/works/index",
+			"iconPath":"static/tab/works_w.png",
+			"selectedIconPath":"static/tab/works.png"
+			
+		},
+		// {
+		// 	"text":"作品",
+		// 	"pagePath":"pages/samples/index",
+		// 	"iconPath":"static/tab/works_w.png",
+		// 	"selectedIconPath":"static/tab/works.png"
+			
+		// },
+		{
+			"text":"花絮",
+			"pagePath":"pages/titbits/index",
+			"iconPath":"static/tab/yang_w.png",
+			"selectedIconPath":"static/tab/yang.png"
+			
+		},
+		
+		// }	"text":"客片",
+		// 	"pagePath":"pages/guest/index",
+		// 	"iconPath":"static/tab/ke_w.png",
+		// 	"selectedIconPath":"static/tab/ke.png"
+			
+		// },
+		{
+			"text":"我的",
+			"pagePath":"pages/mine/index",
+			"iconPath":"static/tab/mine_w.png",
+			"selectedIconPath":"static/tab/mine.png"
+		}	
+		]
+	}
+}
