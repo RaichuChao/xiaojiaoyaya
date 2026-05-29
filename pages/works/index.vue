@@ -37,7 +37,7 @@
 
 <script>
 	import classifyData from "@/common/classify.data.js";
-		import {getList} from "@/api/works.js";
+	import {getList} from "@/api/works.js";
 	export default {
 		data() {
 			return {
