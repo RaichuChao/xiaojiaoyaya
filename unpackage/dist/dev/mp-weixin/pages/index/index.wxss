@@ -93,3 +93,12 @@
 	background-image: url("https://cdnfile.xiangfeiyue.com:8083/uploads/st202305261477f2/adv/20230530/thumb_35d760b06024d96c00ea58b875f35b98.jpg");
 	 background-size: 100% 100%; background-repeat: no-repeat;
 }
+.contact.data-v-1cf27b2a{
+	height: 360rpx;
+	font-size: 28rpx;
+	line-height: 60rpx;
+	background-color: #222;
+	color: #d0d0d0;
+	font-weight: 800;
+	letter-spacing: 2rpx;
+}

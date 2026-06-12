@@ -1983,13 +1983,13 @@ function createDevtoolsPerformanceHook(hook) {
     emit$1(hook, component.appContext.app, component.uid, component, type, time);
   };
 }
-function devtoolsComponentEmit(component, event, params) {
+function devtoolsComponentEmit(component, event, params2) {
   emit$1(
     "component:emit",
     component.appContext.app,
     component,
     event,
-    params
+    params2
   );
 }
 function emit(instance, event, ...rawArgs) {
@@ -5514,19 +5514,19 @@ const HOOK_FAIL = "fail";
 const HOOK_COMPLETE = "complete";
 const globalInterceptors = {};
 const scopedInterceptors = {};
-function wrapperHook(hook, params) {
+function wrapperHook(hook, params2) {
   return function(data) {
-    return hook(data, params) || data;
+    return hook(data, params2) || data;
   };
 }
-function queue(hooks, data, params) {
+function queue(hooks, data, params2) {
   let promise2 = false;
   for (let i = 0; i < hooks.length; i++) {
     const hook = hooks[i];
     if (promise2) {
-      promise2 = Promise.resolve(wrapperHook(hook, params));
+      promise2 = Promise.resolve(wrapperHook(hook, params2));
     } else {
-      const res = hook(data, params);
+      const res = hook(data, params2);
       if (isPromise(res)) {
         promise2 = Promise.resolve(res);
       }
@@ -5594,19 +5594,19 @@ function getApiInterceptorHooks(method) {
   }
   return interceptor;
 }
-function invokeApi(method, api, options, params) {
+function invokeApi(method, api, options, params2) {
   const interceptor = getApiInterceptorHooks(method);
   if (interceptor && Object.keys(interceptor).length) {
     if (isArray$1(interceptor.invoke)) {
       const res = queue(interceptor.invoke, options);
       return res.then((options2) => {
-        return api(wrapperOptions(getApiInterceptorHooks(method), options2), ...params);
+        return api(wrapperOptions(getApiInterceptorHooks(method), options2), ...params2);
       });
     } else {
-      return api(wrapperOptions(interceptor, options), ...params);
+      return api(wrapperOptions(interceptor, options), ...params2);
     }
   }
-  return api(options, ...params);
+  return api(options, ...params2);
 }
 function hasCallback(args) {
   if (isPlainObject$1(args) && [API_SUCCESS, API_FAIL, API_COMPLETE].find((cb) => isFunction(args[cb]))) {
@@ -7167,7 +7167,7 @@ function isConsoleWritable() {
 function initRuntimeSocketService() {
   const hosts = "192.168.1.30,127.0.0.1";
   const port = "8090";
-  const id = "mp-weixin_gI3uSx";
+  const id = "mp-weixin_uXVKY2";
   const lazy = typeof swan !== "undefined";
   let restoreError = lazy ? () => {
   } : initOnError();
@@ -9034,21 +9034,21 @@ class Router {
     return url2[0] === "/" ? url2 : `/${url2}`;
   }
   // 整合路由参数
-  mixinParam(url2, params) {
+  mixinParam(url2, params2) {
     url2 = url2 && this.addRootPath(url2);
     let query = "";
     if (/.*\/.*\?.*=.*/.test(url2)) {
-      query = queryParams(params, false);
+      query = queryParams(params2, false);
       return url2 += `&${query}`;
     }
-    query = queryParams(params);
+    query = queryParams(params2);
     return url2 += query;
   }
   // 对外的方法名称
-  async route(options = {}, params = {}) {
+  async route(options = {}, params2 = {}) {
     let mergeConfig2 = {};
     if (typeof options === "string") {
-      mergeConfig2.url = this.mixinParam(options, params);
+      mergeConfig2.url = this.mixinParam(options, params2);
       mergeConfig2.type = "navigateTo";
     } else {
       mergeConfig2 = deepMerge$1(this.config, options);
@@ -9056,10 +9056,10 @@ class Router {
     }
     if (mergeConfig2.url === page())
       return;
-    if (params.intercept) {
-      this.config.intercept = params.intercept;
+    if (params2.intercept) {
+      this.config.intercept = params2.intercept;
     }
-    mergeConfig2.params = params;
+    mergeConfig2.params = params2;
     mergeConfig2 = deepMerge$1(this.config, mergeConfig2);
     if (typeof index$1.$u.routeIntercept === "function") {
       const isNext = await new Promise((resolve2, reject) => {
@@ -10069,16 +10069,16 @@ function isUndefined(val) {
 function encode(val) {
   return encodeURIComponent(val).replace(/%40/gi, "@").replace(/%3A/gi, ":").replace(/%24/g, "$").replace(/%2C/gi, ",").replace(/%20/g, "+").replace(/%5B/gi, "[").replace(/%5D/gi, "]");
 }
-function buildURL(url2, params) {
-  if (!params) {
+function buildURL(url2, params2) {
+  if (!params2) {
     return url2;
   }
   let serializedParams;
-  if (isURLSearchParams(params)) {
-    serializedParams = params.toString();
+  if (isURLSearchParams(params2)) {
+    serializedParams = params2.toString();
   } else {
     const parts = [];
-    forEach(params, (val, key) => {
+    forEach(params2, (val, key) => {
       if (val === null || typeof val === "undefined") {
         return;
       }
@@ -11545,16 +11545,16 @@ let settings = {
 index$1.onLocaleChange((locale) => {
   settings.lang = locale;
 });
-function t(value, params = {}) {
+function t(value, params2 = {}) {
   if (value) {
     let lang = settings.lang;
     if (!settings.locales[settings.lang]) {
       lang = "zh-Hans";
     }
     let result = settings.locales[lang][value] || value;
-    Object.keys(params).forEach((key) => {
+    Object.keys(params2).forEach((key) => {
       const reg = new RegExp(`{${key}}`, "g");
-      result = result.replace(reg, params[key]);
+      result = result.replace(reg, params2[key]);
     });
     return result;
   } else {
@@ -12962,7 +12962,7 @@ const Upload = {
     videoPreviewObjectFit: "cover"
   }
 };
-const props$3 = {
+const props$7 = {
   ...ActionSheet,
   ...Album,
   ...Alert,
@@ -13055,7 +13055,7 @@ const props$3 = {
 };
 function setConfig$1(configs) {
   shallowMerge(config, configs.config || {});
-  shallowMerge(props$3, configs.props || {});
+  shallowMerge(props$7, configs.props || {});
   shallowMerge(color$3, configs.color || {});
   shallowMerge(zIndex, configs.zIndex || {});
 }
@@ -13074,6 +13074,41 @@ platform = "vue3";
 platform = "mp";
 platform = "weixin";
 const platform$1 = platform;
+let params = {
+  loaded: false
+};
+const loadFont = () => {
+  if (config.loadFontOnce) {
+    params.loaded = true;
+  }
+  index$1.loadFontFace({
+    global: true,
+    // 是否全局生效。微信小程序 '2.10.0'起支持全局生效，需在 app.vue 中调用。
+    family: "uicon-iconfont",
+    source: 'url("' + config.iconUrl + '")',
+    success() {
+    },
+    fail() {
+    }
+  });
+  if (config.customIcon.family) {
+    index$1.loadFontFace({
+      global: true,
+      // 是否全局生效。微信小程序 '2.10.0'起支持全局生效，需在 app.vue 中调用。
+      family: config.customIcon.family,
+      source: 'url("' + config.customIcon.url + '")',
+      success() {
+      },
+      fail() {
+      }
+    });
+  }
+  return true;
+};
+const fontUtil = {
+  params,
+  loadFont
+};
 const DEFAULT_LIGHT_THEME_COLORS = Object.freeze({
   primary: "#3c9cff",
   info: "#909399",
@@ -13793,7 +13828,7 @@ function setConfig(configs) {
   var _a, _b;
   const settings2 = configs || {};
   index.shallowMerge(config, settings2.config || {});
-  index.shallowMerge(props$3, settings2.props || {});
+  index.shallowMerge(props$7, settings2.props || {});
   index.shallowMerge(color$3, settings2.color || {});
   index.shallowMerge(zIndex, settings2.zIndex || {});
   syncThemeColorOverrideState({
@@ -13902,128 +13937,841 @@ const install = (Vue, upuiParams = "") => {
 const uviewPlus = {
   install
 };
-const props$2 = defineMixin({
+const props$6 = defineMixin({
   props: {
     // 列表数组，元素可为字符串，如为对象可通过keyName指定目标属性名
     list: {
       type: Array,
-      default: () => props$3.swiper.list
+      default: () => props$7.swiper.list
     },
     // 是否显示面板指示器
     indicator: {
       type: Boolean,
-      default: () => props$3.swiper.indicator
+      default: () => props$7.swiper.indicator
     },
     // 指示器非激活颜色
     indicatorActiveColor: {
       type: String,
-      default: () => props$3.swiper.indicatorActiveColor
+      default: () => props$7.swiper.indicatorActiveColor
     },
     // 指示器的激活颜色
     indicatorInactiveColor: {
       type: String,
-      default: () => props$3.swiper.indicatorInactiveColor
+      default: () => props$7.swiper.indicatorInactiveColor
     },
     // 指示器样式，可通过bottom，left，right进行定位
     indicatorStyle: {
       type: [String, Object],
-      default: () => props$3.swiper.indicatorStyle
+      default: () => props$7.swiper.indicatorStyle
     },
     // 指示器模式，line-线型，dot-点型
     indicatorMode: {
       type: String,
-      default: () => props$3.swiper.indicatorMode
+      default: () => props$7.swiper.indicatorMode
     },
     // 是否自动切换
     autoplay: {
       type: Boolean,
-      default: () => props$3.swiper.autoplay
+      default: () => props$7.swiper.autoplay
     },
     // 当前所在滑块的 index
     current: {
       type: [String, Number],
-      default: () => props$3.swiper.current
+      default: () => props$7.swiper.current
     },
     // 当前所在滑块的 item-id ，不能与 current 被同时指定
     currentItemId: {
       type: String,
-      default: () => props$3.swiper.currentItemId
+      default: () => props$7.swiper.currentItemId
     },
     // 滑块自动切换时间间隔
     interval: {
       type: [String, Number],
-      default: () => props$3.swiper.interval
+      default: () => props$7.swiper.interval
     },
     // 滑块切换过程所需时间
     duration: {
       type: [String, Number],
-      default: () => props$3.swiper.duration
+      default: () => props$7.swiper.duration
     },
     // 播放到末尾后是否重新回到开头
     circular: {
       type: Boolean,
-      default: () => props$3.swiper.circular
+      default: () => props$7.swiper.circular
     },
     // 前边距，可用于露出前一项的一小部分，nvue和支付宝不支持
     previousMargin: {
       type: [String, Number],
-      default: () => props$3.swiper.previousMargin
+      default: () => props$7.swiper.previousMargin
     },
     // 后边距，可用于露出后一项的一小部分，nvue和支付宝不支持
     nextMargin: {
       type: [String, Number],
-      default: () => props$3.swiper.nextMargin
+      default: () => props$7.swiper.nextMargin
     },
     // 当开启时，会根据滑动速度，连续滑动多屏，支付宝不支持
     acceleration: {
       type: Boolean,
-      default: () => props$3.swiper.acceleration
+      default: () => props$7.swiper.acceleration
     },
     // 同时显示的滑块数量，nvue、支付宝小程序不支持
     displayMultipleItems: {
       type: Number,
-      default: () => props$3.swiper.displayMultipleItems
+      default: () => props$7.swiper.displayMultipleItems
     },
     // 指定swiper切换缓动动画类型，有效值：default、linear、easeInCubic、easeOutCubic、easeInOutCubic
     // 只对微信小程序有效
     easingFunction: {
       type: String,
-      default: () => props$3.swiper.easingFunction
+      default: () => props$7.swiper.easingFunction
     },
     // list数组中指定对象的目标属性名
     keyName: {
       type: String,
-      default: () => props$3.swiper.keyName
+      default: () => props$7.swiper.keyName
     },
     // 图片的裁剪模式
     imgMode: {
       type: String,
-      default: () => props$3.swiper.imgMode
+      default: () => props$7.swiper.imgMode
     },
     // 组件高度
     height: {
       type: [String, Number],
-      default: () => props$3.swiper.height
+      default: () => props$7.swiper.height
     },
     // 背景颜色
     bgColor: {
       type: String,
-      default: () => props$3.swiper.bgColor
+      default: () => props$7.swiper.bgColor
     },
     // 组件圆角，数值或带单位的字符串
     radius: {
       type: [String, Number],
-      default: () => props$3.swiper.radius
+      default: () => props$7.swiper.radius
     },
     // 是否加载中
     loading: {
       type: Boolean,
-      default: () => props$3.swiper.loading
+      default: () => props$7.swiper.loading
     },
     // 是否显示标题，要求数组对象中有title属性
     showTitle: {
       type: Boolean,
-      default: () => props$3.swiper.showTitle
+      default: () => props$7.swiper.showTitle
+    }
+  }
+});
+const icons = {
+  "uicon-level": "",
+  "uicon-column-line": "",
+  "uicon-checkbox-mark": "",
+  "uicon-folder": "",
+  "uicon-movie": "",
+  "uicon-star-fill": "",
+  "uicon-star": "",
+  "uicon-phone-fill": "",
+  "uicon-phone": "",
+  "uicon-apple-fill": "",
+  "uicon-chrome-circle-fill": "",
+  "uicon-backspace": "",
+  "uicon-attach": "",
+  "uicon-cut": "",
+  "uicon-empty-car": "",
+  "uicon-empty-coupon": "",
+  "uicon-empty-address": "",
+  "uicon-empty-favor": "",
+  "uicon-empty-permission": "",
+  "uicon-empty-news": "",
+  "uicon-empty-search": "",
+  "uicon-github-circle-fill": "",
+  "uicon-rmb": "",
+  "uicon-person-delete-fill": "",
+  "uicon-reload": "",
+  "uicon-order": "",
+  "uicon-server-man": "",
+  "uicon-search": "",
+  "uicon-fingerprint": "",
+  "uicon-more-dot-fill": "",
+  "uicon-scan": "",
+  "uicon-share-square": "",
+  "uicon-map": "",
+  "uicon-map-fill": "",
+  "uicon-tags": "",
+  "uicon-tags-fill": "",
+  "uicon-bookmark-fill": "",
+  "uicon-bookmark": "",
+  "uicon-eye": "",
+  "uicon-eye-fill": "",
+  "uicon-mic": "",
+  "uicon-mic-off": "",
+  "uicon-calendar": "",
+  "uicon-calendar-fill": "",
+  "uicon-trash": "",
+  "uicon-trash-fill": "",
+  "uicon-play-left": "",
+  "uicon-play-right": "",
+  "uicon-minus": "",
+  "uicon-plus": "",
+  "uicon-info": "",
+  "uicon-info-circle": "",
+  "uicon-info-circle-fill": "",
+  "uicon-question": "",
+  "uicon-error": "",
+  "uicon-close": "",
+  "uicon-checkmark": "",
+  "uicon-android-circle-fill": "",
+  "uicon-android-fill": "",
+  "uicon-ie": "",
+  "uicon-IE-circle-fill": "",
+  "uicon-google": "",
+  "uicon-google-circle-fill": "",
+  "uicon-setting-fill": "",
+  "uicon-setting": "",
+  "uicon-minus-square-fill": "",
+  "uicon-plus-square-fill": "",
+  "uicon-heart": "",
+  "uicon-heart-fill": "",
+  "uicon-camera": "",
+  "uicon-camera-fill": "",
+  "uicon-more-circle": "",
+  "uicon-more-circle-fill": "",
+  "uicon-chat": "",
+  "uicon-chat-fill": "",
+  "uicon-bag-fill": "",
+  "uicon-bag": "",
+  "uicon-error-circle-fill": "",
+  "uicon-error-circle": "",
+  "uicon-close-circle": "",
+  "uicon-close-circle-fill": "",
+  "uicon-checkmark-circle": "",
+  "uicon-checkmark-circle-fill": "",
+  "uicon-question-circle-fill": "",
+  "uicon-question-circle": "",
+  "uicon-share": "",
+  "uicon-share-fill": "",
+  "uicon-shopping-cart": "",
+  "uicon-shopping-cart-fill": "",
+  "uicon-bell": "",
+  "uicon-bell-fill": "",
+  "uicon-list": "",
+  "uicon-list-dot": "",
+  "uicon-zhihu": "",
+  "uicon-zhihu-circle-fill": "",
+  "uicon-zhifubao": "",
+  "uicon-zhifubao-circle-fill": "",
+  "uicon-weixin-circle-fill": "",
+  "uicon-weixin-fill": "",
+  "uicon-twitter-circle-fill": "",
+  "uicon-twitter": "",
+  "uicon-taobao-circle-fill": "",
+  "uicon-taobao": "",
+  "uicon-weibo-circle-fill": "",
+  "uicon-weibo": "",
+  "uicon-qq-fill": "",
+  "uicon-qq-circle-fill": "",
+  "uicon-moments-circel-fill": "",
+  "uicon-moments": "",
+  "uicon-qzone": "",
+  "uicon-qzone-circle-fill": "",
+  "uicon-baidu-circle-fill": "",
+  "uicon-baidu": "",
+  "uicon-facebook-circle-fill": "",
+  "uicon-facebook": "",
+  "uicon-car": "",
+  "uicon-car-fill": "",
+  "uicon-warning-fill": "",
+  "uicon-warning": "",
+  "uicon-clock-fill": "",
+  "uicon-clock": "",
+  "uicon-edit-pen": "",
+  "uicon-edit-pen-fill": "",
+  "uicon-email": "",
+  "uicon-email-fill": "",
+  "uicon-minus-circle": "",
+  "uicon-minus-circle-fill": "",
+  "uicon-plus-circle": "",
+  "uicon-plus-circle-fill": "",
+  "uicon-file-text": "",
+  "uicon-file-text-fill": "",
+  "uicon-pushpin": "",
+  "uicon-pushpin-fill": "",
+  "uicon-grid": "",
+  "uicon-grid-fill": "",
+  "uicon-play-circle": "",
+  "uicon-play-circle-fill": "",
+  "uicon-pause-circle-fill": "",
+  "uicon-pause": "",
+  "uicon-pause-circle": "",
+  "uicon-eye-off": "",
+  "uicon-eye-off-outline": "",
+  "uicon-gift-fill": "",
+  "uicon-gift": "",
+  "uicon-rmb-circle-fill": "",
+  "uicon-rmb-circle": "",
+  "uicon-kefu-ermai": "",
+  "uicon-server-fill": "",
+  "uicon-coupon-fill": "",
+  "uicon-coupon": "",
+  "uicon-integral": "",
+  "uicon-integral-fill": "",
+  "uicon-home-fill": "",
+  "uicon-home": "",
+  "uicon-hourglass-half-fill": "",
+  "uicon-hourglass": "",
+  "uicon-account": "",
+  "uicon-plus-people-fill": "",
+  "uicon-minus-people-fill": "",
+  "uicon-account-fill": "",
+  "uicon-thumb-down-fill": "",
+  "uicon-thumb-down": "",
+  "uicon-thumb-up": "",
+  "uicon-thumb-up-fill": "",
+  "uicon-lock-fill": "",
+  "uicon-lock-open": "",
+  "uicon-lock-opened-fill": "",
+  "uicon-lock": "",
+  "uicon-red-packet-fill": "",
+  "uicon-photo-fill": "",
+  "uicon-photo": "",
+  "uicon-volume-off-fill": "",
+  "uicon-volume-off": "",
+  "uicon-volume-fill": "",
+  "uicon-volume": "",
+  "uicon-red-packet": "",
+  "uicon-download": "",
+  "uicon-arrow-up-fill": "",
+  "uicon-arrow-down-fill": "",
+  "uicon-play-left-fill": "",
+  "uicon-play-right-fill": "",
+  "uicon-rewind-left-fill": "",
+  "uicon-rewind-right-fill": "",
+  "uicon-arrow-downward": "",
+  "uicon-arrow-leftward": "",
+  "uicon-arrow-rightward": "",
+  "uicon-arrow-upward": "",
+  "uicon-arrow-down": "",
+  "uicon-arrow-right": "",
+  "uicon-arrow-left": "",
+  "uicon-arrow-up": "",
+  "uicon-skip-back-left": "",
+  "uicon-skip-forward-right": "",
+  "uicon-rewind-right": "",
+  "uicon-rewind-left": "",
+  "uicon-arrow-right-double": "",
+  "uicon-arrow-left-double": "",
+  "uicon-wifi-off": "",
+  "uicon-wifi": "",
+  "uicon-empty-data": "",
+  "uicon-empty-history": "",
+  "uicon-empty-list": "",
+  "uicon-empty-page": "",
+  "uicon-empty-order": "",
+  "uicon-empty-wifi": "",
+  "uicon-man": "",
+  "uicon-woman": "",
+  "uicon-man-add": "",
+  "uicon-man-add-fill": "",
+  "uicon-man-delete": "",
+  "uicon-man-delete-fill": "",
+  "uicon-zh": "",
+  "uicon-en": ""
+};
+const props$5 = defineMixin({
+  props: {
+    // 图标类名
+    name: {
+      type: String,
+      default: () => props$7.icon.name
+    },
+    // 图标颜色，可接受主题色
+    color: {
+      type: String,
+      default: () => props$7.icon.color
+    },
+    // 字体大小，单位px
+    size: {
+      type: [String, Number],
+      default: () => props$7.icon.size
+    },
+    // 是否显示粗体
+    bold: {
+      type: Boolean,
+      default: () => props$7.icon.bold
+    },
+    // 点击图标的时候传递事件出去的index（用于区分点击了哪一个）
+    index: {
+      type: [String, Number],
+      default: () => props$7.icon.index
+    },
+    // 触摸图标时的类名
+    hoverClass: {
+      type: String,
+      default: () => props$7.icon.hoverClass
+    },
+    // 自定义扩展前缀，方便用户扩展自己的图标库
+    customPrefix: {
+      type: String,
+      default: () => props$7.icon.customPrefix
+    },
+    // 图标右边或者下面的文字
+    label: {
+      type: [String, Number],
+      default: () => props$7.icon.label
+    },
+    // label的位置，只能右边或者下边
+    labelPos: {
+      type: String,
+      default: () => props$7.icon.labelPos
+    },
+    // label的大小
+    labelSize: {
+      type: [String, Number],
+      default: () => props$7.icon.labelSize
+    },
+    // label的颜色
+    labelColor: {
+      type: String,
+      default: () => props$7.icon.labelColor
+    },
+    // label与图标的距离
+    space: {
+      type: [String, Number],
+      default: () => props$7.icon.space
+    },
+    // 图片的mode
+    imgMode: {
+      type: String,
+      default: () => props$7.icon.imgMode
+    },
+    // 用于显示图片小图标时，图片的宽度
+    width: {
+      type: [String, Number],
+      default: () => props$7.icon.width
+    },
+    // 用于显示图片小图标时，图片的高度
+    height: {
+      type: [String, Number],
+      default: () => props$7.icon.height
+    },
+    // 用于解决某些情况下，让图标垂直居中的用途
+    top: {
+      type: [String, Number],
+      default: () => props$7.icon.top
+    },
+    // 是否阻止事件传播
+    stop: {
+      type: Boolean,
+      default: () => props$7.icon.stop
+    }
+  }
+});
+const props$4 = defineMixin({
+  props: {
+    // 绑定的值
+    modelValue: {
+      type: [String, Number],
+      default: () => props$7.input.value
+    },
+    // number-数字输入键盘，app-vue下可以输入浮点数，app-nvue和小程序平台下只能输入整数
+    // idcard-身份证输入键盘，微信、支付宝、百度、QQ小程序
+    // digit-带小数点的数字键盘，App的nvue页面、微信、支付宝、百度、头条、QQ小程序
+    // text-文本输入键盘
+    type: {
+      type: String,
+      default: () => props$7.input.type
+    },
+    // 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true，
+    // 兼容性：微信小程序、百度小程序、字节跳动小程序、QQ小程序
+    fixed: {
+      type: Boolean,
+      default: () => props$7.input.fixed
+    },
+    // 是否禁用输入框
+    disabled: {
+      type: Boolean,
+      default: () => props$7.input.disabled
+    },
+    // 禁用状态时的背景色
+    disabledColor: {
+      type: String,
+      default: () => props$7.input.disabledColor
+    },
+    // 是否显示清除控件
+    clearable: {
+      type: Boolean,
+      default: false
+    },
+    // 是否仅在聚焦时显示清除控件
+    onlyClearableOnFocused: {
+      type: Boolean,
+      default: true
+    },
+    // 是否密码类型
+    password: {
+      type: Boolean,
+      default: () => props$7.input.password
+    },
+    // 最大输入长度，设置为 -1 的时候不限制最大长度
+    maxlength: {
+      type: [String, Number],
+      default: () => props$7.input.maxlength
+    },
+    // 	输入框为空时的占位符
+    placeholder: {
+      type: String,
+      default: () => props$7.input.placeholder
+    },
+    // 指定placeholder的样式类，注意页面或组件的style中写了scoped时，需要在类名前写/deep/
+    placeholderClass: {
+      type: String,
+      default: () => props$7.input.placeholderClass
+    },
+    // 指定placeholder的样式
+    placeholderStyle: {
+      type: [String, Object],
+      default: () => props$7.input.placeholderStyle
+    },
+    // 是否显示输入字数统计，只在 type ="text"或type ="textarea"时有效
+    showWordLimit: {
+      type: Boolean,
+      default: () => props$7.input.showWordLimit
+    },
+    // 设置右下角按钮的文字，有效值：send|search|next|go|done，兼容性详见uni-app文档
+    // https://uniapp.dcloud.io/component/input
+    // https://uniapp.dcloud.io/component/textarea
+    confirmType: {
+      type: String,
+      default: () => props$7.input.confirmType
+    },
+    // 点击键盘右下角按钮时是否保持键盘不收起，H5无效
+    confirmHold: {
+      type: Boolean,
+      default: () => props$7.input.confirmHold
+    },
+    // focus时，点击页面的时候不收起键盘，微信小程序有效
+    holdKeyboard: {
+      type: Boolean,
+      default: () => props$7.input.holdKeyboard
+    },
+    // 自动获取焦点
+    // 在 H5 平台能否聚焦以及软键盘是否跟随弹出，取决于当前浏览器本身的实现。nvue 页面不支持，需使用组件的 focus()、blur() 方法控制焦点
+    focus: {
+      type: Boolean,
+      default: () => props$7.input.focus
+    },
+    // 键盘收起时，是否自动失去焦点，目前仅App3.0.0+有效
+    autoBlur: {
+      type: Boolean,
+      default: () => props$7.input.autoBlur
+    },
+    // 是否去掉 iOS 下的默认内边距，仅微信小程序，且type=textarea时有效
+    disableDefaultPadding: {
+      type: Boolean,
+      default: () => props$7.input.disableDefaultPadding
+    },
+    // 指定focus时光标的位置
+    cursor: {
+      type: [String, Number],
+      default: () => props$7.input.cursor
+    },
+    // 输入框聚焦时底部与键盘的距离
+    cursorSpacing: {
+      type: [String, Number],
+      default: () => props$7.input.cursorSpacing
+    },
+    // 光标起始位置，自动聚集时有效，需与selection-end搭配使用
+    selectionStart: {
+      type: [String, Number],
+      default: () => props$7.input.selectionStart
+    },
+    // 光标结束位置，自动聚集时有效，需与selection-start搭配使用
+    selectionEnd: {
+      type: [String, Number],
+      default: () => props$7.input.selectionEnd
+    },
+    // 键盘弹起时，是否自动上推页面
+    adjustPosition: {
+      type: Boolean,
+      default: () => props$7.input.adjustPosition
+    },
+    // 输入框内容对齐方式，可选值为：left|center|right
+    inputAlign: {
+      type: String,
+      default: () => props$7.input.inputAlign
+    },
+    // 输入框字体的大小
+    fontSize: {
+      type: [String, Number],
+      default: () => props$7.input.fontSize
+    },
+    // 输入框字体颜色
+    color: {
+      type: String,
+      default: () => props$7.input.color
+    },
+    // 输入框前置图标
+    prefixIcon: {
+      type: String,
+      default: () => props$7.input.prefixIcon
+    },
+    // 前置图标样式，对象或字符串
+    prefixIconStyle: {
+      type: [String, Object],
+      default: () => props$7.input.prefixIconStyle
+    },
+    // 输入框后置图标
+    suffixIcon: {
+      type: String,
+      default: () => props$7.input.suffixIcon
+    },
+    // 后置图标样式，对象或字符串
+    suffixIconStyle: {
+      type: [String, Object],
+      default: () => props$7.input.suffixIconStyle
+    },
+    // 边框类型，surround-四周边框，bottom-底部边框，none-无边框
+    border: {
+      type: String,
+      default: () => props$7.input.border
+    },
+    // 是否只读，与disabled不同之处在于disabled会置灰组件，而readonly则不会
+    readonly: {
+      type: Boolean,
+      default: () => props$7.input.readonly
+    },
+    // 输入框形状，circle-圆形，square-方形
+    shape: {
+      type: String,
+      default: () => props$7.input.shape
+    },
+    // 用于处理或者过滤输入框内容的方法
+    formatter: {
+      type: [Function, null],
+      default: () => props$7.input.formatter
+    },
+    // 是否忽略组件内对文本合成系统事件的处理
+    ignoreCompositionEvent: {
+      type: Boolean,
+      default: true
+    },
+    // 光标颜色
+    cursorColor: {
+      type: String,
+      default: () => props$7.input.cursorColor
+    },
+    // 密码类型可见性切换
+    passwordVisibilityToggle: {
+      type: Boolean,
+      default: () => props$7.input.passwordVisibilityToggle
+    }
+  }
+});
+const props$3 = defineMixin({
+  props: {
+    // 输入框的内容
+    value: {
+      type: [String, Number],
+      default: () => props$7.textarea.value
+    },
+    // 输入框的内容
+    modelValue: {
+      type: [String, Number],
+      default: () => props$7.textarea.value
+    },
+    // 输入框为空时占位符
+    placeholder: {
+      type: [String, Number],
+      default: () => props$7.textarea.placeholder
+    },
+    // 指定placeholder的样式类，注意页面或组件的style中写了scoped时，需要在类名前写/deep/
+    placeholderClass: {
+      type: String,
+      default: () => props$7.textarea.placeholderClass
+    },
+    // 指定placeholder的样式
+    placeholderStyle: {
+      type: [String, Object],
+      default: () => props$7.textarea.placeholderStyle
+    },
+    // 输入框高度
+    height: {
+      type: [String, Number],
+      default: () => props$7.textarea.height
+    },
+    // 设置键盘右下角按钮的文字，仅微信小程序，App-vue和H5有效
+    confirmType: {
+      type: String,
+      default: () => props$7.textarea.confirmType
+    },
+    // 是否禁用
+    disabled: {
+      type: Boolean,
+      default: () => props$7.textarea.disabled
+    },
+    // 是否显示统计字数
+    count: {
+      type: Boolean,
+      default: () => props$7.textarea.count
+    },
+    // 是否自动获取焦点，nvue不支持，H5取决于浏览器的实现
+    focus: {
+      type: Boolean,
+      default: () => props$7.textarea.focus
+    },
+    // 是否自动增加高度
+    autoHeight: {
+      type: Boolean,
+      default: () => props$7.textarea.autoHeight
+    },
+    // 如果textarea是在一个position:fixed的区域，需要显示指定属性fixed为true
+    fixed: {
+      type: Boolean,
+      default: () => props$7.textarea.fixed
+    },
+    // 指定光标与键盘的距离
+    cursorSpacing: {
+      type: Number,
+      default: () => props$7.textarea.cursorSpacing
+    },
+    // 指定focus时的光标位置
+    cursor: {
+      type: [String, Number],
+      default: () => props$7.textarea.cursor
+    },
+    // 是否显示键盘上方带有”完成“按钮那一栏，
+    showConfirmBar: {
+      type: Boolean,
+      default: () => props$7.textarea.showConfirmBar
+    },
+    // 光标起始位置，自动聚焦时有效，需与selection-end搭配使用
+    selectionStart: {
+      type: Number,
+      default: () => props$7.textarea.selectionStart
+    },
+    // 光标结束位置，自动聚焦时有效，需与selection-start搭配使用
+    selectionEnd: {
+      type: Number,
+      default: () => props$7.textarea.selectionEnd
+    },
+    // 键盘弹起时，是否自动上推页面
+    adjustPosition: {
+      type: Boolean,
+      default: () => props$7.textarea.adjustPosition
+    },
+    // 是否去掉 iOS 下的默认内边距，只微信小程序有效
+    disableDefaultPadding: {
+      type: Boolean,
+      default: () => props$7.textarea.disableDefaultPadding
+    },
+    // focus时，点击页面的时候不收起键盘，只微信小程序有效
+    holdKeyboard: {
+      type: Boolean,
+      default: () => props$7.textarea.holdKeyboard
+    },
+    // 最大输入长度，设置为 -1 的时候不限制最大长度
+    maxlength: {
+      type: [String, Number],
+      default: () => props$7.textarea.maxlength
+    },
+    // 边框类型，surround-四周边框，bottom-底部边框
+    border: {
+      type: String,
+      default: () => props$7.textarea.border
+    },
+    // 用于处理或者过滤输入框内容的方法
+    formatter: {
+      type: [Function, null],
+      default: () => props$7.textarea.formatter
+    },
+    // 是否忽略组件内对文本合成系统事件的处理
+    ignoreCompositionEvent: {
+      type: Boolean,
+      default: true
+    }
+  }
+});
+const props$2 = defineMixin({
+  props: {
+    // 图片地址
+    src: {
+      type: String,
+      default: () => props$7.image.src
+    },
+    // 裁剪模式
+    mode: {
+      type: String,
+      default: () => props$7.image.mode
+    },
+    // 宽度，单位任意
+    width: {
+      type: [String, Number],
+      default: () => props$7.image.width
+    },
+    // 高度，单位任意
+    height: {
+      type: [String, Number],
+      default: () => props$7.image.height
+    },
+    // 图片形状，circle-圆形，square-方形
+    shape: {
+      type: String,
+      default: () => props$7.image.shape
+    },
+    // 圆角，单位任意
+    radius: {
+      type: [String, Number],
+      default: () => props$7.image.radius
+    },
+    // 是否懒加载，微信小程序、App、百度小程序、字节跳动小程序
+    lazyLoad: {
+      type: Boolean,
+      default: () => props$7.image.lazyLoad
+    },
+    // 开启长按图片显示识别微信小程序码菜单
+    showMenuByLongpress: {
+      type: Boolean,
+      default: () => props$7.image.showMenuByLongpress
+    },
+    // 加载中的图标，或者小图片
+    loadingIcon: {
+      type: String,
+      default: () => props$7.image.loadingIcon
+    },
+    // 加载失败的图标，或者小图片
+    errorIcon: {
+      type: String,
+      default: () => props$7.image.errorIcon
+    },
+    // 是否显示加载中的图标或者自定义的slot
+    showLoading: {
+      type: Boolean,
+      default: () => props$7.image.showLoading
+    },
+    // 是否显示加载错误的图标或者自定义的slot
+    showError: {
+      type: Boolean,
+      default: () => props$7.image.showError
+    },
+    // 是否需要淡入效果
+    fade: {
+      type: Boolean,
+      default: () => props$7.image.fade
+    },
+    // 只支持网络资源，只对微信小程序有效
+    webp: {
+      type: Boolean,
+      default: () => props$7.image.webp
+    },
+    // 过渡时间，单位ms
+    duration: {
+      type: [String, Number],
+      default: () => props$7.image.duration
+    },
+    // 背景颜色，用于深色页面加载图片时，为了和背景色融合
+    bgColor: {
+      type: String,
+      default: () => props$7.image.bgColor
     }
   }
 });
@@ -14032,57 +14780,57 @@ const props$1 = defineMixin({
     // 是否显示组件
     show: {
       type: Boolean,
-      default: () => props$3.loadingIcon.show
+      default: () => props$7.loadingIcon.show
     },
     // 颜色
     color: {
       type: String,
-      default: () => props$3.loadingIcon.color
+      default: () => props$7.loadingIcon.color
     },
     // 提示文字颜色
     textColor: {
       type: String,
-      default: () => props$3.loadingIcon.textColor
+      default: () => props$7.loadingIcon.textColor
     },
     // 文字和图标是否垂直排列
     vertical: {
       type: Boolean,
-      default: () => props$3.loadingIcon.vertical
+      default: () => props$7.loadingIcon.vertical
     },
     // 模式选择，circle-圆形，spinner-花朵形，semicircle-半圆形
     mode: {
       type: String,
-      default: () => props$3.loadingIcon.mode
+      default: () => props$7.loadingIcon.mode
     },
     // 图标大小，单位默认px
     size: {
       type: [String, Number],
-      default: () => props$3.loadingIcon.size
+      default: () => props$7.loadingIcon.size
     },
     // 文字大小
     textSize: {
       type: [String, Number],
-      default: () => props$3.loadingIcon.textSize
+      default: () => props$7.loadingIcon.textSize
     },
     // 文字内容
     text: {
       type: [String, Number],
-      default: () => props$3.loadingIcon.text
+      default: () => props$7.loadingIcon.text
     },
     // 动画模式
     timingFunction: {
       type: String,
-      default: () => props$3.loadingIcon.timingFunction
+      default: () => props$7.loadingIcon.timingFunction
     },
     // 动画执行周期时间
     duration: {
       type: [String, Number],
-      default: () => props$3.loadingIcon.duration
+      default: () => props$7.loadingIcon.duration
     },
     // mode=circle时的暗边颜色
     inactiveColor: {
       type: String,
-      default: () => props$3.loadingIcon.inactiveColor
+      default: () => props$7.loadingIcon.inactiveColor
     }
   }
 });
@@ -14091,27 +14839,27 @@ const props = defineMixin({
     // 轮播的长度
     length: {
       type: [String, Number],
-      default: () => props$3.swiperIndicator.length
+      default: () => props$7.swiperIndicator.length
     },
     // 当前处于活动状态的轮播的索引
     current: {
       type: [String, Number],
-      default: () => props$3.swiperIndicator.current
+      default: () => props$7.swiperIndicator.current
     },
     // 指示器非激活颜色
     indicatorActiveColor: {
       type: String,
-      default: () => props$3.swiperIndicator.indicatorActiveColor
+      default: () => props$7.swiperIndicator.indicatorActiveColor
     },
     // 指示器的激活颜色
     indicatorInactiveColor: {
       type: String,
-      default: () => props$3.swiperIndicator.indicatorInactiveColor
+      default: () => props$7.swiperIndicator.indicatorInactiveColor
     },
     // 指示器模式，line-线型，dot-点型
     indicatorMode: {
       type: String,
-      default: () => props$3.swiperIndicator.indicatorMode
+      default: () => props$7.swiperIndicator.indicatorMode
     }
   }
 });
@@ -14119,25 +14867,36 @@ exports._export_sfc = _export_sfc;
 exports.addStyle = addStyle;
 exports.addUnit = addUnit;
 exports.colorGradient = colorGradient;
+exports.config = config;
 exports.createSSRApp = createSSRApp;
+exports.deepMerge = deepMerge$1;
 exports.e = e;
 exports.error = error;
 exports.f = f;
+exports.fontUtil = fontUtil;
+exports.formValidate = formValidate;
 exports.guid = guid;
+exports.icons = icons;
 exports.index = index$1;
 exports.mixin = mixin;
 exports.mpMixin = mpMixin;
 exports.n = n;
+exports.nextTick$1 = nextTick$1;
 exports.o = o;
 exports.p = p;
-exports.props = props$2;
-exports.props$1 = props$1;
-exports.props$2 = props;
+exports.props = props$6;
+exports.props$1 = props$5;
+exports.props$2 = props$4;
+exports.props$3 = props$3;
+exports.props$4 = props$2;
+exports.props$5 = props$1;
+exports.props$6 = props;
 exports.r = r;
 exports.reactive = reactive;
 exports.resolveComponent = resolveComponent;
 exports.rpx2px = rpx2px;
 exports.s = s;
+exports.sleep = sleep;
 exports.sr = sr;
 exports.t = t$1;
 exports.test = test;

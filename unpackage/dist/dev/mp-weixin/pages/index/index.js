@@ -8,6 +8,20 @@ const _sfc_main = {
   },
   data() {
     return {
+      latitude: 28.31,
+      longitude: 109.74,
+      markers: [{
+        id: 1,
+        latitude: 28.31,
+        // 纬度
+        longitude: 109.74,
+        // 经度
+        title: "小脚丫丫",
+        // 标记点名称
+        iconPath: "/static/loc.png",
+        width: 32,
+        height: 32
+      }],
       // 轮播图数据
       swiperList: common_vendor.reactive([]),
       // 作品分类数据
@@ -16,7 +30,7 @@ const _sfc_main = {
       videoList: [
         { url: "https://cdnfile.xiangfeiyue.com:8083/uploads/st202305261477f2/adv/20230530/1a701eae28d8f5903d241e3b3f6b07bf.mp4", poster: "https://cdnfile.xiangfeiyue.com:8083/uploads/st202305261477f2/adv/20230530/thumb_64e3fa0374d875ce15f5c8e80f6feade.jpg" }
       ],
-      currentTab: 0
+      store: common_vendor.reactive([])
     };
   },
   onLoad() {
@@ -27,9 +41,10 @@ const _sfc_main = {
       api_index.getHomeData().then((res) => {
         this.swiperList = res.data.swiper;
         this.categoryList = res.data.category;
-        common_vendor.index.__f__("log", "at pages/index/index.vue:97", "首页数据", res);
+        this.store = res.data.store;
+        common_vendor.index.__f__("log", "at pages/index/index.vue:125", "首页数据", res);
       }).catch((err) => {
-        common_vendor.index.__f__("log", "at pages/index/index.vue:99", "请求失败", err);
+        common_vendor.index.__f__("log", "at pages/index/index.vue:127", "请求失败", err);
       });
     }
   }
@@ -74,7 +89,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         b: item.poster,
         c: idx
       };
-    })
+    }),
+    d: $data.longitude,
+    e: $data.markers,
+    f: $data.latitude,
+    g: common_vendor.t($data.store.store_phone),
+    h: common_vendor.t($data.store.store_vx),
+    i: common_vendor.t($data.store.store_area)
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-1cf27b2a"]]);

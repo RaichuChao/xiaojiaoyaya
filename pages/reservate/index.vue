@@ -62,34 +62,30 @@
       <view class="content-wrapper">
         <view class="form-item">
           <view class="form-control">
-            <input 
-              class="uni-input" 
-              v-model="formData.name" 
-              placeholder="您的称呼"
-              maxlength="140"
-            />
+        
+			<up-input
+			   placeholder="您的称呼"
+			   border="surround"
+			   v-model="formData.name"
+			 ></up-input>
           </view>
         </view>
 
         <view class="form-item">
           <view class="form-control">
-            <input 
-              class="uni-input" 
-              v-model="formData.phone" 
-              placeholder="您的微信或手机号"
-              maxlength="140"
-            />
+			   <up-input
+			      placeholder="您的微信或手机号"
+			      border="surround"
+			      v-model="formData.phone"
+			    ></up-input>
+
           </view>
         </view>
 
         <view class="form-item">
           <view class="form-control">
-            <textarea 
-              class="uni-textarea" 
-              v-model="formData.desc" 
-              placeholder="您的拍摄需求"
-              maxlength="140"
-            ></textarea>
+			  <up-textarea v-model="formData.desc" placeholder="您的拍摄需求" ></up-textarea>
+        
           </view>
         </view>
 
@@ -222,7 +218,7 @@ page {
   .uni-input {
     width: 100%;
     height: 44px;
-    padding: 0 10px;
+ 
     border: 1px solid #eee;
     border-radius: 4px;
     font-size: 14px;

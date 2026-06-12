@@ -16,15 +16,22 @@
 			</scroll-view>
 			<block v-for="(item,index) in tabbar" :key="index">
 				<scroll-view scroll-y class="right-box" v-if="current==index" :style="{ backgroundColor: upThemeVar('--up-bg-color') }">
-					<view class="page-view">
+					<view class="page-view" >
 						<view class="class-item" :style="[upThemeCardStyle]">
-							<view class="item-title">
+							<!-- <view class="item-title">
 								<text>{{item.name}}</text>
-							</view>
+							</view> -->
 							<view class="item-container">
-								<view class="thumb-box" v-for="(item1, index1) in item.list" :key="index1">
-									<image class="item-menu-image" :src="item1.cover" mode=""></image>
-									<view class="item-menu-name">{{item1.name}}</view>
+								<view class="thumb-box" v-for="(item1, index1) in item.list" :key="index1"  v-show="item.list">
+									<view @click="goPage(item1.id)">
+										<image class="item-menu-image" :src="item1.cover" mode=""></image>
+										<view class="item-menu-name">{{item1.name}}</view>
+									</view>
+								
+									
+								</view>
+								<view  v-if="item.list.length === 0" style="height: 200px;line-height: 200px; text-align: center;">
+									   暂无内容，敬请期待...
 								</view>
 							</view>
 						</view>
@@ -55,6 +62,7 @@
 			this.getData();
 		},
 		methods: {
+			
 			getData(){
 			
 				getList().then(res => {
@@ -94,7 +102,15 @@
 						this[dataVal] = res.height;
 					}).exec();
 				})
-			}
+			},
+			goPage(id) {
+			      // 假设分类id字段为 id，根据实际接口字段修改
+			
+			      // 跳转分类列表页，携带分类ID参数
+			      uni.navigateTo({
+			        url: `/pages/works/detail?id=${id}`
+			      })
+			    }
 		}
 	}
 </script>

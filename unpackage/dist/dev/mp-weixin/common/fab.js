@@ -37,8 +37,12 @@ const _sfc_main = {
   }
 };
 if (!Array) {
-  const _component_uni_fab = common_vendor.resolveComponent("uni-fab");
-  _component_uni_fab();
+  const _easycom_uni_fab2 = common_vendor.resolveComponent("uni-fab");
+  _easycom_uni_fab2();
+}
+const _easycom_uni_fab = () => "../uni_modules/uni-fab/components/uni-fab/uni-fab.js";
+if (!Math) {
+  _easycom_uni_fab();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {

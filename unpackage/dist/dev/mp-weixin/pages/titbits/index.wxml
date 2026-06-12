@@ -1,0 +1,1 @@
+<view class="container data-v-46f307a2"><view class="title-section data-v-46f307a2"><text class="main-title data-v-46f307a2">摄影花絮</text><text class="sub-title data-v-46f307a2">Film and television tidbits</text></view><view class="content-section data-v-46f307a2"><view wx:if="{{a}}" class="empty-tip data-v-46f307a2"> 暂无花絮内容，敬请期待... </view></view></view>

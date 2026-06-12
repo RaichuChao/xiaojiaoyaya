@@ -67,12 +67,11 @@
 	    <map :longitude="longitude"  :markers="markers" :latitude="latitude" scale="14" :show-location="true" style="width: 100%; height: 300px;" ></map>
 
         <view class="contact">
-			<view style="padding: 50px 30px;">
+			<view style="padding: 50rpx 30rpx;">
 				<view>客服热线：{{store.store_phone}}</view>
-				<view>微信:{{store.store_vx}}</view>
-				<view>地址:{{store.store_area}}</view>
+				<view>微信: {{store.store_vx}}</view>
+				<view>地址: {{store.store_area}}</view>
 			</view>
-			
 		</view>
 	
 	 </view>
@@ -231,10 +230,12 @@ export default {
 	 
 }
 .contact{
-	height: 300px;
-	font-size: 24px;
-	line-height: 42px;
+	height: 360rpx;
+	font-size: 28rpx;
+	line-height: 60rpx;
 	background-color: #222;
 	color: #d0d0d0;
+	font-weight: 800;
+	letter-spacing: 2rpx;
 }
 </style>

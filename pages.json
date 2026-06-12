@@ -115,8 +115,8 @@
 		{
 			"text":"我的",
 			"pagePath":"pages/mine/index",
-			"iconPath":"static/tab/mine_w.png",
-			"selectedIconPath":"static/tab/mine.png"
+			"iconPath":"static/tab/mine.png",
+			"selectedIconPath":"static/tab/mine_w.png"
 		}	
 		]
 	}
