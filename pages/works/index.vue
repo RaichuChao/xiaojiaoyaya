@@ -45,78 +45,61 @@
 </template>
 
 <script>
-
-	import {getList} from "@/api/works.js";
-	export default {
-		data() {
-			return {
-				tabbar: [],
-				scrollTop: 0,
-				current: 0,
-				menuHeight: 0,
-				menuItemHeight: 0,
+import {getList} from "@/api/works.js";
+export default {
+	data() {
+		return {
+			tabbar: [],
+			scrollTop: 0,
+			current: 0,
+			menuHeight: 0,
+			menuItemHeight: 0,
+		}
+	},
+	onLoad() {
+		this.getData();
+	},
+	methods: {
+		getData(){
+			getList().then(res => {
+			   console.log('首页数据', res)
+			   this.tabbar=res.data;
+			 }).catch(err => {
+			   console.log('请求失败', err)
+			 })
+		},
+		// 点击左边的栏目切换
+		async swichMenu(index) {
+			if(index == this.current) return ;
+			this.current = index;
+			if(this.menuHeight == 0 || this.menuItemHeight == 0) {
+				await this.getElRect('menu-scroll-view', 'menuHeight');
+				await this.getElRect('u-tab-item', 'menuItemHeight');
 			}
+			this.scrollTop = index * this.menuItemHeight + this.menuItemHeight / 2 - this.menuHeight / 2;
 		},
-		onLoad() {
-			this.getData();
+		// 获取一个目标元素的高度
+		getElRect(elClass, dataVal) {
+			new Promise((resolve, reject) => {
+				const query = uni.createSelectorQuery().in(this);
+				query.select('.' + elClass).fields({size: true},res => {
+					if(!res) {
+						setTimeout(() => {
+							this.getElRect(elClass);
+						}, 10);
+						return ;
+					}
+					this[dataVal] = res.height;
+				}).exec();
+			})
 		},
-		methods: {
-			onShareAppMessage(res) {
-			    const id = this.data?.id || ''
-			    return {
-			      title: '留存转瞬即逝的童年时光', // 分享标题
-			      path: `/pages/index/index`, // 分享落地页（必须写相对路径）
-			      imageUrl:'' // 分享封面图（网络/本地图片）
-			    }
-			  },
-			
-			  // 2. 分享到朋友圈（右上角菜单触发）
-			  onShareTimeline() {
-			    return {
-			      title: '小脚丫丫儿童摄影馆',
-			     
-			    }
-			  },
-			getData(){
-				getList().then(res => {
-				   console.log('首页数据', res)
-				   this.tabbar=res.data;
-				 }).catch(err => {
-				   console.log('请求失败', err)
-				 })
-			},
-			// 点击左边的栏目切换
-			async swichMenu(index) {
-				if(index == this.current) return ;
-				this.current = index;
-				if(this.menuHeight == 0 || this.menuItemHeight == 0) {
-					await this.getElRect('menu-scroll-view', 'menuHeight');
-					await this.getElRect('u-tab-item', 'menuItemHeight');
-				}
-				this.scrollTop = index * this.menuItemHeight + this.menuItemHeight / 2 - this.menuHeight / 2;
-			},
-			// 获取一个目标元素的高度
-			getElRect(elClass, dataVal) {
-				new Promise((resolve, reject) => {
-					const query = uni.createSelectorQuery().in(this);
-					query.select('.' + elClass).fields({size: true},res => {
-						if(!res) {
-							setTimeout(() => {
-								this.getElRect(elClass);
-							}, 10);
-							return ;
-						}
-						this[dataVal] = res.height;
-					}).exec();
-				})
-			},
-			goPage(id) {
-			      uni.navigateTo({
-			        url: `/pages/works/detail?id=${id}`
-			      })
-			    }
+		goPage(id) {
+			  uni.navigateTo({
+				url: `/pages/works/detail?id=${id}`
+			})
 		}
 	}
+}
 </script>
 
 <style lang="scss" scoped>

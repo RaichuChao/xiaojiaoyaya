@@ -193,22 +193,6 @@ export default {
         this.showLoginPop = false;
       }
     },
-    onShareAppMessage(res) {
-	      const id = this.data?.id || ''
-	      return {
-	        title: '留存转瞬即逝的童年时光', // 分享标题
-	        path: `/pages/index/index`, // 分享落地页（必须写相对路径）
-	        imageUrl:'https://www.xiaojiaoyaya.cn/uploads/20250715/539d7ec2ec75c5f2fdbc5dd62018fd0e.jpg' // 分享封面图（网络/本地图片）
-	      }
-	    },
-	  
-	    // 2. 分享到朋友圈（右上角菜单触发）
-	    onShareTimeline() {
-	      return {
-	        title: '小脚丫丫儿童摄影馆',
-	       
-	      }
-	    },
     // 页面功能点击拦截登录
     handleClick(type) {
       const openid = uni.getStorageSync('openid')

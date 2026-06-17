@@ -15,30 +15,12 @@ const _sfc_main = {
     this.getData();
   },
   methods: {
-    onShareAppMessage(res) {
-      var _a;
-      ((_a = this.data) == null ? void 0 : _a.id) || "";
-      return {
-        title: "留存转瞬即逝的童年时光",
-        // 分享标题
-        path: `/pages/index/index`,
-        // 分享落地页（必须写相对路径）
-        imageUrl: ""
-        // 分享封面图（网络/本地图片）
-      };
-    },
-    // 2. 分享到朋友圈（右上角菜单触发）
-    onShareTimeline() {
-      return {
-        title: "小脚丫丫儿童摄影馆"
-      };
-    },
     getData() {
       api_works.getList().then((res) => {
-        common_vendor.index.__f__("log", "at pages/works/index.vue:82", "首页数据", res);
+        common_vendor.index.__f__("log", "at pages/works/index.vue:65", "首页数据", res);
         this.tabbar = res.data;
       }).catch((err) => {
-        common_vendor.index.__f__("log", "at pages/works/index.vue:85", "请求失败", err);
+        common_vendor.index.__f__("log", "at pages/works/index.vue:68", "请求失败", err);
       });
     },
     // 点击左边的栏目切换
@@ -127,6 +109,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-b0782d84"]]);
-_sfc_main.__runtimeHooks = 6;
 wx.createPage(MiniProgramPage);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/works/index.js.map

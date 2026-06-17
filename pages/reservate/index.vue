@@ -117,7 +117,7 @@ export default {
   onLoad() {
 
   	this.getData();
-		this.Setway();
+	this.Setway();
 	// #ifdef H5
 	// H5 逻辑
 	// uni.showToast({ title: 'H5端', icon: 'none' })

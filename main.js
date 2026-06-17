@@ -24,9 +24,12 @@ app.$mount()
 import uviewPlus from 'uview-plus'
 // #ifdef VUE3
 import { createSSRApp } from 'vue'
+import MixinShare from './common/share.js';
+
 export function createApp() {
   const app = createSSRApp(App)
-    app.use(uviewPlus)
+    app.use(uviewPlus);
+	app.mixin(MixinShare);
   return {
     app
   }

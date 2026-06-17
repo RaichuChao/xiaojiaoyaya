@@ -22,24 +22,6 @@ const _sfc_main = {
   onLoad() {
   },
   methods: {
-    onShareAppMessage(res) {
-      var _a;
-      ((_a = this.data) == null ? void 0 : _a.id) || "";
-      return {
-        title: "留存转瞬即逝的童年时光",
-        // 分享标题
-        path: `/pages/index/index`,
-        // 分享落地页（必须写相对路径）
-        imageUrl: "https://www.xiaojiaoyaya.cn/uploads/20250715/539d7ec2ec75c5f2fdbc5dd62018fd0e.jpg"
-        // 分享封面图（网络/本地图片）
-      };
-    },
-    // 2. 分享到朋友圈（右上角菜单触发）
-    onShareTimeline() {
-      return {
-        title: "小脚丫丫儿童摄影馆"
-      };
-    },
     // 切换编辑模式
     toggleEdit() {
       this.isEdit = !this.isEdit;
@@ -54,10 +36,10 @@ const _sfc_main = {
     },
     // 点击图片：编辑模式勾选 / 预览图片
     handleClickItem(item, index) {
-      common_vendor.index.__f__("log", "at pages/mine/photo.vue:119", item.selected);
+      common_vendor.index.__f__("log", "at pages/mine/photo.vue:103", item.selected);
       if (this.isEdit) {
         item.selected = !item.selected;
-        common_vendor.index.__f__("log", "at pages/mine/photo.vue:122", item.selected);
+        common_vendor.index.__f__("log", "at pages/mine/photo.vue:106", item.selected);
         return;
       }
       const imgArr = this.collectList.map((v) => v.image);
@@ -90,9 +72,6 @@ const _sfc_main = {
     // 去首页浏览作品
     goHome() {
       common_vendor.index.switchTab({ url: "/pages/index/index" });
-    },
-    // 请求收藏列表接口示例
-    getCollectData() {
     }
   }
 };
@@ -149,6 +128,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   } : {});
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-9040d7c4"]]);
-_sfc_main.__runtimeHooks = 6;
 wx.createPage(MiniProgramPage);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/mine/photo.js.map
