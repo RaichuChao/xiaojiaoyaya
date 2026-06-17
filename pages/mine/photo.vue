@@ -3,7 +3,7 @@
     <!-- 顶部导航栏 -->
     <view class="page-header">
       
-      <text class="header-title">我的印集</text>
+      <text class="header-title">我的影集</text>
       <text v-if="collectList.length > 0" class="edit-btn" @click="toggleEdit">
         {{ isEdit ? '完成' : '编辑' }}
       </text>

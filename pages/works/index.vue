@@ -66,7 +66,7 @@
 			    return {
 			      title: '留存转瞬即逝的童年时光', // 分享标题
 			      path: `/pages/index/index`, // 分享落地页（必须写相对路径）
-			      imageUrl:'https://www.xiaojiaoyaya.cn/uploads/20250715/539d7ec2ec75c5f2fdbc5dd62018fd0e.jpg' // 分享封面图（网络/本地图片）
+			      imageUrl:'' // 分享封面图（网络/本地图片）
 			    }
 			  },
 			

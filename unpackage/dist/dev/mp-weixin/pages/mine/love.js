@@ -30,7 +30,7 @@ const _sfc_main = {
         // 分享标题
         path: `/pages/index/index`,
         // 分享落地页（必须写相对路径）
-        imageUrl: "https://www.xiaojiaoyaya.cn/uploads/20250715/539d7ec2ec75c5f2fdbc5dd62018fd0e.jpg"
+        imageUrl: ""
         // 分享封面图（网络/本地图片）
       };
     },
