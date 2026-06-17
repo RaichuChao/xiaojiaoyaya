@@ -1,9 +1,152 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const _sfc_main = {};
-function _sfc_render(_ctx, _cache) {
-  return {};
+const _sfc_main = {
+  data() {
+    return {
+      // 编辑状态
+      isEdit: false,
+      // 收藏列表（模拟数据，可替换接口请求）
+      collectList: []
+    };
+  },
+  computed: {
+    // 是否全选
+    isAllSelected() {
+      return this.collectList.every((item) => item.selected);
+    },
+    // 选中数量
+    selectedCount() {
+      return this.collectList.filter((item) => item.selected).length;
+    }
+  },
+  onLoad() {
+  },
+  methods: {
+    onShareAppMessage(res) {
+      var _a;
+      ((_a = this.data) == null ? void 0 : _a.id) || "";
+      return {
+        title: "留存转瞬即逝的童年时光",
+        // 分享标题
+        path: `/pages/index/index`,
+        // 分享落地页（必须写相对路径）
+        imageUrl: "https://www.xiaojiaoyaya.cn/uploads/20250715/539d7ec2ec75c5f2fdbc5dd62018fd0e.jpg"
+        // 分享封面图（网络/本地图片）
+      };
+    },
+    // 2. 分享到朋友圈（右上角菜单触发）
+    onShareTimeline() {
+      return {
+        title: "小脚丫丫儿童摄影馆"
+      };
+    },
+    // 切换编辑模式
+    toggleEdit() {
+      this.isEdit = !this.isEdit;
+      if (!this.isEdit) {
+        this.collectList.forEach((item) => item.selected = false);
+      }
+    },
+    // 全选/取消全选
+    selectAll() {
+      const flag = !this.isAllSelected;
+      this.collectList.forEach((item) => item.selected = flag);
+    },
+    // 点击图片：编辑模式勾选 / 预览图片
+    handleClickItem(item, index) {
+      common_vendor.index.__f__("log", "at pages/mine/love.vue:118", item.selected);
+      if (this.isEdit) {
+        item.selected = !item.selected;
+        common_vendor.index.__f__("log", "at pages/mine/love.vue:121", item.selected);
+        return;
+      }
+      const imgArr = this.collectList.map((v) => v.image);
+      common_vendor.index.previewImage({
+        urls: imgArr,
+        current: item.image
+      });
+    },
+    // 批量删除收藏
+    batchDelete() {
+      const selectArr = this.collectList.filter((item) => item.selected);
+      if (selectArr.length === 0) {
+        common_vendor.index.showToast({ title: "请选择要删除的作品", icon: "none" });
+        return;
+      }
+      common_vendor.index.showModal({
+        title: "提示",
+        content: `确定删除选中${selectArr.length}条收藏？`,
+        confirmText: "删除",
+        confirmColor: "#f56c6c",
+        success: (res) => {
+          if (res.confirm) {
+            this.collectList = this.collectList.filter((item) => !item.selected);
+            this.isEdit = false;
+            common_vendor.index.showToast({ title: "删除成功" });
+          }
+        }
+      });
+    },
+    // 去首页浏览作品
+    goHome() {
+      common_vendor.index.switchTab({ url: "/pages/index/index" });
+    },
+    // 请求收藏列表接口示例
+    getCollectData() {
+    }
+  }
+};
+if (!Array) {
+  const _easycom_up_checkbox2 = common_vendor.resolveComponent("up-checkbox");
+  const _easycom_up_lazy_load2 = common_vendor.resolveComponent("up-lazy-load");
+  (_easycom_up_checkbox2 + _easycom_up_lazy_load2)();
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
+const _easycom_up_checkbox = () => "../../node-modules/uview-plus/components/u-checkbox/u-checkbox.js";
+const _easycom_up_lazy_load = () => "../../node-modules/uview-plus/components/u-lazy-load/u-lazy-load.js";
+if (!Math) {
+  (_easycom_up_checkbox + _easycom_up_lazy_load)();
+}
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return common_vendor.e({
+    a: $data.collectList.length > 0
+  }, $data.collectList.length > 0 ? {
+    b: common_vendor.t($data.isEdit ? "完成" : "编辑"),
+    c: common_vendor.o((...args) => $options.toggleEdit && $options.toggleEdit(...args), "eb")
+  } : {}, {
+    d: $data.collectList.length === 0
+  }, $data.collectList.length === 0 ? {
+    e: common_vendor.o((...args) => $options.goHome && $options.goHome(...args), "72")
+  } : {
+    f: common_vendor.f($data.collectList, (item, index, i0) => {
+      return common_vendor.e($data.isEdit ? {
+        a: "bcf23867-0-" + i0,
+        b: common_vendor.p({
+          checked: item.selected,
+          shape: "circle",
+          ["active-color"]: "#f56c6c"
+        })
+      } : {}, {
+        c: "bcf23867-1-" + i0,
+        d: common_vendor.p({
+          image: item.image,
+          ["img-mode"]: "aspectFill"
+        }),
+        e: common_vendor.t(item.name),
+        f: item.id,
+        g: common_vendor.o(($event) => $options.handleClickItem(item, index), item.id)
+      });
+    }),
+    g: $data.isEdit
+  }, {
+    h: $data.isEdit && $data.collectList.length > 0
+  }, $data.isEdit && $data.collectList.length > 0 ? {
+    i: common_vendor.t($options.isAllSelected ? "取消全选" : "全选"),
+    j: common_vendor.o((...args) => $options.selectAll && $options.selectAll(...args), "9b"),
+    k: common_vendor.t($options.selectedCount),
+    l: common_vendor.o((...args) => $options.batchDelete && $options.batchDelete(...args), "a3")
+  } : {});
+}
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-bcf23867"]]);
+_sfc_main.__runtimeHooks = 6;
 wx.createPage(MiniProgramPage);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/mine/love.js.map

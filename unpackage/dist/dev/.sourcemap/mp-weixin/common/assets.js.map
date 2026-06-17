@@ -1,1 +1,1 @@
-{"version":3,"file":"assets.js","sources":["D:/static/settings.png","D:/static/user-avatar.jpg","D:/static/verified.png"],"sourcesContent":["export default \"/static/settings.png\"","export default \"/static/user-avatar.jpg\"","export default \"/static/verified.png\""],"names":[],"mappings":";AAAA,MAAe,aAAA;ACAf,MAAe,aAAA;ACAf,MAAe,aAAA;;;;"}
+{"version":3,"file":"assets.js","sources":["D:/static/empty.png"],"sourcesContent":["export default \"/static/empty.png\""],"names":[],"mappings":";AAAA,MAAe,aAAA;;"}

@@ -8,43 +8,113 @@ const _sfc_main = {
   },
   data() {
     return {
+      // 地图坐标
       latitude: 28.31,
       longitude: 109.74,
       markers: [{
         id: 1,
         latitude: 28.31,
-        // 纬度
         longitude: 109.74,
-        // 经度
         title: "小脚丫丫",
-        // 标记点名称
         iconPath: "/static/loc.png",
         width: 32,
         height: 32
       }],
-      // 轮播图数据
       swiperList: common_vendor.reactive([]),
-      // 作品分类数据
       categoryList: common_vendor.reactive([]),
-      // 视频数据
       videoList: [
-        { url: "https://cdnfile.xiangfeiyue.com:8083/uploads/st202305261477f2/adv/20230530/1a701eae28d8f5903d241e3b3f6b07bf.mp4", poster: "https://cdnfile.xiangfeiyue.com:8083/uploads/st202305261477f2/adv/20230530/thumb_64e3fa0374d875ce15f5c8e80f6feade.jpg" }
+        {
+          url: "https://www.xiaojiaoyaya.cn/uploads/20260615/de86f27c6f173ce4234a1b726a8204b4.mp4",
+          poster: "https://www.xiaojiaoyaya.cn/uploads/20260616/91d17d505581f0fc4028527a8c007c39.jpg"
+        }
       ],
-      store: common_vendor.reactive([])
+      // 重点：改为对象，不是数组！
+      store: common_vendor.reactive({})
     };
   },
   onLoad() {
     this.getData();
   },
   methods: {
+    onShareAppMessage(res) {
+      var _a;
+      ((_a = this.data) == null ? void 0 : _a.id) || "";
+      return {
+        title: "留存转瞬即逝的童年时光",
+        // 分享标题
+        path: `/pages/index/index`,
+        // 分享落地页（必须写相对路径）
+        imageUrl: "https://www.xiaojiaoyaya.cn/uploads/20250715/539d7ec2ec75c5f2fdbc5dd62018fd0e.jpg"
+        // 分享封面图（网络/本地图片）
+      };
+    },
+    // 2. 分享到朋友圈（右上角菜单触发）
+    onShareTimeline() {
+      return {
+        title: "小脚丫丫儿童摄影馆"
+      };
+    },
+    // 复制微信
+    handleCopyWechat() {
+      const wx2 = this.store.store_vx;
+      if (!wx2) {
+        common_vendor.index.showToast({ title: "暂无微信号", icon: "none" });
+        return;
+      }
+      common_vendor.index.setClipboardData({
+        data: wx2,
+        success: () => {
+          common_vendor.index.showToast({ title: "微信号已复制", icon: "none" });
+        }
+      });
+    },
+    goFL(id) {
+      common_vendor.index.reLaunch({
+        url: `/pages/works/index?id=${id}`
+      });
+    },
+    // 打开地图导航
+    handleOpenLocation() {
+      const addr = this.store.store_area;
+      if (!addr) {
+        common_vendor.index.showToast({ title: "暂无地址信息", icon: "none" });
+        return;
+      }
+      common_vendor.index.openLocation({
+        latitude: this.latitude,
+        longitude: this.longitude,
+        name: "小脚丫丫",
+        address: addr,
+        fail: () => {
+          common_vendor.index.showToast({ title: "暂无法打开地图", icon: "none" });
+        }
+      });
+    },
+    // 拨打电话
+    handleCall() {
+      const phone = this.store.store_phone;
+      if (!phone) {
+        common_vendor.index.showToast({ title: "暂无联系电话", icon: "none" });
+        return;
+      }
+      common_vendor.index.makePhoneCall({
+        phoneNumber: phone,
+        fail: () => {
+          common_vendor.index.showToast({ title: "暂无法拨打电话", icon: "none" });
+        }
+      });
+    },
+    // 请求首页数据
     getData() {
       api_index.getHomeData().then((res) => {
-        this.swiperList = res.data.swiper;
-        this.categoryList = res.data.category;
-        this.store = res.data.store;
-        common_vendor.index.__f__("log", "at pages/index/index.vue:125", "首页数据", res);
+        const data = res.data || {};
+        this.swiperList = data.swiper || [];
+        this.categoryList = data.category || [];
+        this.store = data.store || {};
+        common_vendor.index.__f__("log", "at pages/index/index.vue:279", "首页数据", res);
       }).catch((err) => {
-        common_vendor.index.__f__("log", "at pages/index/index.vue:127", "请求失败", err);
+        common_vendor.index.__f__("log", "at pages/index/index.vue:281", "请求失败", err);
+        common_vendor.index.showToast({ title: "数据加载失败", icon: "none" });
       });
     }
   }
@@ -52,13 +122,17 @@ const _sfc_main = {
 if (!Array) {
   const _easycom_up_swiper2 = common_vendor.resolveComponent("up-swiper");
   const _easycom_up_lazy_load2 = common_vendor.resolveComponent("up-lazy-load");
+  const _easycom_up_image2 = common_vendor.resolveComponent("up-image");
+  const _easycom_up_icon2 = common_vendor.resolveComponent("up-icon");
   const _component_fab = common_vendor.resolveComponent("fab");
-  (_easycom_up_swiper2 + _easycom_up_lazy_load2 + _component_fab)();
+  (_easycom_up_swiper2 + _easycom_up_lazy_load2 + _easycom_up_image2 + _easycom_up_icon2 + _component_fab)();
 }
 const _easycom_up_swiper = () => "../../node-modules/uview-plus/components/u-swiper/u-swiper.js";
 const _easycom_up_lazy_load = () => "../../node-modules/uview-plus/components/u-lazy-load/u-lazy-load.js";
+const _easycom_up_image = () => "../../node-modules/uview-plus/components/u-image/u-image.js";
+const _easycom_up_icon = () => "../../node-modules/uview-plus/components/u-icon/u-icon.js";
 if (!Math) {
-  (_easycom_up_swiper + _easycom_up_lazy_load)();
+  (_easycom_up_swiper + _easycom_up_lazy_load + _easycom_up_image + _easycom_up_icon)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
@@ -80,7 +154,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       }, item.nickname ? {
         e: common_vendor.t(item.nickname)
       } : {}, {
-        f: idx
+        f: idx,
+        g: common_vendor.o(($event) => $options.goFL(idx), idx)
       });
     }),
     c: common_vendor.f($data.videoList, (item, idx, i0) => {
@@ -90,14 +165,42 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         c: idx
       };
     }),
-    d: $data.longitude,
-    e: $data.markers,
-    f: $data.latitude,
-    g: common_vendor.t($data.store.store_phone),
-    h: common_vendor.t($data.store.store_vx),
-    i: common_vendor.t($data.store.store_area)
+    d: common_vendor.p({
+      ["show-loading"]: true,
+      src: "/static/y1.png",
+      width: "60rpx",
+      height: "60rpx"
+    }),
+    e: common_vendor.p({
+      ["show-loading"]: true,
+      src: "/static/y2.png",
+      width: "60rpx",
+      height: "60rpx"
+    }),
+    f: $data.longitude,
+    g: $data.markers,
+    h: $data.latitude,
+    i: common_vendor.p({
+      size: "40rpx",
+      name: "map-fill"
+    }),
+    j: common_vendor.t($data.store.store_area || ""),
+    k: common_vendor.o((...args) => $options.handleOpenLocation && $options.handleOpenLocation(...args), "96"),
+    l: common_vendor.p({
+      size: "40rpx",
+      name: "weixin-fill"
+    }),
+    m: common_vendor.t($data.store.store_vx || ""),
+    n: common_vendor.o((...args) => $options.handleCopyWechat && $options.handleCopyWechat(...args), "b6"),
+    o: common_vendor.p({
+      size: "40rpx",
+      name: "phone-fill"
+    }),
+    p: common_vendor.t($data.store.store_phone || ""),
+    q: common_vendor.o((...args) => $options.handleCall && $options.handleCall(...args), "0d")
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-1cf27b2a"]]);
+_sfc_main.__runtimeHooks = 6;
 wx.createPage(MiniProgramPage);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/index/index.js.map

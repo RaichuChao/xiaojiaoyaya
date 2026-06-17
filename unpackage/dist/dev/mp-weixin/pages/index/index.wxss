@@ -3,13 +3,9 @@
   background-color: #fff;
   min-height: 100vh;
 }
-
-/* 轮播图样式 */
 .u-swiper.data-v-1cf27b2a {
   height: 420rpx;
 }
-
-/* 通用标题样式 */
 .section-wrap.data-v-1cf27b2a {
   padding: 40rpx 0;
 }
@@ -29,8 +25,6 @@
   color: #999;
   margin-top: 10rpx;
 }
-
-/* 分类网格 */
 .category-grid.data-v-1cf27b2a {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -38,11 +32,9 @@
 }
 .grid-item.data-v-1cf27b2a {
   position: relative;
-
   overflow: hidden;
 }
 .grid-mask.data-v-1cf27b2a {
-	
   position: absolute;
   top: 0;
   left: 0;
@@ -66,8 +58,6 @@
   margin-top: 8rpx;
   opacity: 0.8;
 }
-
-/* 视频列表 */
 .video-list.data-v-1cf27b2a {
   display: flex;
   flex-direction: column;
@@ -81,24 +71,160 @@
   width: 100%;
   height: 380rpx;
 }
-.video-title.data-v-1cf27b2a {
+
+
+
+/* 顶部品牌区域 */
+.about-header.data-v-1cf27b2a {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 60rpx;
+}
+.brand-text.data-v-1cf27b2a {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #333333;
+}
+.studio-text.data-v-1cf27b2a {
+  font-size: 24rpx;
+  color: #666666;
+  margin-left: 10rpx;
+  margin-bottom: 8rpx;
+}
+.dot.data-v-1cf27b2a {
+  width: 16rpx;
+  height: 16rpx;
+  background-color: #f9c850;
+  border-radius: 50%;
+  margin-left: 10rpx;
+  margin-bottom: 8rpx;
+}
+
+/* 工作室名称区域 */
+.title-section.data-v-1cf27b2a {
+  text-align: center;
+  margin-top: 80rpx;
+}
+.studio-name.data-v-1cf27b2a {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333333;
   display: block;
-  padding: 20rpx;
-  font-size: 28rpx;
-  color: #333;
+  margin-bottom: 20rpx;
+}
+.slogan-en.data-v-1cf27b2a {
+  font-size: 24rpx;
+  color: #b89f7a;
+  display: block;
+  margin-bottom: 10rpx;
+}
+.location.data-v-1cf27b2a {
+  font-size: 22rpx;
+  color: #666666;
+}
+
+/* 核心文案卡片 */
+.card.data-v-1cf27b2a {
   background-color: #f8f8f8;
+  border-radius: 8rpx;
+  padding: 120rpx 40rpx; /* 上下加大内边距，避免引号遮挡文字 */
+  position: relative;
+  width: 100%; /* 关键：给相对定位基准铺满整行 */
+  box-sizing: border-box;
+  overflow: visible; /* 允许引号超出卡片边缘 */
 }
-.about-img.data-v-1cf27b2a{
-	width: 100%; border-radius: 0px; height: 258px;
-	background-image: url("https://cdnfile.xiangfeiyue.com:8083/uploads/st202305261477f2/adv/20230530/thumb_35d760b06024d96c00ea58b875f35b98.jpg");
-	 background-size: 100% 100%; background-repeat: no-repeat;
+/* 引号装饰 统一修复 */
+.quote-left.data-v-1cf27b2a {
+  position: absolute !important;
+  top: 30rpx;
+  left: 30rpx;
+  width: 120rpx;
+  height: 120rpx;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
 }
-.contact.data-v-1cf27b2a{
-	height: 360rpx;
-	font-size: 28rpx;
-	line-height: 60rpx;
-	background-color: #222;
-	color: #d0d0d0;
-	font-weight: 800;
-	letter-spacing: 2rpx;
+.quote-right.data-v-1cf27b2a {
+  position: absolute !important;
+  bottom: 30rpx;
+  right: 30rpx !important; /* 强制靠右，提升权重覆盖组件默认样式 */
+  width: 120rpx;
+  height: 120rpx;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+}
+/* 卡片内容 */
+.card-content.data-v-1cf27b2a {
+  text-align: center;
+  position: relative;
+  z-index: 1; /* 文字在引号上层，不被遮挡 */
+}
+.card-title.data-v-1cf27b2a {
+  font-size: 28rpx;
+  color: #333333;
+  display: block;
+  margin-bottom: 40rpx;
+}
+.card-text.data-v-1cf27b2a {
+  font-size: 24rpx;
+  color: #555555;
+  line-height: 40rpx;
+  display: block;
+  margin-bottom: 20rpx;
+}
+/* 中间小logo */
+.mini-logo.data-v-1cf27b2a {
+  margin-top: 60rpx;
+}
+.logo-text.data-v-1cf27b2a {
+  font-size: 20rpx;
+  font-weight: bold;
+  color: #333333;
+}
+.logo-subtext.data-v-1cf27b2a {
+  font-size: 16rpx;
+  color: #666666;
+  margin-left: 4rpx;
+}
+.contact-item.data-v-1cf27b2a {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 20rpx;
+  border-bottom: 1rpx solid #e5e5e5;
+  /* 提升点击区域 + 点击反馈 */
+  cursor: pointer;
+}
+.contact-item.data-v-1cf27b2a:active {
+  background-color: #f5f5f5;
+}
+.icon-wrap.data-v-1cf27b2a{
+  width: 180rpx;
+  height: 80rpx;
+  /* 圆形关键 */
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.12);
+  margin-right: 30rpx;
+  
+  /* 让内部图标居中 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-inner.data-v-1cf27b2a {
+  width: 40rpx;
+  height: 40rpx;
+  flex-shrink: 0; /* 禁止压缩变形 */
+}
+.label.data-v-1cf27b2a {
+	letter-spacing: 1rpx;
+  font-size: 30rpx;
+  color: #000000;
+}
+.text-tip.data-v-1cf27b2a{
+	
+	font-size: 20rpx;
+	color: #909399;
 }

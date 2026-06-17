@@ -36,9 +36,9 @@ const isPromise = (val) => {
   return (isObject$1(val) || isFunction(val)) && isFunction(val.then) && isFunction(val.catch);
 };
 const objectToString = Object.prototype.toString;
-const toTypeString = (value) => objectToString.call(value);
-const toRawType = (value) => {
-  return toTypeString(value).slice(8, -1);
+const toTypeString = (value2) => objectToString.call(value2);
+const toRawType = (value2) => {
+  return toTypeString(value2).slice(8, -1);
 };
 const isPlainObject$1 = (val) => toTypeString(val) === "[object Object]";
 const isIntegerKey = (key) => isString(key) && key !== "NaN" && key[0] !== "-" && "" + parseInt(key, 10) === key;
@@ -71,28 +71,28 @@ const toHandlerKey = cacheStringFunction((str) => {
   const s2 = str ? `on${capitalize(str)}` : ``;
   return s2;
 });
-const hasChanged = (value, oldValue) => !Object.is(value, oldValue);
+const hasChanged = (value2, oldValue) => !Object.is(value2, oldValue);
 const invokeArrayFns$1 = (fns, arg) => {
   for (let i = 0; i < fns.length; i++) {
     fns[i](arg);
   }
 };
-const def = (obj, key, value) => {
+const def = (obj, key, value2) => {
   Object.defineProperty(obj, key, {
     configurable: true,
     enumerable: false,
-    value
+    value: value2
   });
 };
 const looseToNumber = (val) => {
   const n2 = parseFloat(val);
   return isNaN(n2) ? val : n2;
 };
-function normalizeStyle(value) {
-  if (isArray$1(value)) {
+function normalizeStyle(value2) {
+  if (isArray$1(value2)) {
     const res = {};
-    for (let i = 0; i < value.length; i++) {
-      const item = value[i];
+    for (let i = 0; i < value2.length; i++) {
+      const item = value2[i];
       const normalized = isString(item) ? parseStringStyle(item) : normalizeStyle(item);
       if (normalized) {
         for (const key in normalized) {
@@ -101,8 +101,8 @@ function normalizeStyle(value) {
       }
     }
     return res;
-  } else if (isString(value) || isObject$1(value)) {
-    return value;
+  } else if (isString(value2) || isObject$1(value2)) {
+    return value2;
   }
 }
 const listDelimiterRE = /;(?![^(]*\))/g;
@@ -118,20 +118,20 @@ function parseStringStyle(cssText) {
   });
   return ret;
 }
-function normalizeClass(value) {
+function normalizeClass(value2) {
   let res = "";
-  if (isString(value)) {
-    res = value;
-  } else if (isArray$1(value)) {
-    for (let i = 0; i < value.length; i++) {
-      const normalized = normalizeClass(value[i]);
+  if (isString(value2)) {
+    res = value2;
+  } else if (isArray$1(value2)) {
+    for (let i = 0; i < value2.length; i++) {
+      const normalized = normalizeClass(value2[i]);
       if (normalized) {
         res += normalized + " ";
       }
     }
-  } else if (isObject$1(value)) {
-    for (const name in value) {
-      if (value[name]) {
+  } else if (isObject$1(value2)) {
+    for (const name in value2) {
+      if (value2[name]) {
         res += name + " ";
       }
     }
@@ -383,8 +383,8 @@ const MINI_PROGRAM_PAGE_RUNTIME_HOOKS = /* @__PURE__ */ (() => {
     onTitleClick: 1 << 7
   };
 })();
-function isUniLifecycleHook(name, value, checkType = true) {
-  if (checkType && !isFunction(value)) {
+function isUniLifecycleHook(name, value2, checkType = true) {
+  if (checkType && !isFunction(value2)) {
     return false;
   }
   if (UniLifecycleHooks.indexOf(name) > -1) {
@@ -885,30 +885,30 @@ class MutableReactiveHandler extends BaseReactiveHandler {
   constructor(isShallow2 = false) {
     super(false, isShallow2);
   }
-  set(target, key, value, receiver) {
+  set(target, key, value2, receiver) {
     let oldValue = target[key];
     if (!this._isShallow) {
       const isOldValueReadonly = isReadonly(oldValue);
-      if (!isShallow(value) && !isReadonly(value)) {
+      if (!isShallow(value2) && !isReadonly(value2)) {
         oldValue = toRaw(oldValue);
-        value = toRaw(value);
+        value2 = toRaw(value2);
       }
-      if (!isArray$1(target) && isRef(oldValue) && !isRef(value)) {
+      if (!isArray$1(target) && isRef(oldValue) && !isRef(value2)) {
         if (isOldValueReadonly) {
           return false;
         } else {
-          oldValue.value = value;
+          oldValue.value = value2;
           return true;
         }
       }
     }
     const hadKey = isArray$1(target) && isIntegerKey(key) ? Number(key) < target.length : hasOwn(target, key);
-    const result = Reflect.set(target, key, value, receiver);
+    const result = Reflect.set(target, key, value2, receiver);
     if (target === toRaw(receiver)) {
       if (!hadKey) {
-        trigger(target, "add", key, value);
-      } else if (hasChanged(value, oldValue)) {
-        trigger(target, "set", key, value, oldValue);
+        trigger(target, "add", key, value2);
+      } else if (hasChanged(value2, oldValue)) {
+        trigger(target, "set", key, value2, oldValue);
       }
     }
     return result;
@@ -967,7 +967,7 @@ const shallowReactiveHandlers = /* @__PURE__ */ new MutableReactiveHandler(
   true
 );
 const shallowReadonlyHandlers = /* @__PURE__ */ new ReadonlyReactiveHandler(true);
-const toShallow = (value) => value;
+const toShallow = (value2) => value2;
 const getProto = (v) => Reflect.getPrototypeOf(v);
 function get(target, key, isReadonly2 = false, isShallow2 = false) {
   target = target["__v_raw"];
@@ -1006,19 +1006,19 @@ function size(target, isReadonly2 = false) {
   !isReadonly2 && track(toRaw(target), "iterate", ITERATE_KEY);
   return Reflect.get(target, "size", target);
 }
-function add$1(value) {
-  value = toRaw(value);
+function add$1(value2) {
+  value2 = toRaw(value2);
   const target = toRaw(this);
   const proto = getProto(target);
-  const hadKey = proto.has.call(target, value);
+  const hadKey = proto.has.call(target, value2);
   if (!hadKey) {
-    target.add(value);
-    trigger(target, "add", value, value);
+    target.add(value2);
+    trigger(target, "add", value2, value2);
   }
   return this;
 }
-function set$1(key, value) {
-  value = toRaw(value);
+function set$1(key, value2) {
+  value2 = toRaw(value2);
   const target = toRaw(this);
   const { has: has2, get: get2 } = getProto(target);
   let hadKey = has2.call(target, key);
@@ -1029,11 +1029,11 @@ function set$1(key, value) {
     checkIdentityKeys(target, has2, key);
   }
   const oldValue = get2.call(target, key);
-  target.set(key, value);
+  target.set(key, value2);
   if (!hadKey) {
-    trigger(target, "add", key, value);
-  } else if (hasChanged(value, oldValue)) {
-    trigger(target, "set", key, value, oldValue);
+    trigger(target, "add", key, value2);
+  } else if (hasChanged(value2, oldValue)) {
+    trigger(target, "set", key, value2, oldValue);
   }
   return this;
 }
@@ -1071,8 +1071,8 @@ function createForEach(isReadonly2, isShallow2) {
     const rawTarget = toRaw(target);
     const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
     !isReadonly2 && track(rawTarget, "iterate", ITERATE_KEY);
-    return target.forEach((value, key) => {
-      return callback.call(thisArg, wrap(value), wrap(key), observed);
+    return target.forEach((value2, key) => {
+      return callback.call(thisArg, wrap(value2), wrap(key), observed);
     });
   };
 }
@@ -1093,9 +1093,9 @@ function createIterableMethod(method, isReadonly2, isShallow2) {
     return {
       // iterator protocol
       next() {
-        const { value, done } = innerIterator.next();
-        return done ? { value, done } : {
-          value: isPair ? [wrap(value[0]), wrap(value[1])] : wrap(value),
+        const { value: value2, done } = innerIterator.next();
+        return done ? { value: value2, done } : {
+          value: isPair ? [wrap(value2[0]), wrap(value2[1])] : wrap(value2),
           done
         };
       },
@@ -1264,8 +1264,8 @@ function targetTypeMap(rawType) {
       return 0;
   }
 }
-function getTargetType(value) {
-  return value["__v_skip"] || !Object.isExtensible(value) ? 0 : targetTypeMap(toRawType(value));
+function getTargetType(value2) {
+  return value2["__v_skip"] || !Object.isExtensible(value2) ? 0 : targetTypeMap(toRawType(value2));
 }
 function reactive(target) {
   if (isReadonly(target)) {
@@ -1331,33 +1331,33 @@ function createReactiveObject(target, isReadonly2, baseHandlers, collectionHandl
   proxyMap.set(target, proxy);
   return proxy;
 }
-function isReactive(value) {
-  if (isReadonly(value)) {
-    return isReactive(value["__v_raw"]);
+function isReactive(value2) {
+  if (isReadonly(value2)) {
+    return isReactive(value2["__v_raw"]);
   }
-  return !!(value && value["__v_isReactive"]);
+  return !!(value2 && value2["__v_isReactive"]);
 }
-function isReadonly(value) {
-  return !!(value && value["__v_isReadonly"]);
+function isReadonly(value2) {
+  return !!(value2 && value2["__v_isReadonly"]);
 }
-function isShallow(value) {
-  return !!(value && value["__v_isShallow"]);
+function isShallow(value2) {
+  return !!(value2 && value2["__v_isShallow"]);
 }
-function isProxy(value) {
-  return isReactive(value) || isReadonly(value);
+function isProxy(value2) {
+  return isReactive(value2) || isReadonly(value2);
 }
 function toRaw(observed) {
   const raw = observed && observed["__v_raw"];
   return raw ? toRaw(raw) : observed;
 }
-function markRaw(value) {
-  if (Object.isExtensible(value)) {
-    def(value, "__v_skip", true);
+function markRaw(value2) {
+  if (Object.isExtensible(value2)) {
+    def(value2, "__v_skip", true);
   }
-  return value;
+  return value2;
 }
-const toReactive = (value) => isObject$1(value) ? reactive(value) : value;
-const toReadonly = (value) => isObject$1(value) ? readonly(value) : value;
+const toReactive = (value2) => isObject$1(value2) ? reactive(value2) : value2;
+const toReadonly = (value2) => isObject$1(value2) ? readonly(value2) : value2;
 const COMPUTED_SIDE_EFFECT_WARN = `Computed is still dirty after getter evaluation, likely because a computed is mutating its own dependency in its getter. State mutations in computed getters should be avoided.  Check the docs for more details: https://vuejs.org/guide/essentials/computed.html#getters-should-be-side-effect-free`;
 class ComputedRefImpl {
   constructor(getter, _setter, isReadonly2, isSSR) {
@@ -1462,8 +1462,8 @@ function triggerRefValue(ref2, dirtyLevel = 4, newVal) {
 function isRef(r2) {
   return !!(r2 && r2.__v_isRef === true);
 }
-function ref(value) {
-  return createRef(value, false);
+function ref(value2) {
+  return createRef(value2, false);
 }
 function createRef(rawValue, shallow) {
   if (isRef(rawValue)) {
@@ -1472,12 +1472,12 @@ function createRef(rawValue, shallow) {
   return new RefImpl(rawValue, shallow);
 }
 class RefImpl {
-  constructor(value, __v_isShallow) {
+  constructor(value2, __v_isShallow) {
     this.__v_isShallow = __v_isShallow;
     this.dep = void 0;
     this.__v_isRef = true;
-    this._rawValue = __v_isShallow ? value : toRaw(value);
-    this._value = __v_isShallow ? value : toReactive(value);
+    this._rawValue = __v_isShallow ? value2 : toRaw(value2);
+    this._value = __v_isShallow ? value2 : toReactive(value2);
   }
   get value() {
     trackRefValue(this);
@@ -1498,13 +1498,13 @@ function unref(ref2) {
 }
 const shallowUnwrapHandlers = {
   get: (target, key, receiver) => unref(Reflect.get(target, key, receiver)),
-  set: (target, key, value, receiver) => {
+  set: (target, key, value2, receiver) => {
     const oldValue = target[key];
-    if (isRef(oldValue) && !isRef(value)) {
-      oldValue.value = value;
+    if (isRef(oldValue) && !isRef(value2)) {
+      oldValue.value = value2;
       return true;
     } else {
-      return Reflect.set(target, key, value, receiver);
+      return Reflect.set(target, key, value2, receiver);
     }
   }
 };
@@ -1602,20 +1602,20 @@ function formatProps(props2) {
   }
   return res;
 }
-function formatProp(key, value, raw) {
-  if (isString(value)) {
-    value = JSON.stringify(value);
-    return raw ? value : [`${key}=${value}`];
-  } else if (typeof value === "number" || typeof value === "boolean" || value == null) {
-    return raw ? value : [`${key}=${value}`];
-  } else if (isRef(value)) {
-    value = formatProp(key, toRaw(value.value), true);
-    return raw ? value : [`${key}=Ref<`, value, `>`];
-  } else if (isFunction(value)) {
-    return [`${key}=fn${value.name ? `<${value.name}>` : ``}`];
+function formatProp(key, value2, raw) {
+  if (isString(value2)) {
+    value2 = JSON.stringify(value2);
+    return raw ? value2 : [`${key}=${value2}`];
+  } else if (typeof value2 === "number" || typeof value2 === "boolean" || value2 == null) {
+    return raw ? value2 : [`${key}=${value2}`];
+  } else if (isRef(value2)) {
+    value2 = formatProp(key, toRaw(value2.value), true);
+    return raw ? value2 : [`${key}=Ref<`, value2, `>`];
+  } else if (isFunction(value2)) {
+    return [`${key}=fn${value2.name ? `<${value2.name}>` : ``}`];
   } else {
-    value = toRaw(value);
-    return raw ? value : [`${key}=`, value];
+    value2 = toRaw(value2);
+    return raw ? value2 : [`${key}=`, value2];
   }
 }
 const ErrorTypeStrings = {
@@ -2353,15 +2353,15 @@ function doWatch(source, cb, {
   }
   return unwatch;
 }
-function instanceWatch(source, value, options) {
+function instanceWatch(source, value2, options) {
   const publicThis = this.proxy;
   const getter = isString(source) ? source.includes(".") ? createPathGetter(publicThis, source) : () => publicThis[source] : source.bind(publicThis, publicThis);
   let cb;
-  if (isFunction(value)) {
-    cb = value;
+  if (isFunction(value2)) {
+    cb = value2;
   } else {
-    cb = value.handler;
-    options = value;
+    cb = value2.handler;
+    options = value2;
   }
   const reset = setCurrentInstance(this);
   const res = doWatch(getter, cb.bind(publicThis), options);
@@ -2378,37 +2378,37 @@ function createPathGetter(ctx, path) {
     return cur;
   };
 }
-function traverse(value, depth, currentDepth = 0, seen) {
-  if (!isObject$1(value) || value["__v_skip"]) {
-    return value;
+function traverse(value2, depth, currentDepth = 0, seen) {
+  if (!isObject$1(value2) || value2["__v_skip"]) {
+    return value2;
   }
   if (depth && depth > 0) {
     if (currentDepth >= depth) {
-      return value;
+      return value2;
     }
     currentDepth++;
   }
   seen = seen || /* @__PURE__ */ new Set();
-  if (seen.has(value)) {
-    return value;
+  if (seen.has(value2)) {
+    return value2;
   }
-  seen.add(value);
-  if (isRef(value)) {
-    traverse(value.value, depth, currentDepth, seen);
-  } else if (isArray$1(value)) {
-    for (let i = 0; i < value.length; i++) {
-      traverse(value[i], depth, currentDepth, seen);
+  seen.add(value2);
+  if (isRef(value2)) {
+    traverse(value2.value, depth, currentDepth, seen);
+  } else if (isArray$1(value2)) {
+    for (let i = 0; i < value2.length; i++) {
+      traverse(value2[i], depth, currentDepth, seen);
     }
-  } else if (isSet(value) || isMap(value)) {
-    value.forEach((v) => {
+  } else if (isSet(value2) || isMap(value2)) {
+    value2.forEach((v) => {
       traverse(v, depth, currentDepth, seen);
     });
-  } else if (isPlainObject$1(value)) {
-    for (const key in value) {
-      traverse(value[key], depth, currentDepth, seen);
+  } else if (isPlainObject$1(value2)) {
+    for (const key in value2) {
+      traverse(value2[key], depth, currentDepth, seen);
     }
   }
-  return value;
+  return value2;
 }
 function validateDirectiveName(name) {
   if (isBuiltInDirective(name)) {
@@ -2526,13 +2526,13 @@ function createAppAPI(render, hydrate) {
       // fixed by xxxxxx
       unmount() {
       },
-      provide(key, value) {
+      provide(key, value2) {
         if (key in context.provides) {
           warn$1(
             `App already provides property with key "${String(key)}". It will be overwritten with the new value.`
           );
         }
-        context.provides[key] = value;
+        context.provides[key] = value2;
         return app;
       },
       runWithContext(fn) {
@@ -2549,7 +2549,7 @@ function createAppAPI(render, hydrate) {
   };
 }
 let currentApp = null;
-function provide(key, value) {
+function provide(key, value2) {
   if (!currentInstance) {
     {
       warn$1(`provide() can only be used inside setup().`);
@@ -2560,9 +2560,9 @@ function provide(key, value) {
     if (parentProvides === provides) {
       provides = currentInstance.provides = Object.create(parentProvides);
     }
-    provides[key] = value;
+    provides[key] = value2;
     if (currentInstance.type.mpType === "app") {
-      currentInstance.appContext.app.provide(key, value);
+      currentInstance.appContext.app.provide(key, value2);
     }
   }
 }
@@ -2794,16 +2794,16 @@ const PublicInstanceProxyHandlers = {
       }
     }
   },
-  set({ _: instance }, key, value) {
+  set({ _: instance }, key, value2) {
     const { data, setupState, ctx } = instance;
     if (hasSetupBinding(setupState, key)) {
-      setupState[key] = value;
+      setupState[key] = value2;
       return true;
     } else if (setupState.__isScriptSetup && hasOwn(setupState, key)) {
       warn$1(`Cannot mutate <script setup> binding "${key}" from Options API.`);
       return false;
     } else if (data !== EMPTY_OBJ && hasOwn(data, key)) {
-      data[key] = value;
+      data[key] = value2;
       return true;
     } else if (hasOwn(instance.props, key)) {
       warn$1(`Attempting to mutate prop "${key}". Props are readonly.`);
@@ -2819,10 +2819,10 @@ const PublicInstanceProxyHandlers = {
         Object.defineProperty(ctx, key, {
           enumerable: true,
           configurable: true,
-          value
+          value: value2
         });
       } else {
-        ctx[key] = value;
+        ctx[key] = value2;
       }
     }
     return true;
@@ -3386,11 +3386,11 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
         if (isEmitListener(instance.emitsOptions, key)) {
           continue;
         }
-        const value = rawProps[key];
+        const value2 = rawProps[key];
         if (options) {
           if (hasOwn(attrs, key)) {
-            if (value !== attrs[key]) {
-              attrs[key] = normalizeInheritAttrsValue(instance, key, value);
+            if (value2 !== attrs[key]) {
+              attrs[key] = normalizeInheritAttrsValue(instance, key, value2);
               hasAttrsChanged = true;
             }
           } else {
@@ -3399,14 +3399,14 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
               options,
               rawCurrentProps,
               camelizedKey,
-              value,
+              value2,
               instance,
               false
             );
           }
         } else {
-          if (value !== attrs[key]) {
-            attrs[key] = normalizeInheritAttrsValue(instance, key, value);
+          if (value2 !== attrs[key]) {
+            attrs[key] = normalizeInheritAttrsValue(instance, key, value2);
             hasAttrsChanged = true;
           }
         }
@@ -3465,19 +3465,19 @@ function setFullProps(instance, rawProps, props2, attrs) {
       if (isReservedProp(key)) {
         continue;
       }
-      const value = rawProps[key];
+      const value2 = rawProps[key];
       let camelKey;
       if (options && hasOwn(options, camelKey = camelize(key))) {
         if (!needCastKeys || !needCastKeys.includes(camelKey)) {
           {
-            props2[camelKey] = value;
+            props2[camelKey] = value2;
           }
         } else {
-          (rawCastValues || (rawCastValues = {}))[camelKey] = value;
+          (rawCastValues || (rawCastValues = {}))[camelKey] = value2;
         }
       } else if (!isEmitListener(instance.emitsOptions, key)) {
-        if (!(key in attrs) || value !== attrs[key]) {
-          attrs[key] = normalizeInheritAttrsValue(instance, key, value);
+        if (!(key in attrs) || value2 !== attrs[key]) {
+          attrs[key] = normalizeInheritAttrsValue(instance, key, value2);
           hasAttrsChanged = true;
         }
       }
@@ -3500,40 +3500,40 @@ function setFullProps(instance, rawProps, props2, attrs) {
   }
   return hasAttrsChanged;
 }
-function normalizeInheritAttrsValue(instance, key, value) {
-  return value;
+function normalizeInheritAttrsValue(instance, key, value2) {
+  return value2;
 }
-function resolvePropValue$1(options, props2, key, value, instance, isAbsent) {
+function resolvePropValue$1(options, props2, key, value2, instance, isAbsent) {
   const result = _resolvePropValue(
     options,
     props2,
     key,
-    value,
+    value2,
     instance,
     isAbsent
   );
   return result;
 }
-function _resolvePropValue(options, props2, key, value, instance, isAbsent) {
+function _resolvePropValue(options, props2, key, value2, instance, isAbsent) {
   const opt = options[key];
   if (opt != null) {
     const hasDefault = hasOwn(opt, "default");
-    if (hasDefault && value === void 0) {
+    if (hasDefault && value2 === void 0) {
       const defaultValue = opt.default;
       if (opt.type !== Function && !opt.skipFactory && isFunction(defaultValue)) {
         const { propsDefaults } = instance;
         if (key in propsDefaults) {
-          value = propsDefaults[key];
+          value2 = propsDefaults[key];
         } else {
           const reset = setCurrentInstance(instance);
-          value = propsDefaults[key] = defaultValue.call(
+          value2 = propsDefaults[key] = defaultValue.call(
             null,
             props2
           );
           reset();
         }
       } else {
-        value = defaultValue;
+        value2 = defaultValue;
       }
     }
     if (opt[
@@ -3541,16 +3541,16 @@ function _resolvePropValue(options, props2, key, value, instance, isAbsent) {
       /* shouldCast */
     ]) {
       if (isAbsent && !hasDefault) {
-        value = false;
+        value2 = false;
       } else if (opt[
         1
         /* shouldCastTrue */
-      ] && (value === "" || value === hyphenate(key))) {
-        value = true;
+      ] && (value2 === "" || value2 === hyphenate(key))) {
+        value2 = true;
       }
     }
   }
-  return value;
+  return value2;
 }
 function normalizePropsOptions(comp, appContext, asMixin = false) {
   const cache = appContext.propsCache;
@@ -3676,13 +3676,13 @@ function validateProps(rawProps, props2, instance) {
     );
   }
 }
-function validateProp$1(name, value, prop, props2, isAbsent) {
+function validateProp$1(name, value2, prop, props2, isAbsent) {
   const { type, required, validator, skipCheck } = prop;
   if (required && isAbsent) {
     warn$1('Missing required prop: "' + name + '"');
     return;
   }
-  if (value == null && !required) {
+  if (value2 == null && !required) {
     return;
   }
   if (type != null && type !== true && !skipCheck) {
@@ -3690,54 +3690,54 @@ function validateProp$1(name, value, prop, props2, isAbsent) {
     const types = isArray$1(type) ? type : [type];
     const expectedTypes = [];
     for (let i = 0; i < types.length && !isValid; i++) {
-      const { valid, expectedType } = assertType$1(value, types[i]);
+      const { valid, expectedType } = assertType$1(value2, types[i]);
       expectedTypes.push(expectedType || "");
       isValid = valid;
     }
     if (!isValid) {
-      warn$1(getInvalidTypeMessage$1(name, value, expectedTypes));
+      warn$1(getInvalidTypeMessage$1(name, value2, expectedTypes));
       return;
     }
   }
-  if (validator && !validator(value, props2)) {
+  if (validator && !validator(value2, props2)) {
     warn$1('Invalid prop: custom validator check failed for prop "' + name + '".');
   }
 }
 const isSimpleType$1 = /* @__PURE__ */ makeMap(
   "String,Number,Boolean,Function,Symbol,BigInt"
 );
-function assertType$1(value, type) {
+function assertType$1(value2, type) {
   let valid;
   const expectedType = getType$1(type);
   if (isSimpleType$1(expectedType)) {
-    const t2 = typeof value;
+    const t2 = typeof value2;
     valid = t2 === expectedType.toLowerCase();
     if (!valid && t2 === "object") {
-      valid = value instanceof type;
+      valid = value2 instanceof type;
     }
   } else if (expectedType === "Object") {
-    valid = isObject$1(value);
+    valid = isObject$1(value2);
   } else if (expectedType === "Array") {
-    valid = isArray$1(value);
+    valid = isArray$1(value2);
   } else if (expectedType === "null") {
-    valid = value === null;
+    valid = value2 === null;
   } else {
-    valid = value instanceof type;
+    valid = value2 instanceof type;
   }
   return {
     valid,
     expectedType
   };
 }
-function getInvalidTypeMessage$1(name, value, expectedTypes) {
+function getInvalidTypeMessage$1(name, value2, expectedTypes) {
   if (expectedTypes.length === 0) {
     return `Prop type [] for prop "${name}" won't match anything. Did you mean to use type Array instead?`;
   }
   let message = `Invalid prop: type check failed for prop "${name}". Expected ${expectedTypes.map(capitalize).join(" | ")}`;
   const expectedType = expectedTypes[0];
-  const receivedType = toRawType(value);
-  const expectedValue = styleValue$1(value, expectedType);
-  const receivedValue = styleValue$1(value, receivedType);
+  const receivedType = toRawType(value2);
+  const expectedValue = styleValue$1(value2, expectedType);
+  const receivedValue = styleValue$1(value2, receivedType);
   if (expectedTypes.length === 1 && isExplicable$1(expectedType) && !isBoolean$1(expectedType, receivedType)) {
     message += ` with value ${expectedValue}`;
   }
@@ -3747,13 +3747,13 @@ function getInvalidTypeMessage$1(name, value, expectedTypes) {
   }
   return message;
 }
-function styleValue$1(value, type) {
+function styleValue$1(value2, type) {
   if (type === "String") {
-    return `"${value}"`;
+    return `"${value2}"`;
   } else if (type === "Number") {
-    return `${Number(value)}`;
+    return `${Number(value2)}`;
   } else {
-    return `${value}`;
+    return `${value2}`;
   }
 }
 function isExplicable$1(type) {
@@ -3807,8 +3807,8 @@ const Fragment = Symbol.for("v-fgt");
 const Text$1 = Symbol.for("v-txt");
 const Comment = Symbol.for("v-cmt");
 const Static = Symbol.for("v-stc");
-function isVNode(value) {
-  return value ? value.__v_isVNode === true : false;
+function isVNode(value2) {
+  return value2 ? value2.__v_isVNode === true : false;
 }
 const InternalObjectKey = `__vInternal`;
 function guardReactiveProps(props2) {
@@ -4516,11 +4516,11 @@ function setRef$1(instance, isUnmount = false) {
     });
   }
 }
-function toSkip(value) {
-  if (isObject$1(value)) {
-    markRaw(value);
+function toSkip(value2) {
+  if (isObject$1(value2)) {
+    markRaw(value2);
   }
-  return value;
+  return value2;
 }
 function findComponentPublicInstance(mpComponents, id) {
   const mpInstance = mpComponents.find(
@@ -5118,11 +5118,11 @@ function getCreateApp() {
     return my[method];
   }
 }
-function stringifyStyle(value) {
-  if (isString(value)) {
-    return value;
+function stringifyStyle(value2) {
+  if (isString(value2)) {
+    return value2;
   }
-  return stringify(normalizeStyle(value));
+  return stringify(normalizeStyle(value2));
 }
 function stringify(styles) {
   let ret = "";
@@ -5134,21 +5134,21 @@ function stringify(styles) {
   }
   return ret;
 }
-function vOn(value, key) {
+function vOn(value2, key) {
   const instance = getCurrentInstance();
   const ctx = instance.ctx;
   const extraKey = typeof key !== "undefined" && (ctx.$mpPlatform === "mp-weixin" || ctx.$mpPlatform === "mp-qq" || ctx.$mpPlatform === "mp-xhs") && (isString(key) || typeof key === "number") ? "_" + key : "";
   const name = "e" + instance.$ei++ + extraKey;
   const mpInstance = ctx.$scope;
-  if (!value) {
+  if (!value2) {
     delete mpInstance[name];
     return name;
   }
   const existingInvoker = mpInstance[name];
   if (existingInvoker) {
-    existingInvoker.value = value;
+    existingInvoker.value = value2;
   } else {
-    mpInstance[name] = createInvoker(value, instance);
+    mpInstance[name] = createInvoker(value2, instance);
   }
   return name;
 }
@@ -5216,16 +5216,16 @@ function patchMPEvent(event, instance) {
     }
   }
 }
-function patchStopImmediatePropagation(e2, value) {
-  if (isArray$1(value)) {
+function patchStopImmediatePropagation(e2, value2) {
+  if (isArray$1(value2)) {
     const originalStop = e2.stopImmediatePropagation;
     e2.stopImmediatePropagation = () => {
       originalStop && originalStop.call(e2);
       e2._stopped = true;
     };
-    return value.map((fn) => (e3) => !e3._stopped && fn(e3));
+    return value2.map((fn) => (e3) => !e3._stopped && fn(e3));
   } else {
-    return value;
+    return value2;
   }
 }
 function vFor(source, renderItem) {
@@ -5292,12 +5292,12 @@ function setRef(ref2, id, opts = {}) {
   const { $templateRefs } = getCurrentInstance();
   $templateRefs.push({ i: id, r: ref2, k: opts.k, f: opts.f });
 }
-const o = (value, key) => vOn(value, key);
+const o = (value2, key) => vOn(value2, key);
 const f = (source, renderItem) => vFor(source, renderItem);
 const r = (name, props2, key) => renderSlot(name, props2, key);
-const s = (value) => stringifyStyle(value);
+const s = (value2) => stringifyStyle(value2);
 const e = (target, ...sources) => extend(target, ...sources);
-const n = (value) => normalizeClass(value);
+const n = (value2) => normalizeClass(value2);
 const t$1 = (val) => toDisplayString(val);
 const p = (props2) => renderProps(props2);
 const sr = (ref2, id, opts) => setRef(ref2, id, opts);
@@ -5348,7 +5348,7 @@ function validateProtocols(name, args, protocol, onFail) {
     validateProtocol(name, data, { [opts.name]: opts }, onFail);
   }
 }
-function validateProp(name, value, prop, isAbsent) {
+function validateProp(name, value2, prop, isAbsent) {
   if (!isPlainObject$1(prop)) {
     prop = { type: prop };
   }
@@ -5356,7 +5356,7 @@ function validateProp(name, value, prop, isAbsent) {
   if (required && isAbsent) {
     return 'Missing required args: "' + name + '"';
   }
-  if (value == null && !required) {
+  if (value2 == null && !required) {
     return;
   }
   if (type != null) {
@@ -5364,35 +5364,35 @@ function validateProp(name, value, prop, isAbsent) {
     const types = isArray$1(type) ? type : [type];
     const expectedTypes = [];
     for (let i = 0; i < types.length && !isValid; i++) {
-      const { valid, expectedType } = assertType(value, types[i]);
+      const { valid, expectedType } = assertType(value2, types[i]);
       expectedTypes.push(expectedType || "");
       isValid = valid;
     }
     if (!isValid) {
-      return getInvalidTypeMessage(name, value, expectedTypes);
+      return getInvalidTypeMessage(name, value2, expectedTypes);
     }
   }
   if (validator) {
-    return validator(value);
+    return validator(value2);
   }
 }
 const isSimpleType = /* @__PURE__ */ makeMap("String,Number,Boolean,Function,Symbol");
-function assertType(value, type) {
+function assertType(value2, type) {
   let valid;
   const expectedType = getType(type);
   if (isSimpleType(expectedType)) {
-    const t2 = typeof value;
+    const t2 = typeof value2;
     valid = t2 === expectedType.toLowerCase();
     if (!valid && t2 === "object") {
-      valid = value instanceof type;
+      valid = value2 instanceof type;
     }
   } else if (expectedType === "Object") {
-    valid = isObject$1(value);
+    valid = isObject$1(value2);
   } else if (expectedType === "Array") {
-    valid = isArray$1(value);
+    valid = isArray$1(value2);
   } else {
     {
-      valid = value instanceof type;
+      valid = value2 instanceof type;
     }
   }
   return {
@@ -5400,12 +5400,12 @@ function assertType(value, type) {
     expectedType
   };
 }
-function getInvalidTypeMessage(name, value, expectedTypes) {
+function getInvalidTypeMessage(name, value2, expectedTypes) {
   let message = `Invalid args: type check failed for args "${name}". Expected ${expectedTypes.map(capitalize).join(", ")}`;
   const expectedType = expectedTypes[0];
-  const receivedType = toRawType(value);
-  const expectedValue = styleValue(value, expectedType);
-  const receivedValue = styleValue(value, receivedType);
+  const receivedType = toRawType(value2);
+  const expectedValue = styleValue(value2, expectedType);
+  const receivedValue = styleValue(value2, receivedType);
   if (expectedTypes.length === 1 && isExplicable(expectedType) && !isBoolean(expectedType, receivedType)) {
     message += ` with value ${expectedValue}`;
   }
@@ -5419,13 +5419,13 @@ function getType(ctor) {
   const match = ctor && ctor.toString().match(/^\s*function (\w+)/);
   return match ? match[1] : "";
 }
-function styleValue(value, type) {
+function styleValue(value2, type) {
   if (type === "String") {
-    return `"${value}"`;
+    return `"${value2}"`;
   } else if (type === "Number") {
-    return `${Number(value)}`;
+    return `${Number(value2)}`;
   } else {
-    return `${value}`;
+    return `${value2}`;
   }
 }
 function isExplicable(type) {
@@ -6006,7 +6006,7 @@ function shouldPromise(name) {
 if (!Promise.prototype.finally) {
   Promise.prototype.finally = function(onfinally) {
     const promise2 = this.constructor;
-    return this.then((value) => promise2.resolve(onfinally && onfinally()).then(() => value), (reason) => promise2.resolve(onfinally && onfinally()).then(() => {
+    return this.then((value2) => promise2.resolve(onfinally && onfinally()).then(() => value2), (reason) => promise2.resolve(onfinally && onfinally()).then(() => {
       throw reason;
     }));
   };
@@ -6224,7 +6224,7 @@ function populateParameters(fromRes, toRes) {
   const parameters = {
     appId: "__UNI__B9F16ED",
     appName: "小脚丫丫",
-    appVersion: "1.0.0",
+    appVersion: "2.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
     uniCompileVersion: "5.07",
@@ -6368,7 +6368,7 @@ const getAppBaseInfo = {
     const parameters = {
       appId: "__UNI__B9F16ED",
       appName: "小脚丫丫",
-      appVersion: "1.0.0",
+      appVersion: "2.0.0",
       appVersionCode: "100",
       appLanguage: getAppLanguage(hostLanguage),
       hostVersion: version2,
@@ -6749,10 +6749,10 @@ ${err.stack}`;
     }, errorExtra)));
   }
 }
-function setSendError(value, extra = {}) {
-  sendError = value;
+function setSendError(value2, extra = {}) {
+  sendError = value2;
   Object.assign(errorExtra, extra);
-  if (value != null && errorQueue.size > 0) {
+  if (value2 != null && errorQueue.size > 0) {
     const errors = Array.from(errorQueue);
     errorQueue.clear();
     sendErrorMessages(errors);
@@ -6844,10 +6844,10 @@ function formatArg(arg, depth = 0) {
       return formatBigInt(arg);
   }
 }
-function formatFunction(value) {
+function formatFunction(value2) {
   return {
     type: "function",
-    value: `function ${value.name}() {}`
+    value: `function ${value2.name}() {}`
   };
 }
 function formatUndefined() {
@@ -6855,88 +6855,88 @@ function formatUndefined() {
     type: "undefined"
   };
 }
-function formatBoolean(value) {
+function formatBoolean(value2) {
   return {
     type: "boolean",
-    value: String(value)
+    value: String(value2)
   };
 }
-function formatNumber(value) {
+function formatNumber(value2) {
   return {
     type: "number",
-    value: String(value)
+    value: String(value2)
   };
 }
-function formatBigInt(value) {
+function formatBigInt(value2) {
   return {
     type: "bigint",
-    value: String(value)
+    value: String(value2)
   };
 }
-function formatString(value) {
+function formatString(value2) {
   return {
     type: "string",
-    value
+    value: value2
   };
 }
-function formatSymbol(value) {
+function formatSymbol(value2) {
   return {
     type: "symbol",
-    value: value.description
+    value: value2.description
   };
 }
-function formatObject(value, depth) {
-  if (value === null) {
+function formatObject(value2, depth) {
+  if (value2 === null) {
     return {
       type: "null"
     };
   }
   {
-    if (isComponentPublicInstance(value)) {
-      return formatComponentPublicInstance(value, depth);
+    if (isComponentPublicInstance(value2)) {
+      return formatComponentPublicInstance(value2, depth);
     }
-    if (isComponentInternalInstance(value)) {
-      return formatComponentInternalInstance(value, depth);
+    if (isComponentInternalInstance(value2)) {
+      return formatComponentInternalInstance(value2, depth);
     }
-    if (isUniElement(value)) {
-      return formatUniElement(value, depth);
+    if (isUniElement(value2)) {
+      return formatUniElement(value2, depth);
     }
-    if (isCSSStyleDeclaration(value)) {
-      return formatCSSStyleDeclaration(value, depth);
+    if (isCSSStyleDeclaration(value2)) {
+      return formatCSSStyleDeclaration(value2, depth);
     }
   }
-  if (Array.isArray(value)) {
+  if (Array.isArray(value2)) {
     return {
       type: "object",
       subType: "array",
       value: {
-        properties: value.map((v, i) => formatArrayElement(v, i, depth + 1))
+        properties: value2.map((v, i) => formatArrayElement(v, i, depth + 1))
       }
     };
   }
-  if (value instanceof Set) {
+  if (value2 instanceof Set) {
     return {
       type: "object",
       subType: "set",
       className: "Set",
-      description: `Set(${value.size})`,
+      description: `Set(${value2.size})`,
       value: {
-        entries: Array.from(value).map((v) => formatSetEntry(v, depth + 1))
+        entries: Array.from(value2).map((v) => formatSetEntry(v, depth + 1))
       }
     };
   }
-  if (value instanceof Map) {
+  if (value2 instanceof Map) {
     return {
       type: "object",
       subType: "map",
       className: "Map",
-      description: `Map(${value.size})`,
+      description: `Map(${value2.size})`,
       value: {
-        entries: Array.from(value.entries()).map((v) => formatMapEntry(v, depth + 1))
+        entries: Array.from(value2.entries()).map((v) => formatMapEntry(v, depth + 1))
       }
     };
   }
-  if (value instanceof Promise) {
+  if (value2 instanceof Promise) {
     return {
       type: "object",
       subType: "promise",
@@ -6945,41 +6945,41 @@ function formatObject(value, depth) {
       }
     };
   }
-  if (value instanceof RegExp) {
+  if (value2 instanceof RegExp) {
     return {
       type: "object",
       subType: "regexp",
-      value: String(value),
+      value: String(value2),
       className: "Regexp"
     };
   }
-  if (value instanceof Date) {
+  if (value2 instanceof Date) {
     return {
       type: "object",
       subType: "date",
-      value: String(value),
+      value: String(value2),
       className: "Date"
     };
   }
-  if (value instanceof Error) {
+  if (value2 instanceof Error) {
     return {
       type: "object",
       subType: "error",
-      value: value.message || String(value),
-      className: value.name || "Error"
+      value: value2.message || String(value2),
+      className: value2.name || "Error"
     };
   }
   let className = void 0;
   {
-    const constructor = value.constructor;
+    const constructor = value2.constructor;
     if (constructor) {
       if (constructor.get$UTSMetadata$) {
         className = constructor.get$UTSMetadata$().name;
       }
     }
   }
-  let entries = Object.entries(value);
-  if (isHarmonyBuilderParams(value)) {
+  let entries = Object.entries(value2);
+  if (isHarmonyBuilderParams(value2)) {
     entries = entries.filter(([key]) => key !== "modifier" && key !== "nodeContent");
   }
   return {
@@ -6990,43 +6990,43 @@ function formatObject(value, depth) {
     }
   };
 }
-function isHarmonyBuilderParams(value) {
-  return value.modifier && value.modifier._attribute && value.nodeContent;
+function isHarmonyBuilderParams(value2) {
+  return value2.modifier && value2.modifier._attribute && value2.nodeContent;
 }
-function isComponentPublicInstance(value) {
-  return value.$ && isComponentInternalInstance(value.$);
+function isComponentPublicInstance(value2) {
+  return value2.$ && isComponentInternalInstance(value2.$);
 }
-function isComponentInternalInstance(value) {
-  return value.type && value.uid != null && value.appContext;
+function isComponentInternalInstance(value2) {
+  return value2.type && value2.uid != null && value2.appContext;
 }
-function formatComponentPublicInstance(value, depth) {
+function formatComponentPublicInstance(value2, depth) {
   return {
     type: "object",
     className: "ComponentPublicInstance",
     value: {
-      properties: Object.entries(value.$.type).map(([name, value2]) => formatObjectProperty(name, value2, depth + 1))
+      properties: Object.entries(value2.$.type).map(([name, value22]) => formatObjectProperty(name, value22, depth + 1))
     }
   };
 }
-function formatComponentInternalInstance(value, depth) {
+function formatComponentInternalInstance(value2, depth) {
   return {
     type: "object",
     className: "ComponentInternalInstance",
     value: {
-      properties: Object.entries(value.type).map(([name, value2]) => formatObjectProperty(name, value2, depth + 1))
+      properties: Object.entries(value2.type).map(([name, value22]) => formatObjectProperty(name, value22, depth + 1))
     }
   };
 }
-function isUniElement(value) {
-  return value.style && value.tagName != null && value.nodeName != null;
+function isUniElement(value2) {
+  return value2.style && value2.tagName != null && value2.nodeName != null;
 }
-function formatUniElement(value, depth) {
+function formatUniElement(value2, depth) {
   return {
     type: "object",
     // 非 x 没有 UniElement 的概念
     // className: 'UniElement',
     value: {
-      properties: Object.entries(value).filter(([name]) => [
+      properties: Object.entries(value2).filter(([name]) => [
         "id",
         "tagName",
         "nodeName",
@@ -7034,40 +7034,40 @@ function formatUniElement(value, depth) {
         "offsetTop",
         "offsetLeft",
         "style"
-      ].includes(name)).map(([name, value2]) => formatObjectProperty(name, value2, depth + 1))
+      ].includes(name)).map(([name, value22]) => formatObjectProperty(name, value22, depth + 1))
     }
   };
 }
-function isCSSStyleDeclaration(value) {
-  return typeof value.getPropertyValue === "function" && typeof value.setProperty === "function" && value.$styles;
+function isCSSStyleDeclaration(value2) {
+  return typeof value2.getPropertyValue === "function" && typeof value2.setProperty === "function" && value2.$styles;
 }
 function formatCSSStyleDeclaration(style, depth) {
   return {
     type: "object",
     value: {
-      properties: Object.entries(style.$styles).map(([name, value]) => formatObjectProperty(name, value, depth + 1))
+      properties: Object.entries(style.$styles).map(([name, value2]) => formatObjectProperty(name, value2, depth + 1))
     }
   };
 }
-function formatObjectProperty(name, value, depth) {
-  const result = formatArg(value, depth);
+function formatObjectProperty(name, value2, depth) {
+  const result = formatArg(value2, depth);
   result.name = name;
   return result;
 }
-function formatArrayElement(value, index2, depth) {
-  const result = formatArg(value, depth);
+function formatArrayElement(value2, index2, depth) {
+  const result = formatArg(value2, depth);
   result.name = `${index2}`;
   return result;
 }
-function formatSetEntry(value, depth) {
+function formatSetEntry(value2, depth) {
   return {
-    value: formatArg(value, depth)
+    value: formatArg(value2, depth)
   };
 }
-function formatMapEntry(value, depth) {
+function formatMapEntry(value2, depth) {
   return {
-    key: formatArg(value[0], depth),
-    value: formatArg(value[1], depth)
+    key: formatArg(value2[0], depth),
+    value: formatArg(value2[1], depth)
   };
 }
 let sendConsole = null;
@@ -7085,10 +7085,10 @@ function sendConsoleMessages(messages) {
     data: messages
   }, messageExtra)));
 }
-function setSendConsole(value, extra = {}) {
-  sendConsole = value;
+function setSendConsole(value2, extra = {}) {
+  sendConsole = value2;
   Object.assign(messageExtra, extra);
-  if (value != null && messageQueue.length > 0) {
+  if (value2 != null && messageQueue.length > 0) {
     const messages = messageQueue.slice();
     messageQueue.length = 0;
     sendConsoleMessages(messages);
@@ -7153,7 +7153,7 @@ function rewriteConsole() {
   };
 }
 function isConsoleWritable() {
-  const value = console.log;
+  const value2 = console.log;
   const sym = Symbol();
   try {
     console.log = sym;
@@ -7161,13 +7161,13 @@ function isConsoleWritable() {
     return false;
   }
   const isWritable = console.log === sym;
-  console.log = value;
+  console.log = value2;
   return isWritable;
 }
 function initRuntimeSocketService() {
   const hosts = "192.168.1.30,127.0.0.1";
   const port = "8090";
-  const id = "mp-weixin_uXVKY2";
+  const id = "mp-weixin_5DV0b2";
   const lazy = typeof swan !== "undefined";
   let restoreError = lazy ? () => {
   } : initOnError();
@@ -7735,15 +7735,15 @@ function initPageProps({ properties }, rawProps) {
     Object.keys(rawProps).forEach((key) => {
       const opts = rawProps[key];
       if (isPlainObject$1(opts)) {
-        let value = opts.default;
-        if (isFunction(value)) {
-          value = value();
+        let value2 = opts.default;
+        if (isFunction(value2)) {
+          value2 = value2();
         }
         const type = opts.type;
         opts.type = normalizePropType(type);
         properties[key] = {
           type: opts.type,
-          value
+          value: value2
         };
       } else {
         properties[key] = {
@@ -8116,128 +8116,128 @@ const createSubpackageApp = initCreateSubpackageApp();
 const defineMixin = (options) => {
   return options;
 };
-function email(value) {
-  return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(value);
+function email(value2) {
+  return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(value2);
 }
-function mobile(value) {
-  return /^1[23456789]\d{9}$/.test(value);
+function mobile(value2) {
+  return /^1[23456789]\d{9}$/.test(value2);
 }
-function url(value) {
-  return /^((https|http|ftp|rtsp|mms):\/\/)(([0-9a-zA-Z_!~*'().&=+$%-]+: )?[0-9a-zA-Z_!~*'().&=+$%-]+@)?(([0-9]{1,3}.){3}[0-9]{1,3}|([0-9a-zA-Z_!~*'()-]+.)*([0-9a-zA-Z][0-9a-zA-Z-]{0,61})?[0-9a-zA-Z].[a-zA-Z]{2,6})(:[0-9]{1,4})?((\/?)|(\/[0-9a-zA-Z_!~*'().;?:@&=+$,%#-]+)+\/?)$/.test(value);
+function url(value2) {
+  return /^((https|http|ftp|rtsp|mms):\/\/)(([0-9a-zA-Z_!~*'().&=+$%-]+: )?[0-9a-zA-Z_!~*'().&=+$%-]+@)?(([0-9]{1,3}.){3}[0-9]{1,3}|([0-9a-zA-Z_!~*'()-]+.)*([0-9a-zA-Z][0-9a-zA-Z-]{0,61})?[0-9a-zA-Z].[a-zA-Z]{2,6})(:[0-9]{1,4})?((\/?)|(\/[0-9a-zA-Z_!~*'().;?:@&=+$,%#-]+)+\/?)$/.test(value2);
 }
-function date(value) {
-  if (!value)
+function date(value2) {
+  if (!value2)
     return false;
-  if (typeof value === "number") {
-    if (value.toString().length !== 10 && value.toString().length !== 13) {
+  if (typeof value2 === "number") {
+    if (value2.toString().length !== 10 && value2.toString().length !== 13) {
       return false;
     }
-    return !isNaN(new Date(value).getTime());
+    return !isNaN(new Date(value2).getTime());
   }
-  if (typeof value === "string") {
-    const numV = Number(value);
+  if (typeof value2 === "string") {
+    const numV = Number(value2);
     if (!isNaN(numV)) {
       if (numV.toString().length === 10 || numV.toString().length === 13) {
         return !isNaN(new Date(numV).getTime());
       }
     }
-    if (value.length < 10 || value.length > 19) {
+    if (value2.length < 10 || value2.length > 19) {
       return false;
     }
     const dateRegex = /^\d{4}[-\/]\d{2}[-\/]\d{2}( \d{1,2}:\d{2}(:\d{2})?)?$/;
-    if (!dateRegex.test(value)) {
+    if (!dateRegex.test(value2)) {
       return false;
     }
-    const dateValue = new Date(value);
+    const dateValue = new Date(value2);
     return !isNaN(dateValue.getTime());
   }
   return false;
 }
-function dateISO(value) {
-  return /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(value);
+function dateISO(value2) {
+  return /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(value2);
 }
-function number(value) {
-  return /^[\+-]?(\d+\.?\d*|\.\d+|\d\.\d+e\+\d+)$/.test(value);
+function number(value2) {
+  return /^[\+-]?(\d+\.?\d*|\.\d+|\d\.\d+e\+\d+)$/.test(value2);
 }
-function string(value) {
-  return typeof value === "string";
+function string(value2) {
+  return typeof value2 === "string";
 }
-function digits(value) {
-  return /^\d+$/.test(value);
+function digits(value2) {
+  return /^\d+$/.test(value2);
 }
-function idCard(value) {
+function idCard(value2) {
   return /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(
-    value
+    value2
   );
 }
-function carNo(value) {
+function carNo(value2) {
   const xreg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}(([0-9]{5}[DF]$)|([DF][A-HJ-NP-Z0-9][0-9]{4}$))/;
   const creg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳]{1}$/;
-  if (value.length === 7) {
-    return creg.test(value);
+  if (value2.length === 7) {
+    return creg.test(value2);
   }
-  if (value.length === 8) {
-    return xreg.test(value);
+  if (value2.length === 8) {
+    return xreg.test(value2);
   }
   return false;
 }
-function amount(value) {
-  return /^[1-9]\d*(,\d{3})*(\.\d{1,2})?$|^0\.\d{1,2}$/.test(value);
+function amount(value2) {
+  return /^[1-9]\d*(,\d{3})*(\.\d{1,2})?$|^0\.\d{1,2}$/.test(value2);
 }
-function chinese(value) {
+function chinese(value2) {
   const reg = /^[\u4e00-\u9fa5]+$/gi;
-  return reg.test(value);
+  return reg.test(value2);
 }
-function letter(value) {
-  return /^[a-zA-Z]*$/.test(value);
+function letter(value2) {
+  return /^[a-zA-Z]*$/.test(value2);
 }
-function enOrNum(value) {
+function enOrNum(value2) {
   const reg = /^[0-9a-zA-Z]*$/g;
-  return reg.test(value);
+  return reg.test(value2);
 }
-function contains(value, param) {
-  return value.indexOf(param) >= 0;
+function contains(value2, param) {
+  return value2.indexOf(param) >= 0;
 }
-function range$1(value, param) {
-  return value >= param[0] && value <= param[1];
+function range$1(value2, param) {
+  return value2 >= param[0] && value2 <= param[1];
 }
-function rangeLength(value, param) {
-  return value.length >= param[0] && value.length <= param[1];
+function rangeLength(value2, param) {
+  return value2.length >= param[0] && value2.length <= param[1];
 }
-function landline(value) {
+function landline(value2) {
   const reg = /^\d{3,4}-\d{7,8}(-\d{3,4})?$/;
-  return reg.test(value);
+  return reg.test(value2);
 }
-function empty(value) {
-  switch (typeof value) {
+function empty(value2) {
+  switch (typeof value2) {
     case "undefined":
       return true;
     case "string":
-      if (value.replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g, "").length == 0)
+      if (value2.replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g, "").length == 0)
         return true;
       break;
     case "boolean":
-      if (!value)
+      if (!value2)
         return true;
       break;
     case "number":
-      if (value === 0 || isNaN(value))
+      if (value2 === 0 || isNaN(value2))
         return true;
       break;
     case "object":
-      if (value === null || value.length === 0)
+      if (value2 === null || value2.length === 0)
         return true;
-      for (const i in value) {
+      for (const i in value2) {
         return false;
       }
       return true;
   }
   return false;
 }
-function jsonString(value) {
-  if (typeof value === "string") {
+function jsonString(value2) {
+  if (typeof value2 === "string") {
     try {
-      const obj = JSON.parse(value);
+      const obj = JSON.parse(value2);
       if (typeof obj === "object" && obj) {
         return true;
       }
@@ -8248,35 +8248,35 @@ function jsonString(value) {
   }
   return false;
 }
-function array(value) {
+function array(value2) {
   if (typeof Array.isArray === "function") {
-    return Array.isArray(value);
+    return Array.isArray(value2);
   }
-  return Object.prototype.toString.call(value) === "[object Array]";
+  return Object.prototype.toString.call(value2) === "[object Array]";
 }
-function object(value) {
-  return Object.prototype.toString.call(value) === "[object Object]";
+function object(value2) {
+  return Object.prototype.toString.call(value2) === "[object Object]";
 }
-function objectPromise(value) {
-  return Object.prototype.toString.call(value) === "[object Promise]";
+function objectPromise(value2) {
+  return Object.prototype.toString.call(value2) === "[object Promise]";
 }
-function code(value, len = 6) {
-  return new RegExp(`^\\d{${len}}$`).test(value);
+function code(value2, len = 6) {
+  return new RegExp(`^\\d{${len}}$`).test(value2);
 }
-function func(value) {
-  return typeof value === "function";
+function func(value2) {
+  return typeof value2 === "function";
 }
-function promise(value) {
-  return objectPromise(value) && func(value.then) && func(value.catch);
+function promise(value2) {
+  return objectPromise(value2) && func(value2.then) && func(value2.catch);
 }
-function image(value) {
-  const newValue = value.split("?")[0];
+function image(value2) {
+  const newValue = value2.split("?")[0];
   const IMAGE_REGEXP = /\.(jpeg|jpg|gif|png|svg|webp|jfif|bmp|dpg)/i;
   return IMAGE_REGEXP.test(newValue);
 }
-function video(value) {
+function video(value2) {
   const VIDEO_REGEXP = /\.(mp4|mpg|mpeg|dat|asf|avi|rm|rmvb|mov|wmv|flv|mkv|m3u8)/i;
-  return VIDEO_REGEXP.test(value);
+  return VIDEO_REGEXP.test(value2);
 }
 function regExp(o2) {
   return o2 && Object.prototype.toString.call(o2) === "[object RegExp]";
@@ -8432,26 +8432,26 @@ const config = {
   // 只加载一次字体
   loadFontOnce: false
 };
-function range(min = 0, max = 0, value = 0) {
-  return Math.max(min, Math.min(max, Number(value)));
+function range(min = 0, max = 0, value2 = 0) {
+  return Math.max(min, Math.min(max, Number(value2)));
 }
-function getPx(value, unit = false) {
-  if (number(value)) {
-    return unit ? `${value}px` : Number(value);
+function getPx(value2, unit = false) {
+  if (number(value2)) {
+    return unit ? `${value2}px` : Number(value2);
   }
-  if (/(rpx|upx)$/.test(value)) {
-    return unit ? `${index$1.upx2px(parseInt(value))}px` : Number(index$1.upx2px(parseInt(value)));
+  if (/(rpx|upx)$/.test(value2)) {
+    return unit ? `${index$1.upx2px(parseInt(value2))}px` : Number(index$1.upx2px(parseInt(value2)));
   }
-  return unit ? `${parseInt(value)}px` : parseInt(value);
+  return unit ? `${parseInt(value2)}px` : parseInt(value2);
 }
-function rpx2px(value) {
-  return index$1.rpx2px(value);
+function rpx2px(value2) {
+  return index$1.rpx2px(value2);
 }
-function sleep(value = 30) {
+function sleep(value2 = 30) {
   return new Promise((resolve2) => {
     setTimeout(() => {
       resolve2();
-    }, value);
+    }, value2);
   });
 }
 function os() {
@@ -8538,15 +8538,15 @@ function addStyle(customStyle, target = "object") {
   }
   return trim(string2);
 }
-function addUnit(value = "auto", unit = "") {
+function addUnit(value2 = "auto", unit = "") {
   if (!unit) {
     unit = config.unit || "px";
   }
-  if (unit == "rpx" && number(String(value))) {
-    value = value * 2;
+  if (unit == "rpx" && number(String(value2))) {
+    value2 = value2 * 2;
   }
-  value = String(value);
-  return number(value) ? `${value}${unit}` : value;
+  value2 = String(value2);
+  return number(value2) ? `${value2}${unit}` : value2;
 }
 function deepClone(obj) {
   if ([null, void 0, NaN, false].includes(obj))
@@ -8736,41 +8736,41 @@ function queryParams(data = {}, isPrefix = true, arrayFormat = "brackets") {
   if (["indices", "brackets", "repeat", "comma"].indexOf(arrayFormat) == -1)
     arrayFormat = "brackets";
   for (const key in data) {
-    const value = data[key];
-    if (["", void 0, null].indexOf(value) >= 0) {
+    const value2 = data[key];
+    if (["", void 0, null].indexOf(value2) >= 0) {
       continue;
     }
-    if (value.constructor === Array) {
+    if (value2.constructor === Array) {
       switch (arrayFormat) {
         case "indices":
-          for (let i = 0; i < value.length; i++) {
-            _result.push(`${key}[${i}]=${value[i]}`);
+          for (let i = 0; i < value2.length; i++) {
+            _result.push(`${key}[${i}]=${value2[i]}`);
           }
           break;
         case "brackets":
-          value.forEach((_value) => {
+          value2.forEach((_value) => {
             _result.push(`${key}[]=${_value}`);
           });
           break;
         case "repeat":
-          value.forEach((_value) => {
+          value2.forEach((_value) => {
             _result.push(`${key}=${_value}`);
           });
           break;
         case "comma":
           let commaStr = "";
-          value.forEach((_value) => {
+          value2.forEach((_value) => {
             commaStr += (commaStr ? "," : "") + _value;
           });
           _result.push(`${key}=${commaStr}`);
           break;
         default:
-          value.forEach((_value) => {
+          value2.forEach((_value) => {
             _result.push(`${key}[]=${_value}`);
           });
       }
     } else {
-      _result.push(`${key}=${value}`);
+      _result.push(`${key}=${value2}`);
     }
   }
   return _result.length ? prefix + _result.join("&") : "";
@@ -8827,21 +8827,21 @@ function priceFormat(number2, decimals = 0, decimalPoint = ".", thousandsSeparat
   }
   return s2.join(dec);
 }
-function getDuration(value, unit = true) {
-  const valueNum = parseInt(value);
+function getDuration(value2, unit = true) {
+  const valueNum = parseInt(value2);
   if (unit) {
-    if (/s$/.test(value))
-      return value;
-    return value > 30 ? `${value}ms` : `${value}s`;
+    if (/s$/.test(value2))
+      return value2;
+    return value2 > 30 ? `${value2}ms` : `${value2}s`;
   }
-  if (/ms$/.test(value))
+  if (/ms$/.test(value2))
     return valueNum;
-  if (/s$/.test(value))
+  if (/s$/.test(value2))
     return valueNum > 30 ? valueNum : valueNum * 1e3;
   return valueNum;
 }
-function padZero(value) {
-  return `00${value}`.slice(-2);
+function padZero(value2) {
+  return `00${value2}`.slice(-2);
 }
 function formValidate(instance, event) {
   const formItem = $parent.call(instance, "up-form-item");
@@ -8870,7 +8870,7 @@ function getProperty(obj, key) {
   }
   return obj[key];
 }
-function setProperty(obj, key, value) {
+function setProperty(obj, key, value2) {
   if (typeof obj !== "object" || null == obj) {
     return;
   }
@@ -8892,9 +8892,9 @@ function setProperty(obj, key, value) {
     ;
   else if (key.indexOf(".") !== -1) {
     const keys = key.split(".");
-    inFn(obj, keys, value);
+    inFn(obj, keys, value2);
   } else {
-    obj[key] = value;
+    obj[key] = value2;
   }
 }
 function page() {
@@ -10321,8 +10321,8 @@ var clone = function() {
         child = new nativeSet();
       } else if (_instanceof(parent2, nativePromise)) {
         child = new nativePromise(function(resolve2, reject) {
-          parent2.then(function(value) {
-            resolve2(_clone(value, depth2 - 1));
+          parent2.then(function(value2) {
+            resolve2(_clone(value2, depth2 - 1));
           }, function(err) {
             reject(_clone(err, depth2 - 1));
           });
@@ -10363,15 +10363,15 @@ var clone = function() {
         allChildren.push(child);
       }
       if (_instanceof(parent2, nativeMap)) {
-        parent2.forEach(function(value, key) {
+        parent2.forEach(function(value2, key) {
           var keyChild = _clone(key, depth2 - 1);
-          var valueChild = _clone(value, depth2 - 1);
+          var valueChild = _clone(value2, depth2 - 1);
           child.set(keyChild, valueChild);
         });
       }
       if (_instanceof(parent2, nativeSet)) {
-        parent2.forEach(function(value) {
-          var entryChild = _clone(value, depth2 - 1);
+        parent2.forEach(function(value2) {
+          var entryChild = _clone(value2, depth2 - 1);
           child.add(entryChild);
         });
       }
@@ -11545,20 +11545,20 @@ let settings = {
 index$1.onLocaleChange((locale) => {
   settings.lang = locale;
 });
-function t(value, params2 = {}) {
-  if (value) {
+function t(value2, params2 = {}) {
+  if (value2) {
     let lang = settings.lang;
     if (!settings.locales[settings.lang]) {
       lang = "zh-Hans";
     }
-    let result = settings.locales[lang][value] || value;
+    let result = settings.locales[lang][value2] || value2;
     Object.keys(params2).forEach((key) => {
       const reg = new RegExp(`{${key}}`, "g");
       result = result.replace(reg, params2[key]);
     });
     return result;
   } else {
-    return value;
+    return value2;
   }
 }
 const Calendar = {
@@ -12962,7 +12962,7 @@ const Upload = {
     videoPreviewObjectFit: "cover"
   }
 };
-const props$7 = {
+const props$b = {
   ...ActionSheet,
   ...Album,
   ...Alert,
@@ -13055,7 +13055,7 @@ const props$7 = {
 };
 function setConfig$1(configs) {
   shallowMerge(config, configs.config || {});
-  shallowMerge(props$7, configs.props || {});
+  shallowMerge(props$b, configs.props || {});
   shallowMerge(color$3, configs.color || {});
   shallowMerge(zIndex, configs.zIndex || {});
 }
@@ -13282,8 +13282,8 @@ function syncThemeColorOverrideState({
     Object.keys(LIGHT_THEME_FIELD_TOKEN_MAP).forEach((field) => {
       if (!Object.prototype.hasOwnProperty.call(colorOverrides, field))
         return;
-      const value = colorOverrides[field];
-      if (typeof value === "string" && value) {
+      const value2 = colorOverrides[field];
+      if (typeof value2 === "string" && value2) {
         runtimeThemeOverrideState.color[field] = true;
         return;
       }
@@ -13295,8 +13295,8 @@ function syncThemeColorOverrideState({
       const token = normalizeLightThemeToken(key);
       if (!Object.prototype.hasOwnProperty.call(LIGHT_THEME_TOKEN_FIELD_MAP, token))
         return;
-      const value = configColorOverrides[key];
-      if (typeof value === "string" && value) {
+      const value2 = configColorOverrides[key];
+      if (typeof value2 === "string" && value2) {
         const overrideKey = isLightThemeConfigColorKey(key) ? key : `up-${token}`;
         runtimeThemeOverrideState.configColor[overrideKey] = true;
         return;
@@ -13312,9 +13312,9 @@ function getExplicitRuntimeColorValue(token, runtimeColorMap = {}) {
   if (!field)
     return "";
   if (runtimeThemeOverrideState.color[field]) {
-    const value = color$3[field];
-    if (typeof value === "string" && value)
-      return value;
+    const value2 = color$3[field];
+    if (typeof value2 === "string" && value2)
+      return value2;
   }
   const upKey = `up-${token}`;
   const uKey = `u-${token}`;
@@ -13584,9 +13584,9 @@ function buildThemeCssVars(themeColors, mode = "light") {
     const cssVarName = `--${key}`;
     if (Object.prototype.hasOwnProperty.call(coreVars, cssVarName))
       return;
-    const value = runtimeColorMap[key];
-    if (typeof value === "string" && value) {
-      extraVars[cssVarName] = value;
+    const value2 = runtimeColorMap[key];
+    if (typeof value2 === "string" && value2) {
+      extraVars[cssVarName] = value2;
     }
   });
   return {
@@ -13828,7 +13828,7 @@ function setConfig(configs) {
   var _a, _b;
   const settings2 = configs || {};
   index.shallowMerge(config, settings2.config || {});
-  index.shallowMerge(props$7, settings2.props || {});
+  index.shallowMerge(props$b, settings2.props || {});
   index.shallowMerge(color$3, settings2.color || {});
   index.shallowMerge(zIndex, settings2.zIndex || {});
   syncThemeColorOverrideState({
@@ -13937,128 +13937,212 @@ const install = (Vue, upuiParams = "") => {
 const uviewPlus = {
   install
 };
-const props$6 = defineMixin({
+const props$a = defineMixin({
   props: {
     // 列表数组，元素可为字符串，如为对象可通过keyName指定目标属性名
     list: {
       type: Array,
-      default: () => props$7.swiper.list
+      default: () => props$b.swiper.list
     },
     // 是否显示面板指示器
     indicator: {
       type: Boolean,
-      default: () => props$7.swiper.indicator
+      default: () => props$b.swiper.indicator
     },
     // 指示器非激活颜色
     indicatorActiveColor: {
       type: String,
-      default: () => props$7.swiper.indicatorActiveColor
+      default: () => props$b.swiper.indicatorActiveColor
     },
     // 指示器的激活颜色
     indicatorInactiveColor: {
       type: String,
-      default: () => props$7.swiper.indicatorInactiveColor
+      default: () => props$b.swiper.indicatorInactiveColor
     },
     // 指示器样式，可通过bottom，left，right进行定位
     indicatorStyle: {
       type: [String, Object],
-      default: () => props$7.swiper.indicatorStyle
+      default: () => props$b.swiper.indicatorStyle
     },
     // 指示器模式，line-线型，dot-点型
     indicatorMode: {
       type: String,
-      default: () => props$7.swiper.indicatorMode
+      default: () => props$b.swiper.indicatorMode
     },
     // 是否自动切换
     autoplay: {
       type: Boolean,
-      default: () => props$7.swiper.autoplay
+      default: () => props$b.swiper.autoplay
     },
     // 当前所在滑块的 index
     current: {
       type: [String, Number],
-      default: () => props$7.swiper.current
+      default: () => props$b.swiper.current
     },
     // 当前所在滑块的 item-id ，不能与 current 被同时指定
     currentItemId: {
       type: String,
-      default: () => props$7.swiper.currentItemId
+      default: () => props$b.swiper.currentItemId
     },
     // 滑块自动切换时间间隔
     interval: {
       type: [String, Number],
-      default: () => props$7.swiper.interval
+      default: () => props$b.swiper.interval
     },
     // 滑块切换过程所需时间
     duration: {
       type: [String, Number],
-      default: () => props$7.swiper.duration
+      default: () => props$b.swiper.duration
     },
     // 播放到末尾后是否重新回到开头
     circular: {
       type: Boolean,
-      default: () => props$7.swiper.circular
+      default: () => props$b.swiper.circular
     },
     // 前边距，可用于露出前一项的一小部分，nvue和支付宝不支持
     previousMargin: {
       type: [String, Number],
-      default: () => props$7.swiper.previousMargin
+      default: () => props$b.swiper.previousMargin
     },
     // 后边距，可用于露出后一项的一小部分，nvue和支付宝不支持
     nextMargin: {
       type: [String, Number],
-      default: () => props$7.swiper.nextMargin
+      default: () => props$b.swiper.nextMargin
     },
     // 当开启时，会根据滑动速度，连续滑动多屏，支付宝不支持
     acceleration: {
       type: Boolean,
-      default: () => props$7.swiper.acceleration
+      default: () => props$b.swiper.acceleration
     },
     // 同时显示的滑块数量，nvue、支付宝小程序不支持
     displayMultipleItems: {
       type: Number,
-      default: () => props$7.swiper.displayMultipleItems
+      default: () => props$b.swiper.displayMultipleItems
     },
     // 指定swiper切换缓动动画类型，有效值：default、linear、easeInCubic、easeOutCubic、easeInOutCubic
     // 只对微信小程序有效
     easingFunction: {
       type: String,
-      default: () => props$7.swiper.easingFunction
+      default: () => props$b.swiper.easingFunction
     },
     // list数组中指定对象的目标属性名
     keyName: {
       type: String,
-      default: () => props$7.swiper.keyName
+      default: () => props$b.swiper.keyName
     },
     // 图片的裁剪模式
     imgMode: {
       type: String,
-      default: () => props$7.swiper.imgMode
+      default: () => props$b.swiper.imgMode
     },
     // 组件高度
     height: {
       type: [String, Number],
-      default: () => props$7.swiper.height
+      default: () => props$b.swiper.height
     },
     // 背景颜色
     bgColor: {
       type: String,
-      default: () => props$7.swiper.bgColor
+      default: () => props$b.swiper.bgColor
     },
     // 组件圆角，数值或带单位的字符串
     radius: {
       type: [String, Number],
-      default: () => props$7.swiper.radius
+      default: () => props$b.swiper.radius
     },
     // 是否加载中
     loading: {
       type: Boolean,
-      default: () => props$7.swiper.loading
+      default: () => props$b.swiper.loading
     },
     // 是否显示标题，要求数组对象中有title属性
     showTitle: {
       type: Boolean,
-      default: () => props$7.swiper.showTitle
+      default: () => props$b.swiper.showTitle
+    }
+  }
+});
+const props$9 = defineMixin({
+  props: {
+    // 图片地址
+    src: {
+      type: String,
+      default: () => props$b.image.src
+    },
+    // 裁剪模式
+    mode: {
+      type: String,
+      default: () => props$b.image.mode
+    },
+    // 宽度，单位任意
+    width: {
+      type: [String, Number],
+      default: () => props$b.image.width
+    },
+    // 高度，单位任意
+    height: {
+      type: [String, Number],
+      default: () => props$b.image.height
+    },
+    // 图片形状，circle-圆形，square-方形
+    shape: {
+      type: String,
+      default: () => props$b.image.shape
+    },
+    // 圆角，单位任意
+    radius: {
+      type: [String, Number],
+      default: () => props$b.image.radius
+    },
+    // 是否懒加载，微信小程序、App、百度小程序、字节跳动小程序
+    lazyLoad: {
+      type: Boolean,
+      default: () => props$b.image.lazyLoad
+    },
+    // 开启长按图片显示识别微信小程序码菜单
+    showMenuByLongpress: {
+      type: Boolean,
+      default: () => props$b.image.showMenuByLongpress
+    },
+    // 加载中的图标，或者小图片
+    loadingIcon: {
+      type: String,
+      default: () => props$b.image.loadingIcon
+    },
+    // 加载失败的图标，或者小图片
+    errorIcon: {
+      type: String,
+      default: () => props$b.image.errorIcon
+    },
+    // 是否显示加载中的图标或者自定义的slot
+    showLoading: {
+      type: Boolean,
+      default: () => props$b.image.showLoading
+    },
+    // 是否显示加载错误的图标或者自定义的slot
+    showError: {
+      type: Boolean,
+      default: () => props$b.image.showError
+    },
+    // 是否需要淡入效果
+    fade: {
+      type: Boolean,
+      default: () => props$b.image.fade
+    },
+    // 只支持网络资源，只对微信小程序有效
+    webp: {
+      type: Boolean,
+      default: () => props$b.image.webp
+    },
+    // 过渡时间，单位ms
+    duration: {
+      type: [String, Number],
+      default: () => props$b.image.duration
+    },
+    // 背景颜色，用于深色页面加载图片时，为了和背景色融合
+    bgColor: {
+      type: String,
+      default: () => props$b.image.bgColor
     }
   }
 });
@@ -14277,101 +14361,253 @@ const icons = {
   "uicon-zh": "",
   "uicon-en": ""
 };
-const props$5 = defineMixin({
+const props$8 = defineMixin({
   props: {
     // 图标类名
     name: {
       type: String,
-      default: () => props$7.icon.name
+      default: () => props$b.icon.name
     },
     // 图标颜色，可接受主题色
     color: {
       type: String,
-      default: () => props$7.icon.color
+      default: () => props$b.icon.color
     },
     // 字体大小，单位px
     size: {
       type: [String, Number],
-      default: () => props$7.icon.size
+      default: () => props$b.icon.size
     },
     // 是否显示粗体
     bold: {
       type: Boolean,
-      default: () => props$7.icon.bold
+      default: () => props$b.icon.bold
     },
     // 点击图标的时候传递事件出去的index（用于区分点击了哪一个）
     index: {
       type: [String, Number],
-      default: () => props$7.icon.index
+      default: () => props$b.icon.index
     },
     // 触摸图标时的类名
     hoverClass: {
       type: String,
-      default: () => props$7.icon.hoverClass
+      default: () => props$b.icon.hoverClass
     },
     // 自定义扩展前缀，方便用户扩展自己的图标库
     customPrefix: {
       type: String,
-      default: () => props$7.icon.customPrefix
+      default: () => props$b.icon.customPrefix
     },
     // 图标右边或者下面的文字
     label: {
       type: [String, Number],
-      default: () => props$7.icon.label
+      default: () => props$b.icon.label
     },
     // label的位置，只能右边或者下边
     labelPos: {
       type: String,
-      default: () => props$7.icon.labelPos
+      default: () => props$b.icon.labelPos
     },
     // label的大小
     labelSize: {
       type: [String, Number],
-      default: () => props$7.icon.labelSize
+      default: () => props$b.icon.labelSize
     },
     // label的颜色
     labelColor: {
       type: String,
-      default: () => props$7.icon.labelColor
+      default: () => props$b.icon.labelColor
     },
     // label与图标的距离
     space: {
       type: [String, Number],
-      default: () => props$7.icon.space
+      default: () => props$b.icon.space
     },
     // 图片的mode
     imgMode: {
       type: String,
-      default: () => props$7.icon.imgMode
+      default: () => props$b.icon.imgMode
     },
     // 用于显示图片小图标时，图片的宽度
     width: {
       type: [String, Number],
-      default: () => props$7.icon.width
+      default: () => props$b.icon.width
     },
     // 用于显示图片小图标时，图片的高度
     height: {
       type: [String, Number],
-      default: () => props$7.icon.height
+      default: () => props$b.icon.height
     },
     // 用于解决某些情况下，让图标垂直居中的用途
     top: {
       type: [String, Number],
-      default: () => props$7.icon.top
+      default: () => props$b.icon.top
     },
     // 是否阻止事件传播
     stop: {
       type: Boolean,
-      default: () => props$7.icon.stop
+      default: () => props$b.icon.stop
     }
   }
 });
-const props$4 = defineMixin({
+const props$7 = defineMixin({
+  props: {
+    // 头像图片路径(不能为相对路径)
+    src: {
+      type: String,
+      default: () => props$b.avatar.src
+    },
+    // 头像形状，circle-圆形，square-方形
+    shape: {
+      type: String,
+      default: () => props$b.avatar.shape
+    },
+    // 头像尺寸
+    size: {
+      type: [String, Number],
+      default: () => props$b.avatar.size
+    },
+    // 裁剪模式
+    mode: {
+      type: String,
+      default: () => props$b.avatar.mode
+    },
+    // 显示的文字
+    text: {
+      type: String,
+      default: () => props$b.avatar.text
+    },
+    // 背景色
+    bgColor: {
+      type: String,
+      default: () => props$b.avatar.bgColor
+    },
+    // 文字颜色
+    color: {
+      type: String,
+      default: () => props$b.avatar.color
+    },
+    // 文字大小
+    fontSize: {
+      type: [String, Number],
+      default: () => props$b.avatar.fontSize
+    },
+    // 显示的图标
+    icon: {
+      type: String,
+      default: () => props$b.avatar.icon
+    },
+    // 显示小程序头像，只对百度，微信，QQ小程序有效
+    mpAvatar: {
+      type: Boolean,
+      default: () => props$b.avatar.mpAvatar
+    },
+    // 是否使用随机背景色
+    randomBgColor: {
+      type: Boolean,
+      default: () => props$b.avatar.randomBgColor
+    },
+    // 加载失败的默认头像(组件有内置默认图片)
+    defaultUrl: {
+      type: String,
+      default: () => props$b.avatar.defaultUrl
+    },
+    // 如果配置了randomBgColor为true，且配置了此值，则从默认的背景色数组中取出对应索引的颜色值，取值0-19之间
+    colorIndex: {
+      type: [String, Number],
+      // 校验参数规则，索引在0-19之间
+      validator(n2) {
+        return test.range(n2, [0, 19]) || n2 === "";
+      },
+      default: () => props$b.avatar.colorIndex
+    },
+    // 组件标识符
+    name: {
+      type: String,
+      default: () => props$b.avatar.name
+    }
+  }
+});
+const props$6 = defineMixin({
+  props: {
+    // checkbox的名称
+    name: {
+      type: [String, Number, Boolean],
+      default: () => props$b.checkbox.name
+    },
+    // 形状，square为方形，circle为圆型
+    shape: {
+      type: String,
+      default: () => props$b.checkbox.shape
+    },
+    // 整体的大小
+    size: {
+      type: [String, Number],
+      default: () => props$b.checkbox.size
+    },
+    // 是否默认选中
+    checked: {
+      type: Boolean,
+      default: () => props$b.checkbox.checked
+    },
+    // 是否禁用
+    disabled: {
+      type: [String, Boolean],
+      default: () => props$b.checkbox.disabled
+    },
+    // 选中状态下的颜色，如设置此值，将会覆盖parent的activeColor值
+    activeColor: {
+      type: String,
+      default: () => props$b.checkbox.activeColor
+    },
+    // 未选中的颜色
+    inactiveColor: {
+      type: String,
+      default: () => props$b.checkbox.inactiveColor
+    },
+    // 图标的大小，单位px
+    iconSize: {
+      type: [String, Number],
+      default: () => props$b.checkbox.iconSize
+    },
+    // 图标颜色
+    iconColor: {
+      type: String,
+      default: () => props$b.checkbox.iconColor
+    },
+    // label提示文字，因为nvue下，直接slot进来的文字，由于特殊的结构，无法修改样式
+    label: {
+      type: [String, Number],
+      default: () => props$b.checkbox.label
+    },
+    // label的字体大小，px单位
+    labelSize: {
+      type: [String, Number],
+      default: () => props$b.checkbox.labelSize
+    },
+    // label的颜色
+    labelColor: {
+      type: String,
+      default: () => props$b.checkbox.labelColor
+    },
+    // 是否禁止点击提示语选中复选框
+    labelDisabled: {
+      type: [String, Boolean],
+      default: () => props$b.checkbox.labelDisabled
+    },
+    // 是否独立使用
+    usedAlone: {
+      type: [Boolean],
+      default: () => false
+    }
+  }
+});
+const props$5 = defineMixin({
   props: {
     // 绑定的值
     modelValue: {
       type: [String, Number],
-      default: () => props$7.input.value
+      default: () => props$b.input.value
     },
     // number-数字输入键盘，app-vue下可以输入浮点数，app-nvue和小程序平台下只能输入整数
     // idcard-身份证输入键盘，微信、支付宝、百度、QQ小程序
@@ -14379,23 +14615,23 @@ const props$4 = defineMixin({
     // text-文本输入键盘
     type: {
       type: String,
-      default: () => props$7.input.type
+      default: () => props$b.input.type
     },
     // 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true，
     // 兼容性：微信小程序、百度小程序、字节跳动小程序、QQ小程序
     fixed: {
       type: Boolean,
-      default: () => props$7.input.fixed
+      default: () => props$b.input.fixed
     },
     // 是否禁用输入框
     disabled: {
       type: Boolean,
-      default: () => props$7.input.disabled
+      default: () => props$b.input.disabled
     },
     // 禁用状态时的背景色
     disabledColor: {
       type: String,
-      default: () => props$7.input.disabledColor
+      default: () => props$b.input.disabledColor
     },
     // 是否显示清除控件
     clearable: {
@@ -14410,145 +14646,145 @@ const props$4 = defineMixin({
     // 是否密码类型
     password: {
       type: Boolean,
-      default: () => props$7.input.password
+      default: () => props$b.input.password
     },
     // 最大输入长度，设置为 -1 的时候不限制最大长度
     maxlength: {
       type: [String, Number],
-      default: () => props$7.input.maxlength
+      default: () => props$b.input.maxlength
     },
     // 	输入框为空时的占位符
     placeholder: {
       type: String,
-      default: () => props$7.input.placeholder
+      default: () => props$b.input.placeholder
     },
     // 指定placeholder的样式类，注意页面或组件的style中写了scoped时，需要在类名前写/deep/
     placeholderClass: {
       type: String,
-      default: () => props$7.input.placeholderClass
+      default: () => props$b.input.placeholderClass
     },
     // 指定placeholder的样式
     placeholderStyle: {
       type: [String, Object],
-      default: () => props$7.input.placeholderStyle
+      default: () => props$b.input.placeholderStyle
     },
     // 是否显示输入字数统计，只在 type ="text"或type ="textarea"时有效
     showWordLimit: {
       type: Boolean,
-      default: () => props$7.input.showWordLimit
+      default: () => props$b.input.showWordLimit
     },
     // 设置右下角按钮的文字，有效值：send|search|next|go|done，兼容性详见uni-app文档
     // https://uniapp.dcloud.io/component/input
     // https://uniapp.dcloud.io/component/textarea
     confirmType: {
       type: String,
-      default: () => props$7.input.confirmType
+      default: () => props$b.input.confirmType
     },
     // 点击键盘右下角按钮时是否保持键盘不收起，H5无效
     confirmHold: {
       type: Boolean,
-      default: () => props$7.input.confirmHold
+      default: () => props$b.input.confirmHold
     },
     // focus时，点击页面的时候不收起键盘，微信小程序有效
     holdKeyboard: {
       type: Boolean,
-      default: () => props$7.input.holdKeyboard
+      default: () => props$b.input.holdKeyboard
     },
     // 自动获取焦点
     // 在 H5 平台能否聚焦以及软键盘是否跟随弹出，取决于当前浏览器本身的实现。nvue 页面不支持，需使用组件的 focus()、blur() 方法控制焦点
     focus: {
       type: Boolean,
-      default: () => props$7.input.focus
+      default: () => props$b.input.focus
     },
     // 键盘收起时，是否自动失去焦点，目前仅App3.0.0+有效
     autoBlur: {
       type: Boolean,
-      default: () => props$7.input.autoBlur
+      default: () => props$b.input.autoBlur
     },
     // 是否去掉 iOS 下的默认内边距，仅微信小程序，且type=textarea时有效
     disableDefaultPadding: {
       type: Boolean,
-      default: () => props$7.input.disableDefaultPadding
+      default: () => props$b.input.disableDefaultPadding
     },
     // 指定focus时光标的位置
     cursor: {
       type: [String, Number],
-      default: () => props$7.input.cursor
+      default: () => props$b.input.cursor
     },
     // 输入框聚焦时底部与键盘的距离
     cursorSpacing: {
       type: [String, Number],
-      default: () => props$7.input.cursorSpacing
+      default: () => props$b.input.cursorSpacing
     },
     // 光标起始位置，自动聚集时有效，需与selection-end搭配使用
     selectionStart: {
       type: [String, Number],
-      default: () => props$7.input.selectionStart
+      default: () => props$b.input.selectionStart
     },
     // 光标结束位置，自动聚集时有效，需与selection-start搭配使用
     selectionEnd: {
       type: [String, Number],
-      default: () => props$7.input.selectionEnd
+      default: () => props$b.input.selectionEnd
     },
     // 键盘弹起时，是否自动上推页面
     adjustPosition: {
       type: Boolean,
-      default: () => props$7.input.adjustPosition
+      default: () => props$b.input.adjustPosition
     },
     // 输入框内容对齐方式，可选值为：left|center|right
     inputAlign: {
       type: String,
-      default: () => props$7.input.inputAlign
+      default: () => props$b.input.inputAlign
     },
     // 输入框字体的大小
     fontSize: {
       type: [String, Number],
-      default: () => props$7.input.fontSize
+      default: () => props$b.input.fontSize
     },
     // 输入框字体颜色
     color: {
       type: String,
-      default: () => props$7.input.color
+      default: () => props$b.input.color
     },
     // 输入框前置图标
     prefixIcon: {
       type: String,
-      default: () => props$7.input.prefixIcon
+      default: () => props$b.input.prefixIcon
     },
     // 前置图标样式，对象或字符串
     prefixIconStyle: {
       type: [String, Object],
-      default: () => props$7.input.prefixIconStyle
+      default: () => props$b.input.prefixIconStyle
     },
     // 输入框后置图标
     suffixIcon: {
       type: String,
-      default: () => props$7.input.suffixIcon
+      default: () => props$b.input.suffixIcon
     },
     // 后置图标样式，对象或字符串
     suffixIconStyle: {
       type: [String, Object],
-      default: () => props$7.input.suffixIconStyle
+      default: () => props$b.input.suffixIconStyle
     },
     // 边框类型，surround-四周边框，bottom-底部边框，none-无边框
     border: {
       type: String,
-      default: () => props$7.input.border
+      default: () => props$b.input.border
     },
     // 是否只读，与disabled不同之处在于disabled会置灰组件，而readonly则不会
     readonly: {
       type: Boolean,
-      default: () => props$7.input.readonly
+      default: () => props$b.input.readonly
     },
     // 输入框形状，circle-圆形，square-方形
     shape: {
       type: String,
-      default: () => props$7.input.shape
+      default: () => props$b.input.shape
     },
     // 用于处理或者过滤输入框内容的方法
     formatter: {
       type: [Function, null],
-      default: () => props$7.input.formatter
+      default: () => props$b.input.formatter
     },
     // 是否忽略组件内对文本合成系统事件的处理
     ignoreCompositionEvent: {
@@ -14558,131 +14794,131 @@ const props$4 = defineMixin({
     // 光标颜色
     cursorColor: {
       type: String,
-      default: () => props$7.input.cursorColor
+      default: () => props$b.input.cursorColor
     },
     // 密码类型可见性切换
     passwordVisibilityToggle: {
       type: Boolean,
-      default: () => props$7.input.passwordVisibilityToggle
+      default: () => props$b.input.passwordVisibilityToggle
     }
   }
 });
-const props$3 = defineMixin({
+const props$4 = defineMixin({
   props: {
     // 输入框的内容
     value: {
       type: [String, Number],
-      default: () => props$7.textarea.value
+      default: () => props$b.textarea.value
     },
     // 输入框的内容
     modelValue: {
       type: [String, Number],
-      default: () => props$7.textarea.value
+      default: () => props$b.textarea.value
     },
     // 输入框为空时占位符
     placeholder: {
       type: [String, Number],
-      default: () => props$7.textarea.placeholder
+      default: () => props$b.textarea.placeholder
     },
     // 指定placeholder的样式类，注意页面或组件的style中写了scoped时，需要在类名前写/deep/
     placeholderClass: {
       type: String,
-      default: () => props$7.textarea.placeholderClass
+      default: () => props$b.textarea.placeholderClass
     },
     // 指定placeholder的样式
     placeholderStyle: {
       type: [String, Object],
-      default: () => props$7.textarea.placeholderStyle
+      default: () => props$b.textarea.placeholderStyle
     },
     // 输入框高度
     height: {
       type: [String, Number],
-      default: () => props$7.textarea.height
+      default: () => props$b.textarea.height
     },
     // 设置键盘右下角按钮的文字，仅微信小程序，App-vue和H5有效
     confirmType: {
       type: String,
-      default: () => props$7.textarea.confirmType
+      default: () => props$b.textarea.confirmType
     },
     // 是否禁用
     disabled: {
       type: Boolean,
-      default: () => props$7.textarea.disabled
+      default: () => props$b.textarea.disabled
     },
     // 是否显示统计字数
     count: {
       type: Boolean,
-      default: () => props$7.textarea.count
+      default: () => props$b.textarea.count
     },
     // 是否自动获取焦点，nvue不支持，H5取决于浏览器的实现
     focus: {
       type: Boolean,
-      default: () => props$7.textarea.focus
+      default: () => props$b.textarea.focus
     },
     // 是否自动增加高度
     autoHeight: {
       type: Boolean,
-      default: () => props$7.textarea.autoHeight
+      default: () => props$b.textarea.autoHeight
     },
     // 如果textarea是在一个position:fixed的区域，需要显示指定属性fixed为true
     fixed: {
       type: Boolean,
-      default: () => props$7.textarea.fixed
+      default: () => props$b.textarea.fixed
     },
     // 指定光标与键盘的距离
     cursorSpacing: {
       type: Number,
-      default: () => props$7.textarea.cursorSpacing
+      default: () => props$b.textarea.cursorSpacing
     },
     // 指定focus时的光标位置
     cursor: {
       type: [String, Number],
-      default: () => props$7.textarea.cursor
+      default: () => props$b.textarea.cursor
     },
     // 是否显示键盘上方带有”完成“按钮那一栏，
     showConfirmBar: {
       type: Boolean,
-      default: () => props$7.textarea.showConfirmBar
+      default: () => props$b.textarea.showConfirmBar
     },
     // 光标起始位置，自动聚焦时有效，需与selection-end搭配使用
     selectionStart: {
       type: Number,
-      default: () => props$7.textarea.selectionStart
+      default: () => props$b.textarea.selectionStart
     },
     // 光标结束位置，自动聚焦时有效，需与selection-start搭配使用
     selectionEnd: {
       type: Number,
-      default: () => props$7.textarea.selectionEnd
+      default: () => props$b.textarea.selectionEnd
     },
     // 键盘弹起时，是否自动上推页面
     adjustPosition: {
       type: Boolean,
-      default: () => props$7.textarea.adjustPosition
+      default: () => props$b.textarea.adjustPosition
     },
     // 是否去掉 iOS 下的默认内边距，只微信小程序有效
     disableDefaultPadding: {
       type: Boolean,
-      default: () => props$7.textarea.disableDefaultPadding
+      default: () => props$b.textarea.disableDefaultPadding
     },
     // focus时，点击页面的时候不收起键盘，只微信小程序有效
     holdKeyboard: {
       type: Boolean,
-      default: () => props$7.textarea.holdKeyboard
+      default: () => props$b.textarea.holdKeyboard
     },
     // 最大输入长度，设置为 -1 的时候不限制最大长度
     maxlength: {
       type: [String, Number],
-      default: () => props$7.textarea.maxlength
+      default: () => props$b.textarea.maxlength
     },
     // 边框类型，surround-四周边框，bottom-底部边框
     border: {
       type: String,
-      default: () => props$7.textarea.border
+      default: () => props$b.textarea.border
     },
     // 用于处理或者过滤输入框内容的方法
     formatter: {
       type: [Function, null],
-      default: () => props$7.textarea.formatter
+      default: () => props$b.textarea.formatter
     },
     // 是否忽略组件内对文本合成系统事件的处理
     ignoreCompositionEvent: {
@@ -14691,181 +14927,424 @@ const props$3 = defineMixin({
     }
   }
 });
-const props$2 = defineMixin({
+const props$3 = defineMixin({
   props: {
-    // 图片地址
-    src: {
-      type: String,
-      default: () => props$7.image.src
+    // 是否展示弹窗
+    show: {
+      type: Boolean,
+      default: () => props$b.popup.show
     },
-    // 裁剪模式
+    // 是否显示遮罩
+    overlay: {
+      type: Boolean,
+      default: () => props$b.popup.overlay
+    },
+    // 弹出的方向，可选值为 top bottom right left center
     mode: {
       type: String,
-      default: () => props$7.image.mode
+      default: () => props$b.popup.mode
     },
-    // 宽度，单位任意
-    width: {
-      type: [String, Number],
-      default: () => props$7.image.width
-    },
-    // 高度，单位任意
-    height: {
-      type: [String, Number],
-      default: () => props$7.image.height
-    },
-    // 图片形状，circle-圆形，square-方形
-    shape: {
-      type: String,
-      default: () => props$7.image.shape
-    },
-    // 圆角，单位任意
-    radius: {
-      type: [String, Number],
-      default: () => props$7.image.radius
-    },
-    // 是否懒加载，微信小程序、App、百度小程序、字节跳动小程序
-    lazyLoad: {
-      type: Boolean,
-      default: () => props$7.image.lazyLoad
-    },
-    // 开启长按图片显示识别微信小程序码菜单
-    showMenuByLongpress: {
-      type: Boolean,
-      default: () => props$7.image.showMenuByLongpress
-    },
-    // 加载中的图标，或者小图片
-    loadingIcon: {
-      type: String,
-      default: () => props$7.image.loadingIcon
-    },
-    // 加载失败的图标，或者小图片
-    errorIcon: {
-      type: String,
-      default: () => props$7.image.errorIcon
-    },
-    // 是否显示加载中的图标或者自定义的slot
-    showLoading: {
-      type: Boolean,
-      default: () => props$7.image.showLoading
-    },
-    // 是否显示加载错误的图标或者自定义的slot
-    showError: {
-      type: Boolean,
-      default: () => props$7.image.showError
-    },
-    // 是否需要淡入效果
-    fade: {
-      type: Boolean,
-      default: () => props$7.image.fade
-    },
-    // 只支持网络资源，只对微信小程序有效
-    webp: {
-      type: Boolean,
-      default: () => props$7.image.webp
-    },
-    // 过渡时间，单位ms
+    // 动画时长，单位ms
     duration: {
       type: [String, Number],
-      default: () => props$7.image.duration
+      default: () => props$b.popup.duration
     },
-    // 背景颜色，用于深色页面加载图片时，为了和背景色融合
+    // 是否显示关闭图标
+    closeable: {
+      type: Boolean,
+      default: () => props$b.popup.closeable
+    },
+    // 自定义遮罩的样式
+    overlayStyle: {
+      type: [Object, String],
+      default: () => props$b.popup.overlayStyle
+    },
+    // 点击遮罩是否关闭弹窗
+    closeOnClickOverlay: {
+      type: Boolean,
+      default: () => props$b.popup.closeOnClickOverlay
+    },
+    // 层级
+    zIndex: {
+      type: [String, Number],
+      default: () => props$b.popup.zIndex
+    },
+    // 是否为iPhoneX留出底部安全距离
+    safeAreaInsetBottom: {
+      type: Boolean,
+      default: () => props$b.popup.safeAreaInsetBottom
+    },
+    // 是否留出顶部安全距离（状态栏高度）
+    safeAreaInsetTop: {
+      type: Boolean,
+      default: () => props$b.popup.safeAreaInsetTop
+    },
+    // 自定义关闭图标位置，top-left为左上角，top-right为右上角，bottom-left为左下角，bottom-right为右下角
+    closeIconPos: {
+      type: String,
+      default: () => props$b.popup.closeIconPos
+    },
+    // 是否显示圆角
+    round: {
+      type: [Boolean, String, Number],
+      default: () => props$b.popup.round
+    },
+    // mode=center，也即中部弹出时，是否使用缩放模式
+    zoom: {
+      type: Boolean,
+      default: () => props$b.popup.zoom
+    },
+    // 弹窗背景色，设置为transparent可去除白色背景
     bgColor: {
       type: String,
-      default: () => props$7.image.bgColor
+      default: () => props$b.popup.bgColor
+    },
+    // 遮罩的透明度，0-1之间
+    overlayOpacity: {
+      type: [Number, String],
+      default: () => props$b.popup.overlayOpacity
+    },
+    // 是否页面内展示
+    pageInline: {
+      type: Boolean,
+      default: () => props$b.popup.pageInline
+    },
+    // 是否页开启手势滑动
+    touchable: {
+      type: Boolean,
+      default: () => props$b.popup.touchable
+    },
+    // 手势滑动最小高度
+    minHeight: {
+      type: [String],
+      default: () => props$b.popup.minHeight
+    },
+    // 手势滑动最大高度
+    maxHeight: {
+      type: [String],
+      default: () => props$b.popup.maxHeight
+    }
+  }
+});
+const props$2 = defineMixin({
+  props: {
+    // 是否显示组件
+    show: {
+      type: Boolean,
+      default: () => props$b.loadingIcon.show
+    },
+    // 颜色
+    color: {
+      type: String,
+      default: () => props$b.loadingIcon.color
+    },
+    // 提示文字颜色
+    textColor: {
+      type: String,
+      default: () => props$b.loadingIcon.textColor
+    },
+    // 文字和图标是否垂直排列
+    vertical: {
+      type: Boolean,
+      default: () => props$b.loadingIcon.vertical
+    },
+    // 模式选择，circle-圆形，spinner-花朵形，semicircle-半圆形
+    mode: {
+      type: String,
+      default: () => props$b.loadingIcon.mode
+    },
+    // 图标大小，单位默认px
+    size: {
+      type: [String, Number],
+      default: () => props$b.loadingIcon.size
+    },
+    // 文字大小
+    textSize: {
+      type: [String, Number],
+      default: () => props$b.loadingIcon.textSize
+    },
+    // 文字内容
+    text: {
+      type: [String, Number],
+      default: () => props$b.loadingIcon.text
+    },
+    // 动画模式
+    timingFunction: {
+      type: String,
+      default: () => props$b.loadingIcon.timingFunction
+    },
+    // 动画执行周期时间
+    duration: {
+      type: [String, Number],
+      default: () => props$b.loadingIcon.duration
+    },
+    // mode=circle时的暗边颜色
+    inactiveColor: {
+      type: String,
+      default: () => props$b.loadingIcon.inactiveColor
     }
   }
 });
 const props$1 = defineMixin({
   props: {
-    // 是否显示组件
-    show: {
-      type: Boolean,
-      default: () => props$7.loadingIcon.show
-    },
-    // 颜色
-    color: {
-      type: String,
-      default: () => props$7.loadingIcon.color
-    },
-    // 提示文字颜色
-    textColor: {
-      type: String,
-      default: () => props$7.loadingIcon.textColor
-    },
-    // 文字和图标是否垂直排列
-    vertical: {
-      type: Boolean,
-      default: () => props$7.loadingIcon.vertical
-    },
-    // 模式选择，circle-圆形，spinner-花朵形，semicircle-半圆形
-    mode: {
-      type: String,
-      default: () => props$7.loadingIcon.mode
-    },
-    // 图标大小，单位默认px
-    size: {
+    // 轮播的长度
+    length: {
       type: [String, Number],
-      default: () => props$7.loadingIcon.size
+      default: () => props$b.swiperIndicator.length
     },
-    // 文字大小
-    textSize: {
+    // 当前处于活动状态的轮播的索引
+    current: {
       type: [String, Number],
-      default: () => props$7.loadingIcon.textSize
+      default: () => props$b.swiperIndicator.current
     },
-    // 文字内容
-    text: {
-      type: [String, Number],
-      default: () => props$7.loadingIcon.text
-    },
-    // 动画模式
-    timingFunction: {
+    // 指示器非激活颜色
+    indicatorActiveColor: {
       type: String,
-      default: () => props$7.loadingIcon.timingFunction
+      default: () => props$b.swiperIndicator.indicatorActiveColor
     },
-    // 动画执行周期时间
-    duration: {
-      type: [String, Number],
-      default: () => props$7.loadingIcon.duration
-    },
-    // mode=circle时的暗边颜色
-    inactiveColor: {
+    // 指示器的激活颜色
+    indicatorInactiveColor: {
       type: String,
-      default: () => props$7.loadingIcon.inactiveColor
+      default: () => props$b.swiperIndicator.indicatorInactiveColor
+    },
+    // 指示器模式，line-线型，dot-点型
+    indicatorMode: {
+      type: String,
+      default: () => props$b.swiperIndicator.indicatorMode
     }
   }
 });
 const props = defineMixin({
   props: {
-    // 轮播的长度
-    length: {
+    // 主题颜色
+    type: {
+      type: String,
+      default: () => props$b.text.type
+    },
+    // 是否显示
+    show: {
+      type: Boolean,
+      default: () => props$b.text.show
+    },
+    // 显示的值
+    text: {
       type: [String, Number],
-      default: () => props$7.swiperIndicator.length
+      default: () => props$b.text.text
     },
-    // 当前处于活动状态的轮播的索引
-    current: {
+    // 前置图标
+    prefixIcon: {
+      type: String,
+      default: () => props$b.text.prefixIcon
+    },
+    // 后置图标
+    suffixIcon: {
+      type: String,
+      default: () => props$b.text.suffixIcon
+    },
+    // 文本处理的匹配模式
+    // text-普通文本，price-价格，phone-手机号，name-姓名，date-日期，link-超链接
+    mode: {
+      type: String,
+      default: () => props$b.text.mode
+    },
+    // mode=link下，配置的链接
+    href: {
+      type: String,
+      default: () => props$b.text.href
+    },
+    // 格式化规则
+    format: {
+      type: [String, Function],
+      default: () => props$b.text.format
+    },
+    // mode=phone时，点击文本是否拨打电话
+    call: {
+      type: Boolean,
+      default: () => props$b.text.call
+    },
+    // 小程序的打开方式
+    openType: {
+      type: String,
+      default: () => props$b.text.openType
+    },
+    // 是否粗体，默认normal
+    bold: {
+      type: Boolean,
+      default: () => props$b.text.bold
+    },
+    // 是否块状
+    block: {
+      type: Boolean,
+      default: () => props$b.text.block
+    },
+    // 文本显示的行数，如果设置，超出此行数，将会显示省略号
+    lines: {
       type: [String, Number],
-      default: () => props$7.swiperIndicator.current
+      default: () => props$b.text.lines
     },
-    // 指示器非激活颜色
-    indicatorActiveColor: {
+    // 文本颜色
+    color: {
       type: String,
-      default: () => props$7.swiperIndicator.indicatorActiveColor
+      default: () => props$b.text.color
     },
-    // 指示器的激活颜色
-    indicatorInactiveColor: {
-      type: String,
-      default: () => props$7.swiperIndicator.indicatorInactiveColor
+    // 字体大小
+    size: {
+      type: [String, Number],
+      default: () => props$b.text.size
     },
-    // 指示器模式，line-线型，dot-点型
-    indicatorMode: {
+    // 图标的样式
+    iconStyle: {
+      type: [Object, String],
+      default: () => props$b.text.iconStyle
+    },
+    // 文字装饰，下划线，中划线等，可选值 none|underline|line-through
+    decoration: {
+      tepe: String,
+      default: () => props$b.text.decoration
+    },
+    // 外边距，对象、字符串，数值形式均可
+    margin: {
+      type: [Object, String, Number],
+      default: () => props$b.text.margin
+    },
+    // 文本行高
+    lineHeight: {
+      type: [String, Number],
+      default: () => props$b.text.lineHeight
+    },
+    // 文本对齐方式，可选值left|center|right
+    align: {
       type: String,
-      default: () => props$7.swiperIndicator.indicatorMode
+      default: () => props$b.text.align
+    },
+    // 文字换行，可选值break-word|normal|anywhere
+    wordWrap: {
+      type: String,
+      default: () => props$b.text.wordWrap
+    },
+    // 占满剩余空间
+    flex1: {
+      type: Boolean,
+      default: () => props$b.text.flex1
+    }
+  }
+});
+const value = {
+  computed: {
+    // 经处理后需要显示的值
+    value() {
+      const {
+        text,
+        mode,
+        format,
+        href
+      } = this;
+      if (mode === "price") {
+        if (!/^\d+(\.\d+)?$/.test(text)) {
+          error("金额模式下，text参数需要为金额格式");
+        }
+        if (test.func(format)) {
+          return format(text);
+        }
+        return priceFormat(text, 2);
+      }
+      if (mode === "date") {
+        !test.date(text) && error("日期模式下，text参数需要为日期或时间戳格式");
+        if (test.func(format)) {
+          return format(text);
+        }
+        if (format) {
+          return timeFormat(text, format);
+        }
+        return timeFormat(text, "yyyy-mm-dd");
+      }
+      if (mode === "phone") {
+        if (test.func(format)) {
+          return format(text);
+        }
+        if (format === "encrypt") {
+          return `${text.substr(0, 3)}****${text.substr(7)}`;
+        }
+        return text;
+      }
+      if (mode === "name") {
+        !(typeof text === "string") && error("姓名模式下，text参数需要为字符串格式");
+        if (test.func(format)) {
+          return format(text);
+        }
+        if (format === "encrypt") {
+          return this.formatName(text);
+        }
+        return text;
+      }
+      if (mode === "link") {
+        !test.url(href) && error("超链接模式下，href参数需要为URL格式");
+        return text;
+      }
+      return text;
+    }
+  },
+  methods: {
+    // 默认的姓名脱敏规则
+    formatName(name) {
+      let value2 = "";
+      if (name.length === 2) {
+        value2 = name.substr(0, 1) + "*";
+      } else if (name.length > 2) {
+        let char = "";
+        for (let i = 0, len = name.length - 2; i < len; i++) {
+          char += "*";
+        }
+        value2 = name.substr(0, 1) + char + name.substr(-1, 1);
+      } else {
+        value2 = name;
+      }
+      return value2;
+    }
+  }
+};
+const buttonMixin = defineMixin({
+  props: {
+    lang: String,
+    sessionFrom: String,
+    sendMessageTitle: String,
+    sendMessagePath: String,
+    sendMessageImg: String,
+    showMessageCard: Boolean,
+    appParameter: String,
+    formType: String,
+    openType: String
+  }
+});
+const openType = defineMixin({
+  props: {
+    openType: String
+  },
+  methods: {
+    onGetUserInfo(event) {
+      this.$emit("getuserinfo", event.detail);
+    },
+    onContact(event) {
+      this.$emit("contact", event.detail);
+    },
+    onGetPhoneNumber(event) {
+      this.$emit("getphonenumber", event.detail);
+    },
+    onError(event) {
+      this.$emit("error", event.detail);
+    },
+    onLaunchApp(event) {
+      this.$emit("launchapp", event.detail);
+    },
+    onOpenSetting(event) {
+      this.$emit("opensetting", event.detail);
     }
   }
 });
 exports._export_sfc = _export_sfc;
 exports.addStyle = addStyle;
 exports.addUnit = addUnit;
+exports.buttonMixin = buttonMixin;
 exports.colorGradient = colorGradient;
 exports.config = config;
 exports.createSSRApp = createSSRApp;
@@ -14875,6 +15354,7 @@ exports.error = error;
 exports.f = f;
 exports.fontUtil = fontUtil;
 exports.formValidate = formValidate;
+exports.getWindowInfo = getWindowInfo;
 exports.guid = guid;
 exports.icons = icons;
 exports.index = index$1;
@@ -14883,15 +15363,21 @@ exports.mpMixin = mpMixin;
 exports.n = n;
 exports.nextTick$1 = nextTick$1;
 exports.o = o;
+exports.openType = openType;
 exports.p = p;
-exports.props = props$6;
-exports.props$1 = props$5;
-exports.props$2 = props$4;
-exports.props$3 = props$3;
-exports.props$4 = props$2;
-exports.props$5 = props$1;
-exports.props$6 = props;
+exports.props = props$a;
+exports.props$1 = props$9;
+exports.props$10 = props;
+exports.props$2 = props$8;
+exports.props$3 = props$7;
+exports.props$4 = props$6;
+exports.props$5 = props$5;
+exports.props$6 = props$4;
+exports.props$7 = props$3;
+exports.props$8 = props$2;
+exports.props$9 = props$1;
 exports.r = r;
+exports.random = random;
 exports.reactive = reactive;
 exports.resolveComponent = resolveComponent;
 exports.rpx2px = rpx2px;
@@ -14901,4 +15387,5 @@ exports.sr = sr;
 exports.t = t$1;
 exports.test = test;
 exports.uviewPlus = uviewPlus;
+exports.value = value;
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

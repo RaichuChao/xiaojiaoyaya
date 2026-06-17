@@ -1,11 +1,5 @@
 <template>
 	<view class="u-wrap">
-	<!-- 	<view class="u-search-box">
-			<view class="u-search-inner">
-				<up-icon name="search" color="#909399" :size="28"></up-icon>
-				<text class="u-search-text">搜索uview-plus</text>
-			</view>
-		</view> -->
 		<view class="u-menu-wrap">
 			<scroll-view scroll-y scroll-with-animation class="u-tab-view menu-scroll-view" :scroll-top="scrollTop">
 				<view v-for="(item,index) in tabbar" :key="index" class="u-tab-item" :class="[current==index ? 'u-tab-item-active' : '']"
@@ -16,22 +10,30 @@
 			</scroll-view>
 			<block v-for="(item,index) in tabbar" :key="index">
 				<scroll-view scroll-y class="right-box" v-if="current==index" :style="{ backgroundColor: upThemeVar('--up-bg-color') }">
-					<view class="page-view" >
+					<view class="page-view">
 						<view class="class-item" :style="[upThemeCardStyle]">
-							<!-- <view class="item-title">
+							<view class="item-title">
 								<text>{{item.name}}</text>
-							</view> -->
+							</view>
 							<view class="item-container">
-								<view class="thumb-box" v-for="(item1, index1) in item.list" :key="index1"  v-show="item.list">
-									<view @click="goPage(item1.id)">
-										<image class="item-menu-image" :src="item1.cover" mode=""></image>
-										<view class="item-menu-name">{{item1.name}}</view>
+								<!-- 循环图片项 -->
+								<view class="thumb-box" v-for="(item1, index1) in item.list" :key="index1">
+									<view class="img-wrapper" @click="goPage(item1.id)">
+										<!-- 关键：mode="aspectFill" 保证不变形裁剪 -->
+										<up-lazy-load  
+											class="item-menu-image"  
+											threshold="-250"  
+											border-radius="10" 
+											:image="item1.cover" 
+											:index="index1"
+											img-mode="aspectFill"
+										></up-lazy-load>
 									</view>
-								
-									
+									<view class="item-menu-name">{{item1.name}}</view>
 								</view>
-								<view  v-if="item.list.length === 0" style="height: 200px;line-height: 200px; text-align: center;">
-									   暂无内容，敬请期待...
+								
+							<view class="empty-box" v-if="item.list.length === 0">
+									<image src="https://www.xiaojiaoyaya.cn/uploads/20260616/f7a108bbb25019e37028a97037f5a0ab.png" mode="widthFix"></image>
 								</view>
 							</view>
 						</view>
@@ -43,28 +45,39 @@
 </template>
 
 <script>
-	import classifyData from "@/common/classify.data.js";
+
 	import {getList} from "@/api/works.js";
 	export default {
 		data() {
 			return {
 				tabbar: [],
-				scrollTop: 0, //tab标题的滚动条位置
-				current: 0, // 预设当前项的值
-				menuHeight: 0, // 左边菜单的高度
-				menuItemHeight: 0, // 左边菜单item的高度
+				scrollTop: 0,
+				current: 0,
+				menuHeight: 0,
+				menuItemHeight: 0,
 			}
-		},
-		computed: {
-			
 		},
 		onLoad() {
 			this.getData();
 		},
 		methods: {
+			onShareAppMessage(res) {
+			    const id = this.data?.id || ''
+			    return {
+			      title: '留存转瞬即逝的童年时光', // 分享标题
+			      path: `/pages/index/index`, // 分享落地页（必须写相对路径）
+			      imageUrl:'https://www.xiaojiaoyaya.cn/uploads/20250715/539d7ec2ec75c5f2fdbc5dd62018fd0e.jpg' // 分享封面图（网络/本地图片）
+			    }
+			  },
 			
+			  // 2. 分享到朋友圈（右上角菜单触发）
+			  onShareTimeline() {
+			    return {
+			      title: '小脚丫丫儿童摄影馆',
+			     
+			    }
+			  },
 			getData(){
-			
 				getList().then(res => {
 				   console.log('首页数据', res)
 				   this.tabbar=res.data;
@@ -72,19 +85,14 @@
 				   console.log('请求失败', err)
 				 })
 			},
-			getImg() {
-				return Math.floor(Math.random() * 35);
-			},
 			// 点击左边的栏目切换
 			async swichMenu(index) {
 				if(index == this.current) return ;
 				this.current = index;
-				// 如果为0，意味着尚未初始化
 				if(this.menuHeight == 0 || this.menuItemHeight == 0) {
 					await this.getElRect('menu-scroll-view', 'menuHeight');
 					await this.getElRect('u-tab-item', 'menuItemHeight');
 				}
-				// 将菜单菜单活动item垂直居中
 				this.scrollTop = index * this.menuItemHeight + this.menuItemHeight / 2 - this.menuHeight / 2;
 			},
 			// 获取一个目标元素的高度
@@ -92,7 +100,6 @@
 				new Promise((resolve, reject) => {
 					const query = uni.createSelectorQuery().in(this);
 					query.select('.' + elClass).fields({size: true},res => {
-						// 如果节点尚未生成，res值为null，循环调用执行
 						if(!res) {
 							setTimeout(() => {
 								this.getElRect(elClass);
@@ -104,9 +111,6 @@
 				})
 			},
 			goPage(id) {
-			      // 假设分类id字段为 id，根据实际接口字段修改
-			
-			      // 跳转分类列表页，携带分类ID参数
 			      uni.navigateTo({
 			        url: `/pages/works/detail?id=${id}`
 			      })
@@ -125,28 +129,10 @@
 		flex-direction: column;
 	}
 
-	.u-search-box {
-		padding: 18rpx 30rpx;
-	}
-
 	.u-menu-wrap {
 		flex: 1;
 		display: flex;
 		overflow: hidden;
-	}
-
-	.u-search-inner {
-		background-color: rgb(234, 234, 234);
-		border-radius: 100rpx;
-		display: flex;
-		align-items: center;
-		padding: 10rpx 16rpx;
-	}
-
-	.u-search-text {
-		font-size: 26rpx;
-		color: $u-tips-color;
-		margin-left: 10rpx;
 	}
 
 	.u-tab-view {
@@ -184,22 +170,20 @@
 		top: 39rpx;
 	}
 
-	.u-tab-view {
-		height: 100%;
-	}
-	
 	.right-box {
 		background-color: rgb(250, 250, 250);
 	}
 	
 	.page-view {
+	    background-color: #fff;
+		min-height: 100vh;
 		padding: 16rpx;
 	}
 	
 	.class-item {
 		margin-bottom: 30rpx;
 		background-color: #fff;
-		padding: 16rpx;
+		padding: 16rpx 0;
 		border-radius: 8rpx;
 	}
 	
@@ -213,24 +197,45 @@
 		font-weight: normal;
 		font-size: 24rpx;
 		color: $u-main-color;
+		margin-top: 8rpx;
+		text-align: center;
 	}
 	
 	.item-container {
-		display: flex;
-		flex-wrap: wrap;
+	  display: flex;
+	  flex-wrap: wrap;
+	  /* 关键：让两张图片平分剩余空间 */
+	  justify-content: space-between;
 	}
 	
+	/* 图片容器优化：固定宽度 + 居中 */
 	.thumb-box {
-		width: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-direction: column;
-		margin-top: 20rpx;
+	  /* 不用 50%，用 calc 留出间隙 */
+	  width: calc(50% - 5rpx); 
+	  display: flex;
+	  align-items: center;
+	  justify-content: flex-start;
+	  flex-direction: column;
+	  margin-top: 20rpx;
 	}
 	
+	/* 图片外层：固定宽高比，防止拉伸 */
+	.img-wrapper {
+	  width: 100%;
+	  display: block;
+	  /* 统一图片高度，更美观 */
+	  	min-height: 200rpx;
+	}
+	
+	/* 图片样式：铺满容器，不变形 */
 	.item-menu-image {
-		width: 240rpx;
+	  width: 100%;
+	  height: 100%;
+	  object-fit: cover; /* 兼容多端，保证不变形 */
+	}
+	.empty-box {
+		display: flex;
+		justify-content: center;
+		padding: 80rpx 0;
 	}
 </style>
-

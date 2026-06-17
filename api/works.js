@@ -10,7 +10,7 @@ export function getList() {
 }
 export function getWorksDetail(data) {
 	return request({
-		url: 'works/detail1',
+		url: 'works/detail',
 		method: 'POST',
 		data: data
 	})

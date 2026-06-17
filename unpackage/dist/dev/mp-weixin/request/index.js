@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
-const baseUrl = "http://www.xiaojiaoyaya.cn/index.php/api/";
+const baseUrl = "https://www.xiaojiaoyaya.cn/index.php/api/";
 const request = (options) => {
   return new Promise((resolve, reject) => {
     common_vendor.index.request({

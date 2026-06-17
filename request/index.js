@@ -4,7 +4,7 @@
  */
 
 // 基础配置
-const baseUrl = 'http://www.xiaojiaoyaya.cn/index.php/api/'; // 替换成真实接口域名
+const baseUrl = 'https://www.xiaojiaoyaya.cn/index.php/api/'; // 替换成真实接口域名
 
 const request = (options) => {
   // 返回 Promise 风格请求
