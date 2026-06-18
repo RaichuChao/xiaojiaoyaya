@@ -8,14 +8,9 @@
                </view>
                <view class="user-name">微信用户</view> <up-image :show-loading="true" src="/static/VIP.png" width="40rpx" height="40rpx" ></up-image>
              </view>
-       
-
-  <view class="icon-group">
-	   <up-icon name="setting-fill" size="40rpx" color="#FFFFFF"></up-icon>
-	 
-    
-       </view>
-     
+        <view class="icon-group">
+	        <up-icon name="setting-fill" size="40rpx" color="#FFFFFF"></up-icon>
+        </view>
     </view>
 
     <!-- 我的TVG中心 - 向上叠加 -->
@@ -23,51 +18,44 @@
       <view class="module-title">个人中心</view>
       <view class="grid-layout">
         <view class="grid-item" @click="goOrder">
-  <up-icon name="order" size="60rpx" ></up-icon>
+            <up-icon name="order" size="60rpx" ></up-icon>
 			<view class="item-text">预约记录</view>
         </view>
         <view class="grid-item" @click="goFavorite">
-  <up-icon name="heart" size="60rpx" ></up-icon>
+            <up-icon name="heart" size="60rpx" ></up-icon>
 			<view class="item-text">我的喜欢</view>
         </view>
       
   
     
         <view class="grid-item" @click="goAlbum">
-<up-icon name="moments" size="60rpx" ></up-icon>
-          <view class="item-text">我的影集</view>
-
+           <up-icon name="moments" size="60rpx" ></up-icon>
+           <view class="item-text">我的影集</view>
         </view>
       </view>
     </view>
 
  
     <view class="module coupon-center">
-      <view class="module-title">联系我们</view>
-      <view class="grid-layout">
+        <view class="module-title">联系我们</view>
+        <view class="grid-layout">
         <button  class="grid-item" open-type="contact" >
-  <up-icon name="server-man" size="60rpx" ></up-icon>
-			<view class="item-text">联系客服</view>
-         
+             <up-icon name="server-man" size="60rpx" ></up-icon>
+			 <view class="item-text">联系客服</view>
         </button >
         <view class="grid-item" @click="goInvite">
 			  <up-icon name="calendar-fill" size="60rpx" ></up-icon>
-     
           <view class="item-text">预约服务</view>
         </view>
-       
       </view>
     </view>
 	<view class="module coupon-center" v-if="!showLoginPop">
 	    <view class="module-title">其他</view>
-	    <view class="grid-layout">
-	
-	      <view class="grid-item" @click="loginOut">
-	
-	   <up-image :show-loading="true" src="/static/loginout.png" width="60rpx" height="60rpx" ></up-image>
-	        <view class="item-text">退出登录</view>
+	       <view class="grid-layout">
+				<view class="grid-item" @click="loginOut">
+				 <up-image :show-loading="true" src="/static/loginout.png" width="60rpx" height="60rpx" ></up-image>
+				<view class="item-text">退出登录</view>
 	      </view>
-	     
 	    </view>
 	  </view>
   </view>
@@ -193,28 +181,6 @@ export default {
         this.showLoginPop = false;
       }
     },
-    // 页面功能点击拦截登录
-    handleClick(type) {
-      const openid = uni.getStorageSync('openid')
-      if (!openid) {
-        this.showLoginPop = true
-        return;
-      }
-      switch (type) {
-        case 'order':
-          uni.showToast({ title: '点击了预约记录', icon: 'none' });
-          break;
-        case 'favorite':
-          uni.showToast({ title: '点击了我的喜欢', icon: 'none' });
-          break;
-        case 'album':
-          uni.showToast({ title: '点击了我的影集', icon: 'none' });
-          break;
-        case 'invite':
-          uni.showToast({ title: '点击了预约服务', icon: 'none' });
-          break;
-      }
-    }
   }
 };
 </script>
