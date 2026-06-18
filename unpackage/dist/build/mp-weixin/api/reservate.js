@@ -1,0 +1,1 @@
+"use strict";const t=require("../request/index.js");exports.SubmitData=function(e){return t.request({url:"reservation/appoint",method:"POST",data:e})},exports.getShootwayData=function(){return t.request({url:"reservation/index",method:"GET"})};

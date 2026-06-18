@@ -1,0 +1,127 @@
+
+page.data-v-9040d7c4 {
+  background: #f7f7f7;
+}
+.collection-page.data-v-9040d7c4 {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 顶部导航 */
+.page-header.data-v-9040d7c4 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 120rpx;
+  padding: 0 30rpx;
+  background: #fff;
+}
+.back-btn.data-v-9040d7c4 {
+  width: 80rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.header-title.data-v-9040d7c4 {
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #222;
+}
+.edit-btn.data-v-9040d7c4 {
+  font-size: 30rpx;
+  color: #666;
+  padding: 10rpx 20rpx;
+}
+
+/* 空页面 */
+.empty-wrap.data-v-9040d7c4 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 40rpx;
+}
+.empty-tip.data-v-9040d7c4 {
+  font-size: 28rpx;
+  color: #999;
+  margin: 30rpx 0 60rpx;
+}
+.go-work-btn.data-v-9040d7c4 {
+  width: 240rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #333;
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+}
+
+/* 滚动区域 */
+.scroll-wrap.data-v-9040d7c4 {
+  flex: 1;
+  padding: 30rpx;
+}
+.collect-grid.data-v-9040d7c4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+.grid-item.data-v-9040d7c4 {
+  position: relative;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+.collect-img.data-v-9040d7c4 {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/4;
+}
+
+/* 编辑多选框 */
+.checkbox-wrap.data-v-9040d7c4 {
+  position: absolute;
+  top: 16rpx;
+  left: 16rpx;
+  z-index: 2;
+}
+
+/* 图片底部名称遮罩 */
+.img-mask.data-v-9040d7c4 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20rpx;
+  background: linear-gradient(transparent, rgba(0,0,0,0.5));
+}
+.img-name.data-v-9040d7c4 {
+  font-size: 24rpx;
+  color: #fff;
+}
+
+/* 底部删除栏 */
+.bottom-bar.data-v-9040d7c4 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 120rpx;
+  padding: 0 40rpx;
+  background: #fff;
+  border-top: 1rpx solid #eee;
+}
+.select-all.data-v-9040d7c4 {
+  font-size: 30rpx;
+  color: #333;
+}
+.del-btn.data-v-9040d7c4 {
+  width: 200rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #f56c6c;
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+}

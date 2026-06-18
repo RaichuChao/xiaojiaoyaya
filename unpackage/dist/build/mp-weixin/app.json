@@ -1,0 +1,58 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/mine/index",
+    "pages/mine/photo",
+    "pages/mine/love",
+    "pages/mine/order",
+    "pages/reservate/index",
+    "pages/titbits/index",
+    "pages/titbits/detail",
+    "pages/works/index",
+    "pages/works/detail"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#707070",
+    "selectedColor": "#e6e6e6",
+    "borderStyle": "black",
+    "backgroundColor": "#000000",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/index/index",
+        "iconPath": "static/tab/home.png",
+        "selectedIconPath": "/static/tab/home_w.png"
+      },
+      {
+        "text": "风格样片",
+        "pagePath": "pages/works/index",
+        "iconPath": "static/tab/works.png",
+        "selectedIconPath": "static/tab/works_w.png"
+      },
+      {
+        "text": "花絮",
+        "pagePath": "pages/titbits/index",
+        "iconPath": "static/tab/yang.png",
+        "selectedIconPath": "static/tab/yang_w.png"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/mine/index",
+        "iconPath": "static/tab/mine.png",
+        "selectedIconPath": "static/tab/mine_w.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "显示门店位置"
+    }
+  },
+  "usingComponents": {}
+}

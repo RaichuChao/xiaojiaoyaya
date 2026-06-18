@@ -1,0 +1,96 @@
+
+/* 页面容器 */
+.record-page.data-v-3e4c2118 {
+  padding: 20rpx;
+  background-color: #f7f8fa;
+  min-height: 100vh;
+}
+
+/* 页面标题 */
+.page-title.data-v-3e4c2118 {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 24rpx;
+  color: #333;
+}
+.go-work-btn.data-v-3e4c2118 {
+  width: 240rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #333;
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+}
+/* 空状态 */
+.empty-box.data-v-3e4c2118 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 120rpx;
+}
+.empty-img.data-v-3e4c2118 {
+  width: 200rpx;
+  height: 200rpx;
+  opacity: 0.4;
+}
+.empty-text.data-v-3e4c2118 {
+  font-size: 28rpx;
+  color: #999;
+ margin: 30rpx 0 60rpx;
+}
+
+/* 卡片样式 */
+.record-card.data-v-3e4c2118 {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+/* 顶部状态 */
+.card-top.data-v-3e4c2118 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+.status.data-v-3e4c2118 {
+  font-size: 24rpx;
+  padding: 6rpx 14rpx;
+  border-radius: 30rpx;
+}
+.wait.data-v-3e4c2118 {
+  background: #fff7e8;
+  color: #ff9f29;
+}
+.done.data-v-3e4c2118 {
+  background: #e8f8f2;
+  color: #07c160;
+}
+.create-time.data-v-3e4c2118 {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 信息行 */
+.info-item.data-v-3e4c2118 {
+  font-size: 28rpx;
+  line-height: 1.6;
+  margin-bottom: 16rpx;
+  display: flex;
+}
+.label.data-v-3e4c2118 {
+  color: #666;
+  width: 160rpx;
+}
+.value.data-v-3e4c2118 {
+  color: #333;
+  flex: 1;
+}
+
+/* 拍摄需求换行 */
+.demand.data-v-3e4c2118 {
+  align-items: flex-start;
+}

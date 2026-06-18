@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "预约",
+  "usingComponents": {
+    "up-input": "../../node-modules/uview-plus/components/u-input/u-input",
+    "up-textarea": "../../node-modules/uview-plus/components/u-textarea/u-textarea"
+  }
+}

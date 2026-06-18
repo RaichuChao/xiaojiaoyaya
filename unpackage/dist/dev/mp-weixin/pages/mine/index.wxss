@@ -1,0 +1,163 @@
+
+.mask.data-v-569e925a {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
+.popup-box.data-v-569e925a {
+  width: 620rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  padding: 40rpx;
+}
+.pop-title.data-v-569e925a {
+  font-size: 34rpx;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+.pop-desc.data-v-569e925a {
+  font-size: 28rpx;
+  color: #666;
+  text-align: center;
+  margin-bottom: 40rpx;
+  line-height: 1.6;
+}
+.btn-login.data-v-569e925a {
+  background: #07c160;
+  color: #fff;
+  text-align: center;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  margin-bottom: 20rpx;
+}
+.btn-cancel.data-v-569e925a {
+  text-align: center;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 30rpx;
+  color: #999;
+}
+.personal-center.data-v-569e925a {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding-bottom: 20rpx;
+}
+.avatar.data-v-569e925a {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 50%;
+  box-shadow: 0 10rpx 30rpx rgba(0,0,0,0.15);
+}
+/* 顶部用户栏 */
+.user-info-bar.data-v-569e925a {
+  background-color: #000;
+  color: #fff;
+  padding: 50rpx 30rpx;
+}
+.user-row.data-v-569e925a {
+  display: flex;
+  align-items: center; /* 垂直居中 */
+}
+.user-info.data-v-569e925a {
+  flex: 1;
+}
+.user-name.data-v-569e925a {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+  margin-right: 10rpx;
+}
+.icon-group.data-v-569e925a {
+  display: flex;
+  position: absolute;
+  top:120rpx;
+  right: 40rpx;
+}
+.icon.data-v-569e925a {
+  width: 40rpx;
+  height: 40rpx;
+}
+/* 模块通用 */
+.module.data-v-569e925a {
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin: 0 20rpx;
+}
+.module-title.data-v-569e925a {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+  padding: 20rpx;
+}
+
+/* 核心：TVG中心向上叠加 */
+.tvg-center.data-v-569e925a {
+  /* 向上偏移，覆盖顶部黑栏 */
+  margin-top: -30rpx;
+  position: relative;
+  z-index: 2;
+  /* 顶部圆角保留，视觉更自然 */
+  border-top-left-radius: 16rpx;
+  border-top-right-radius: 16rpx;
+}
+
+/* 卡券中心正常间距 */
+.coupon-center.data-v-569e925a {
+  margin-top: 20rpx;
+}
+
+/* 网格布局 */
+.grid-layout.data-v-569e925a {
+
+ display: flex;
+  flex-wrap: wrap;
+/*  justify-content: space-around; */
+}
+button.grid-item.data-v-569e925a {
+	background: transparent;
+	border: none;
+	padding: 0;
+	margin: 0;
+	line-height: normal;
+}
+button.grid-item.data-v-569e925a::after {
+	border: none;
+}
+.grid-item.data-v-569e925a {
+  	width: 33.33%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.item-icon.data-v-569e925a {
+  width: 60rpx;
+  height: 60rpx;
+  margin-bottom: 15rpx;
+}
+.item-text.data-v-569e925a {
+	padding: 20rpx;
+  font-size: 26rpx;
+  color: #333;
+}
+.item-subtext.data-v-569e925a {
+  font-size: 20rpx;
+  color: #999;
+  margin-top: 5rpx;
+}
+.red-text.data-v-569e925a {
+  color: red !important;
+}

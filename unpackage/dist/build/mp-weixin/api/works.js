@@ -1,0 +1,1 @@
+"use strict";const e=require("../request/index.js");exports.getList=function(){return e.request({url:"works/index",method:"GET"})},exports.getWorksDetail=function(t){return e.request({url:"works/detail",method:"POST",data:t})};

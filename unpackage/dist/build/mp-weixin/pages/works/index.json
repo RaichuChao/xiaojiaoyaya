@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "作品集",
+  "usingComponents": {
+    "up-lazy-load": "../../node-modules/uview-plus/components/u-lazy-load/u-lazy-load"
+  }
+}

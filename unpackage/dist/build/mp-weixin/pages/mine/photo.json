@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "up-checkbox": "../../node-modules/uview-plus/components/u-checkbox/u-checkbox",
+    "up-lazy-load": "../../node-modules/uview-plus/components/u-lazy-load/u-lazy-load"
+  }
+}

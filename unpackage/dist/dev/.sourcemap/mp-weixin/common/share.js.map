@@ -1,0 +1,1 @@
+{"version":3,"file":"share.js","sources":["common/share.js"],"sourcesContent":["// share.js\nexport default {\n  // 发送给朋友，有默认配置项。\n  onShareAppMessage() {},\n  // 分享到朋友圈，有默认配置项。\n  onShareTimeline() {},\n};\n"],"names":[],"mappings":";AACA,MAAe,aAAA;AAAA;AAAA,EAEb,oBAAoB;AAAA,EAAE;AAAA;AAAA,EAEtB,kBAAkB;AAAA,EAAE;AACtB;;"}
